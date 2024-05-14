@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ECommerce</string>
+    <string name="item_name">California orange 8 pcs</string>
+    <string name="item_price">$15.00</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
