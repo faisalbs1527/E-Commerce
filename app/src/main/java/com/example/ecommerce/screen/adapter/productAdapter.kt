@@ -10,13 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce.R
 import com.example.ecommerce.screen.model.productDao
 
-class featureAdapter (private val productList : ArrayList<productDao>) : RecyclerView.Adapter<featureAdapter.viewHolderClass>(){
+class productAdapter(
+    private val productList : ArrayList<productDao>,
+    private val onClick : (productDao) -> Unit
+) :
+    RecyclerView.Adapter<productAdapter.viewHolderClass>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolderClass {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent,false)
 
-        return featureAdapter.viewHolderClass(view)
+        return viewHolderClass(view)
     }
 
     override fun getItemCount(): Int {
@@ -29,6 +33,9 @@ class featureAdapter (private val productList : ArrayList<productDao>) : Recycle
         holder.name.text=itemsViewModel.productName
         holder.rating.rating = itemsViewModel.productRating.toFloat()
         holder.price.text = itemsViewModel.productPrice
+        holder.itemView.setOnClickListener {
+            onClick(itemsViewModel)
+        }
     }
 
     class viewHolderClass(itemView : View) : RecyclerView.ViewHolder(itemView){

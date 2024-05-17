@@ -1,0 +1,145 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toll_bar"
+            style="?actionBarSize"
+            android:background="@drawable/top_bar_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/ic_arrow_back">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/productTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textSize="18sp"
+                    android:text="Product Name"
+                    android:fontFamily="@font/lato"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/icon_cart"
+                    android:layout_width="26dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/cart"
+                    app:layout_constraintStart_toEndOf="@id/productTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/productTitle"
+                    app:layout_constraintHorizontal_bias=".9"
+                    app:layout_constraintBottom_toBottomOf="@id/productTitle"/>
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/badge"
+                    android:text="0"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toTopOf="@id/icon_cart"
+                    app:layout_constraintStart_toEndOf="@id/icon_cart"
+                    app:layout_constraintEnd_toEndOf="@id/icon_cart"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ImageView
+        android:id="@+id/productImage"
+        android:layout_width="wrap_content"
+        android:layout_height="370dp"
+        android:src="@drawable/furniture"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        app:layout_constraintStart_toStartOf="@id/app_bar"
+        app:layout_constraintEnd_toEndOf="@id/app_bar"/>
+
+<!--    <org.imaginativeworld.whynotimagecarousel.ImageCarousel-->
+<!--        android:id="@+id/carousel"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="320dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/app_bar"-->
+<!--        app:layout_constraintStart_toStartOf="@id/app_bar"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/app_bar"-->
+<!--        app:carouselGravity="CENTER"-->
+<!--        app:showNavigationButtons="false"-->
+<!--        app:autoPlay="true"-->
+<!--        app:autoPlayDelay="3000"/>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/productImage"
+        app:layout_constraintStart_toStartOf="@id/productImage"
+        app:layout_constraintEnd_toEndOf="@id/productImage">
+
+        <TextView
+            android:id="@+id/productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Product Name"
+            android:fontFamily="@font/lato"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/productSubTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/productName"
+            app:layout_constraintStart_toStartOf="@id/productName"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/demoSubtitle"
+            android:fontFamily="@font/lato"/>
+        <TextView
+            android:id="@+id/discountPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="12dp"
+            android:text="$349.0"
+            android:fontFamily="@font/lato"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="@color/green_light"
+            app:layout_constraintTop_toBottomOf="@id/productSubTitle"
+            app:layout_constraintStart_toStartOf="@id/productSubTitle"/>
+        <TextView
+            android:id="@+id/actualPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/strikethrough_actualPrice"
+            android:fontFamily="@font/lato"
+            android:textSize="24sp"
+            android:textColor="#83868C"
+            app:layout_constraintStart_toEndOf="@id/discountPrice"
+            app:layout_constraintTop_toTopOf="@id/discountPrice"
+            app:layout_constraintBottom_toBottomOf="@id/discountPrice">
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

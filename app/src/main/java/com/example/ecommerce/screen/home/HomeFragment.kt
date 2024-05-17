@@ -2,21 +2,17 @@ package com.example.ecommerce.screen.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.example.ecommerce.R
-import com.example.ecommerce.databinding.ActivityMainBinding
 import com.example.ecommerce.databinding.FragmentHomeBinding
-import com.example.ecommerce.screen.adapter.bestSellingAdapter
+import com.example.ecommerce.screen.adapter.productAdapter
 import com.example.ecommerce.screen.adapter.categoryAdapter
-import com.example.ecommerce.screen.adapter.featureAdapter
 import com.example.ecommerce.screen.model.categoryDao
 import com.example.ecommerce.screen.model.productDao
-import org.imaginativeworld.whynotimagecarousel.ImageCarousel
+import com.example.ecommerce.screen.product.ProductFragment
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -146,7 +142,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 getString(R.string.item_price)
             )
         )
-        binding.rvBestselling.adapter=bestSellingAdapter(products)
+        binding.rvBestselling.adapter=productAdapter(products){
+            Toast.makeText(requireContext(),"Product Name : ${it.productName}",Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun populateFeatured(){
@@ -177,7 +175,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 getString(R.string.item_price)
             )
         )
-        binding.rvFeatureProduct.adapter=bestSellingAdapter(featured)
+        binding.rvFeatureProduct.adapter=productAdapter(featured){
+            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
+        }
     }
 
     private fun populateSalmon(){
@@ -202,7 +202,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         )
 
-        binding.rvSalmonFish.adapter=bestSellingAdapter(salmon)
+        binding.rvSalmonFish.adapter=productAdapter(salmon){
+            Toast.makeText(requireContext(),"Product Name : ${it.productName}",Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun populateFurniture(){
@@ -227,6 +229,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         )
 
-        binding.rvfurniture.adapter=bestSellingAdapter(furniture)
+        binding.rvfurniture.adapter=productAdapter(furniture){
+            Toast.makeText(requireContext(),"Product Name : ${it.productName}",Toast.LENGTH_SHORT).show()
+        }
     }
 }
