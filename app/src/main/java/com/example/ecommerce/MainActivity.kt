@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ecommerce.databinding.ActivityMainBinding
+import com.example.ecommerce.screen.authentication.LoginFragment
 import com.example.ecommerce.screen.category.CategoryFragment
 import com.example.ecommerce.screen.home.HomeFragment
 import com.google.android.material.navigation.NavigationBarView
@@ -45,6 +46,10 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_account ->{
+                    if(supportFragmentManager.findFragmentById(R.id.loginFragment) == null){
+                        supportFragmentManager.beginTransaction().
+                        replace(R.id.frame_layout,LoginFragment()).commit()
+                    }
                     true
                 }
                 R.id.menu_more ->{
