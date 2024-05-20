@@ -143,7 +143,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         )
         binding.rvBestselling.adapter=productAdapter(products){
-            Toast.makeText(requireContext(),"Product Name : ${it.productName}",Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
         }
     }
 
@@ -203,7 +203,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
 
         binding.rvSalmonFish.adapter=productAdapter(salmon){
-            Toast.makeText(requireContext(),"Product Name : ${it.productName}",Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
         }
     }
 
@@ -230,7 +230,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
 
         binding.rvfurniture.adapter=productAdapter(furniture){
-            Toast.makeText(requireContext(),"Product Name : ${it.productName}",Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
         }
     }
 }
