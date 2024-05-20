@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce.R
 import com.example.ecommerce.screen.model.categoryDao
 
-class categoryAdapter(private val categoryList : ArrayList<categoryDao>) : RecyclerView.Adapter<categoryAdapter.viewHolderClass>() {
+class categoryAdapter(
+    private val categoryList : ArrayList<categoryDao>,
+    private val onClick : (categoryDao) -> Unit
+) : RecyclerView.Adapter<categoryAdapter.viewHolderClass>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolderClass {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.category_layout, parent, false)
@@ -25,6 +28,9 @@ class categoryAdapter(private val categoryList : ArrayList<categoryDao>) : Recyc
         val items = categoryList[position]
         holder.image.setImageResource(items.image)
         holder.name.text= items.name
+        holder.itemView.setOnClickListener {
+            onClick(items)
+        }
     }
 
     class viewHolderClass(itemView : View) : RecyclerView.ViewHolder(itemView){
