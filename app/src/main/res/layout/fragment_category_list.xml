@@ -1,0 +1,108 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            style="?actionBarSize"
+            android:background="@drawable/top_bar_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/ic_arrow_back">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="30dp"
+                    android:textSize="20sp"
+                    android:text="Category Name"
+                    android:fontFamily="@font/lato"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/icon_cart"
+                    android:layout_width="26dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/cart"
+                    app:layout_constraintStart_toEndOf="@id/title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title"
+                    app:layout_constraintHorizontal_bias=".9"
+                    app:layout_constraintBottom_toBottomOf="@id/title"/>
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/badge"
+                    android:text="0"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toTopOf="@id/icon_cart"
+                    app:layout_constraintStart_toEndOf="@id/icon_cart"
+                    app:layout_constraintEnd_toEndOf="@id/icon_cart"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/categoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/category_name"
+        android:layout_marginVertical="12dp"
+        android:fontFamily="@font/khand"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/text_color"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        app:layout_constraintStart_toStartOf="@+id/app_bar"
+        app:layout_constraintEnd_toEndOf="@+id/app_bar"
+        />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/categoryName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:background="@color/back_color">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCategoryFr"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
