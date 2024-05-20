@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.replace
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentHomeBinding
 import com.example.ecommerce.screen.adapter.productAdapter
 import com.example.ecommerce.screen.adapter.categoryAdapter
+import com.example.ecommerce.screen.category.CategoryListFragment
 import com.example.ecommerce.screen.model.categoryDao
 import com.example.ecommerce.screen.model.productDao
 import com.example.ecommerce.screen.product.ProductFragment
@@ -24,6 +26,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var salmon : ArrayList<productDao>
     private lateinit var furniture : ArrayList<productDao>
 
+
+    private lateinit var foods : ArrayList<productDao>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,6 +41,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.carousel.registerLifecycle(viewLifecycleOwner)
 
+        addFooditems()
 
         addCarouseItem()
 
@@ -49,6 +55,51 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         populateFurniture()
 
+    }
+
+    private fun addFooditems(){
+        foods = arrayListOf<productDao>()
+
+        foods.add(
+            productDao(
+                R.drawable.orange,
+                getString(R.string.item_name),
+                3,
+                getString(R.string.item_price)
+            )
+        )
+        foods.add(
+            productDao(
+                R.drawable.fish,
+                "Slice Fish 8 pcs",
+                3,
+                "$30.00"
+            )
+        )
+        foods.add(
+            productDao(
+                R.drawable.salmon1,
+                "Salmon fish",
+                4,
+                "$35.00"
+            )
+        )
+        foods.add(
+            productDao(
+                R.drawable.food,
+                "Fruits 1 kg",
+                3,
+                "$20.00"
+            )
+        )
+        foods.add(
+            productDao(
+                R.drawable.feature2,
+                "Meat 1 kg",
+                4,
+                "$28.00"
+            )
+        )
     }
 
     private fun addCarouseItem(){
@@ -81,35 +132,42 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         categorys.add(
             categoryDao(
                 R.drawable.food,
-                "Foods"
+                "Foods",
+                foods
             )
         )
         categorys.add(
             categoryDao(
                 R.drawable.watch,
-                "Watch"
+                "Watch",
+                foods
             )
         )
         categorys.add(
             categoryDao(
                 R.drawable.phone,
-                "Phone"
+                "Phone",
+                foods
             )
         )
         categorys.add(
             categoryDao(
                 R.drawable.furniture,
-                "Furniture"
+                "Furniture",
+                foods
             )
         )
         categorys.add(
             categoryDao(
                 R.drawable.shoe,
-                "Shoe"
+                "Shoe",
+                foods
             )
         )
 
-        binding.rvCategory.adapter=categoryAdapter(categorys)
+        binding.rvCategory.adapter=categoryAdapter(categorys){
+            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,CategoryListFragment(it)).commit()
+        }
 
     }
 
@@ -144,6 +202,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
         binding.rvBestselling.adapter=productAdapter(products){
             parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
+//            val action = HomeFragmentDirections.actionHomeFragmentToProductFragment()
+//            findNavController().navigate(action)
         }
     }
 

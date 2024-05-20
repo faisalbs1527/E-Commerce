@@ -134,7 +134,9 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
                 "Shoes"
             )
         )
-        binding.rvCategoryFr.adapter = categoryAdapter(category)
+        binding.rvCategoryFr.adapter = categoryAdapter(category){
+
+        }
     }
 
 }
