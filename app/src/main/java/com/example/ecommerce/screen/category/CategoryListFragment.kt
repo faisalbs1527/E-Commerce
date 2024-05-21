@@ -5,16 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.replace
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentCategoryListBinding
-import com.example.ecommerce.screen.adapter.categoryAdapter
-import com.example.ecommerce.screen.adapter.productAdapter
+import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.screen.home.HomeFragment
-import com.example.ecommerce.screen.model.categoryDao
-import com.example.ecommerce.screen.model.productDao
+import com.example.ecommerce.model.categoryDao
+import com.example.ecommerce.model.productDao
 import com.example.ecommerce.screen.product.ProductFragment
 
 class CategoryListFragment(var currCategory : categoryDao) : Fragment() {

@@ -3,17 +3,16 @@ package com.example.ecommerce.screen.home
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.replace
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentHomeBinding
-import com.example.ecommerce.screen.adapter.productAdapter
-import com.example.ecommerce.screen.adapter.categoryAdapter
+import com.example.ecommerce.adapter.productAdapter
+import com.example.ecommerce.adapter.categoryAdapter
 import com.example.ecommerce.screen.category.CategoryListFragment
-import com.example.ecommerce.screen.model.categoryDao
-import com.example.ecommerce.screen.model.productDao
+import com.example.ecommerce.model.categoryDao
+import com.example.ecommerce.model.productDao
+import com.example.ecommerce.screen.cart.shoppingCartFragment
 import com.example.ecommerce.screen.product.ProductFragment
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
@@ -54,6 +53,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         populateSalmon()
 
         populateFurniture()
+
+        binding.iconCart.setOnClickListener{
+//            val action = HomeFragmentDirections.actionHomeFragmentToShoppingCartFragment()
+//            findNavController().navigate(action)
+            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,shoppingCartFragment()).commit()
+        }
 
     }
 
@@ -165,7 +170,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         )
 
-        binding.rvCategory.adapter=categoryAdapter(categorys){
+        binding.rvCategory.adapter= categoryAdapter(categorys){
             parentFragmentManager.beginTransaction().replace(R.id.frame_layout,CategoryListFragment(it)).commit()
         }
 
@@ -200,7 +205,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 getString(R.string.item_price)
             )
         )
-        binding.rvBestselling.adapter=productAdapter(products){
+        binding.rvBestselling.adapter= productAdapter(products){
             parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
 //            val action = HomeFragmentDirections.actionHomeFragmentToProductFragment()
 //            findNavController().navigate(action)
@@ -235,7 +240,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 getString(R.string.item_price)
             )
         )
-        binding.rvFeatureProduct.adapter=productAdapter(featured){
+        binding.rvFeatureProduct.adapter= productAdapter(featured){
             parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
         }
     }
@@ -262,7 +267,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         )
 
-        binding.rvSalmonFish.adapter=productAdapter(salmon){
+        binding.rvSalmonFish.adapter= productAdapter(salmon){
             parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
         }
     }
@@ -289,7 +294,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         )
 
-        binding.rvfurniture.adapter=productAdapter(furniture){
+        binding.rvfurniture.adapter= productAdapter(furniture){
             parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
         }
     }

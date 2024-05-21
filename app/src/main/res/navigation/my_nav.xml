@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_categoryListFragment"
             app:destination="@id/categoryListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -42,4 +45,9 @@
         android:id="@+id/productFragment"
         android:name="com.example.ecommerce.screen.product.ProductFragment"
         android:label="ProductFragment" />
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:name="com.example.ecommerce.screen.cart.shoppingCartFragment"
+        android:label="fragment_shopping_cart"
+        tools:layout="@layout/fragment_shopping_cart" />
 </navigation>
