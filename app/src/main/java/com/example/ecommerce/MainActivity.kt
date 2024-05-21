@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ecommerce.databinding.ActivityMainBinding
+import com.example.ecommerce.databinding.FragmentShoppingCartBinding
 import com.example.ecommerce.screen.authentication.LoginFragment
+import com.example.ecommerce.screen.cart.shoppingCartFragment
 import com.example.ecommerce.screen.category.CategoryFragment
 import com.example.ecommerce.screen.home.HomeFragment
 import com.google.android.material.navigation.NavigationBarView

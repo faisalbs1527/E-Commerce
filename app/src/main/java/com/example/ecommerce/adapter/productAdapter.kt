@@ -1,4 +1,4 @@
-package com.example.ecommerce.screen.adapter
+package com.example.ecommerce.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce.R
-import com.example.ecommerce.screen.model.productDao
+import com.example.ecommerce.model.productDao
 
 class productAdapter(
     private val productList : ArrayList<productDao>,

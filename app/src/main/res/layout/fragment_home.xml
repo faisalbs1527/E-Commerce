@@ -17,6 +17,7 @@
 
         <androidx.appcompat.widget.Toolbar
             style="?actionBarSize"
+            android:id="@+id/tollBar"
             android:background="@drawable/top_bar_gradient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

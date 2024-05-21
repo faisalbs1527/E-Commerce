@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentCategoryBinding
-import com.example.ecommerce.screen.adapter.categoryAdapter
-import com.example.ecommerce.screen.model.categoryDao
-import com.example.ecommerce.screen.model.productDao
+import com.example.ecommerce.adapter.categoryAdapter
+import com.example.ecommerce.model.categoryDao
 
 class CategoryFragment : Fragment(R.layout.fragment_category) {
 
