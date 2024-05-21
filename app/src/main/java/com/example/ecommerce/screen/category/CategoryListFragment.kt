@@ -44,7 +44,7 @@ class CategoryListFragment(var currCategory : categoryDao) : Fragment() {
 
         binding.tollBar.setNavigationOnClickListener {
 //            findNavController().popBackStack()
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment()).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_part, HomeFragment()).commit()
         }
 
     }
@@ -54,7 +54,7 @@ class CategoryListFragment(var currCategory : categoryDao) : Fragment() {
         list = currCategory.productList!!
         binding.rvCategoryListFr.layoutManager = GridLayoutManager(requireContext(),2)
         binding.rvCategoryListFr.adapter = productAdapter(list){
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout, ProductFragment(it)).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_part, ProductFragment(it)).commit()
         }
     }
 

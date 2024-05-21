@@ -55,9 +55,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         populateFurniture()
 
         binding.iconCart.setOnClickListener{
-//            val action = HomeFragmentDirections.actionHomeFragmentToShoppingCartFragment()
-//            findNavController().navigate(action)
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,shoppingCartFragment()).commit()
+            val action = HomeFragmentDirections.actionHomeFragmentToShoppingCartFragment()
+            findNavController().navigate(action)
+//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,shoppingCartFragment()).commit()
         }
 
     }
@@ -171,7 +171,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
 
         binding.rvCategory.adapter= categoryAdapter(categorys){
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,CategoryListFragment(it)).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,CategoryListFragment(it)).commit()
         }
 
     }
@@ -206,7 +206,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         )
         binding.rvBestselling.adapter= productAdapter(products){
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,ProductFragment(it)).commit()
 //            val action = HomeFragmentDirections.actionHomeFragmentToProductFragment()
 //            findNavController().navigate(action)
         }
@@ -241,7 +241,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
         )
         binding.rvFeatureProduct.adapter= productAdapter(featured){
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,ProductFragment(it)).commit()
         }
     }
 
@@ -268,7 +268,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
 
         binding.rvSalmonFish.adapter= productAdapter(salmon){
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,ProductFragment(it)).commit()
         }
     }
 
@@ -295,7 +295,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
 
         binding.rvfurniture.adapter= productAdapter(furniture){
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,ProductFragment(it)).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,ProductFragment(it)).commit()
         }
     }
 }

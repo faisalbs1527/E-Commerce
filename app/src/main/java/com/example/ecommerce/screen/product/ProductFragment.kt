@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentProductBinding
 import com.example.ecommerce.screen.home.HomeFragment
@@ -38,8 +39,8 @@ class ProductFragment(private var product : productDao) : Fragment(R.layout.frag
         binding.productName.text=product.productName
 
         binding.tollBar.setNavigationOnClickListener {
-//            findNavController().popBackStack()
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,HomeFragment()).commit()
+            findNavController().popBackStack()
+//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,HomeFragment()).commit()
         }
     }
 

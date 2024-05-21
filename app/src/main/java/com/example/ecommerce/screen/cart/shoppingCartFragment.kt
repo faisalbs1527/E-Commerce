@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.adapter.cartAdapter
@@ -42,7 +43,8 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         addDummyData()
 
         binding.tollBar.setNavigationOnClickListener {
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout,HomeFragment()).commit()
+//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,HomeFragment()).commit()
+            findNavController().popBackStack()
         }
     }
 
