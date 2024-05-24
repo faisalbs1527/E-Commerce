@@ -1,11 +1,15 @@
 package com.example.ecommerce.screen.product
 
 import android.os.Bundle
+import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentProductBinding
 import com.example.ecommerce.screen.home.HomeFragment
@@ -15,19 +19,37 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
 
     private lateinit var binding : FragmentProductBinding
 
+    private val productViewModel : ProductViewModel by viewModels()
+
+    private val args:ProductFragmentArgs by navArgs()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
+        initObserver()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product, container, false)
+    private fun initObserver(){
+        productViewModel.productDetails.observe(this){
+            binding.productName.text = it.Data.Name
+            Glide.with(binding.productImage.context)
+                .load(it.Data.PictureModels[0].ImageUrl)
+                .into(binding.productImage)
+            binding.productSubTitle.text=
+                Html.fromHtml(it.Data.ShortDescription,Html.FROM_HTML_MODE_COMPACT).toString()
+
+            binding.descriptionTv.text=
+                Html.fromHtml(it.Data.FullDescription,Html.FROM_HTML_MODE_COMPACT).toString()
+
+            binding.discountPrice.text=it.Data.ProductPrice.Price
+            binding.stockTv.text= it.Data.StockAvailability
+
+            if(it.Data.ProductPrice.OldPrice==null){
+                binding.actualPrice.visibility = View.GONE
+            }
+            else{
+                binding.actualPrice.text = it.Data.ProductPrice.OldPrice.toString()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,11 +57,16 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
         binding = FragmentProductBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
 
+        loadData()
 
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()
 //            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,HomeFragment()).commit()
         }
+    }
+
+    private fun loadData(){
+        productViewModel.fetchProductDeatils(args.productID)
     }
 
 }
