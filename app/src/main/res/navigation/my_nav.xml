@@ -44,7 +44,11 @@
     <fragment
         android:id="@+id/productFragment"
         android:name="com.example.ecommerce.screen.product.ProductFragment"
-        android:label="ProductFragment" />
+        android:label="ProductFragment" >
+        <argument
+            android:name="productID"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/shoppingCartFragment"
         android:name="com.example.ecommerce.screen.cart.shoppingCartFragment"

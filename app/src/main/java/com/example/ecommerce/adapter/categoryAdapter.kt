@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.ecommerce.R
+import com.example.ecommerce.model.category.Data
 import com.example.ecommerce.model.categoryDao
 
 class categoryAdapter(
-    private val categoryList : ArrayList<categoryDao>,
-    private val onClick : (categoryDao) -> Unit
+    private val categoryList : List<Data>,
+    private val onClick : (Data) -> Unit
 ) : RecyclerView.Adapter<categoryAdapter.viewHolderClass>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolderClass {
@@ -26,8 +28,12 @@ class categoryAdapter(
 
     override fun onBindViewHolder(holder: viewHolderClass, position: Int) {
         val items = categoryList[position]
-        holder.image.setImageResource(items.image)
-        holder.name.text= items.name
+        holder.name.text= items.Name
+
+        Glide.with(holder.image.context)
+            .load(items.Products[0].PictureModels[0].ImageUrl)
+            .into(holder.image)
+
         holder.itemView.setOnClickListener {
             onClick(items)
         }

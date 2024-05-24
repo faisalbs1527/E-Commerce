@@ -11,7 +11,7 @@ import com.example.ecommerce.databinding.FragmentProductBinding
 import com.example.ecommerce.screen.home.HomeFragment
 import com.example.ecommerce.model.productDao
 
-class ProductFragment(private var product : productDao) : Fragment(R.layout.fragment_product) {
+class ProductFragment() : Fragment(R.layout.fragment_product) {
 
     private lateinit var binding : FragmentProductBinding
 
@@ -35,8 +35,6 @@ class ProductFragment(private var product : productDao) : Fragment(R.layout.frag
         binding = FragmentProductBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
 
-        binding.productImage.setImageResource(product.productImage)
-        binding.productName.text=product.productName
 
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()

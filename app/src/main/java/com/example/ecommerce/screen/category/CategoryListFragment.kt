@@ -38,7 +38,7 @@ class CategoryListFragment(var currCategory : categoryDao) : Fragment() {
         binding = FragmentCategoryListBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
 
-        populateCategoryList()
+//        populateCategoryList()
         binding.title.text = currCategory.name
         binding.categoryName.text = currCategory.name
 
@@ -49,13 +49,13 @@ class CategoryListFragment(var currCategory : categoryDao) : Fragment() {
 
     }
 
-    private fun populateCategoryList(){
-        var list = arrayListOf<productDao>()
-        list = currCategory.productList!!
-        binding.rvCategoryListFr.layoutManager = GridLayoutManager(requireContext(),2)
-        binding.rvCategoryListFr.adapter = productAdapter(list){
-            parentFragmentManager.beginTransaction().replace(R.id.fragment_part, ProductFragment(it)).commit()
-        }
-    }
+//    private fun populateCategoryList(){
+//        var list = arrayListOf<productDao>()
+//        list = currCategory.productList!!
+//        binding.rvCategoryListFr.layoutManager = GridLayoutManager(requireContext(),2)
+//        binding.rvCategoryListFr.adapter = productAdapter(list){
+//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part, ProductFragment(it)).commit()
+//        }
+//    }
 
 }

@@ -7,12 +7,13 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.ecommerce.R
-import com.example.ecommerce.model.productDao
+import com.example.ecommerce.model.featureProducts.Data
 
 class productAdapter(
-    private val productList : ArrayList<productDao>,
-    private val onClick : (productDao) -> Unit
+    private val productList : List<Data>,
+    private val onClick : (Data) -> Unit
 ) :
     RecyclerView.Adapter<productAdapter.viewHolderClass>(){
 
@@ -28,13 +29,21 @@ class productAdapter(
     }
 
     override fun onBindViewHolder(holder: viewHolderClass, position: Int) {
-        val itemsViewModel = productList[position]
-        holder.image.setImageResource(itemsViewModel.productImage)
-        holder.name.text=itemsViewModel.productName
-        holder.rating.rating = itemsViewModel.productRating.toFloat()
-        holder.price.text = itemsViewModel.productPrice
+        val items = productList[position]
+
+        var rating = 0f
+        if(items.ReviewOverviewModel.TotalReviews!=0)
+            rating = (items.ReviewOverviewModel.RatingSum/items.ReviewOverviewModel.TotalReviews).toFloat()
+
+        Glide.with(holder.image.context)
+            .load(items.PictureModels[0].ImageUrl)
+            .into(holder.image)
+        holder.name.text=items.Name
+
+        holder.rating.rating = rating
+        holder.price.text = items.ProductPrice.Price
         holder.itemView.setOnClickListener {
-            onClick(itemsViewModel)
+            onClick(items)
         }
     }
 
