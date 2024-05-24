@@ -5,29 +5,40 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentCategoryBinding
 import com.example.ecommerce.adapter.categoryAdapter
+import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.model.categoryDao
+import com.example.ecommerce.screen.home.HomeFragmentDirections
+import com.example.ecommerce.screen.home.HomeViewModel
+import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class CategoryFragment : Fragment(R.layout.fragment_category) {
 
     private lateinit var binding : FragmentCategoryBinding
     private lateinit var category : ArrayList<categoryDao>
 
+    private val homeViewModel : HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initObserver()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_category, container, false)
+    private fun initObserver(){
+
+        homeViewModel.categoryProducts.observe(this, Observer {
+            binding.rvCategoryFr.adapter = categoryAdapter(it.Data){
+                val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment()
+                findNavController().navigate(action)
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,106 +47,13 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
 
         super.onViewCreated(view, savedInstanceState)
 
-//        populateCategory()
+        loadData()
+        binding.rvCategoryFr.layoutManager = GridLayoutManager(requireContext(),3)
+
     }
 
-//    private fun populateCategory(){
-//        binding.rvCategoryFr.layoutManager = GridLayoutManager(requireContext(),3)
-//        category = arrayListOf<categoryDao>()
-//
-//        category.add(
-//            categoryDao(
-//                R.drawable.food,
-//                "Foods"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.watch,
-//                "Watches"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.phone,
-//                "Phones"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.furniture,
-//                "Furnitures"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.shoe,
-//                "Shoes"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.food,
-//                "Foods"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.watch,
-//                "Watches"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.phone,
-//                "Phones"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.furniture,
-//                "Furnitures"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.shoe,
-//                "Shoes"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.food,
-//                "Foods"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.watch,
-//                "Watches"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.phone,
-//                "Phones"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.furniture,
-//                "Furnitures"
-//            )
-//        )
-//        category.add(
-//            categoryDao(
-//                R.drawable.shoe,
-//                "Shoes"
-//            )
-//        )
-//        binding.rvCategoryFr.adapter = categoryAdapter(category){
-//
-//        }
-//    }
+    private fun loadData(){
+        homeViewModel.fetchCategoryWiseProducts()
+    }
 
 }
