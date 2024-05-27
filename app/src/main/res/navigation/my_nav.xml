@@ -60,4 +60,8 @@
         android:name="com.example.ecommerce.screen.cart.shoppingCartFragment"
         android:label="fragment_shopping_cart"
         tools:layout="@layout/fragment_shopping_cart" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.example.ecommerce.screen.account.AccountFragment"
+        android:label="AccountFragment" />
 </navigation>
