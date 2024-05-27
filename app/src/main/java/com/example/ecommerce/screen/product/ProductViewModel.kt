@@ -3,9 +3,15 @@ package com.example.ecommerce.screen.product
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.ecommerce.model.cart.AddToCartRequest
+import com.example.ecommerce.model.cart.AddToCartResponse
+import com.example.ecommerce.model.cart.FormValue
 import com.example.ecommerce.model.productDetails.ProductDetails
 import com.example.ecommerce.model.slider.SliderItem
+import com.example.ecommerce.repository.CartRepo
 import com.example.ecommerce.repository.ProductRepo
+import kotlinx.coroutines.launch
 
 class ProductViewModel : ViewModel(){
     private val _productdetails = MutableLiveData<ProductDetails>()
@@ -24,6 +30,40 @@ class ProductViewModel : ViewModel(){
             else{
                 _error.postValue(throwable?.message)
             }
+        }
+    }
+
+    private val _cartResponse : MutableLiveData<AddToCartResponse> by lazy {
+        MutableLiveData<AddToCartResponse>()
+    }
+    val cartResponse : LiveData<AddToCartResponse> get() = _cartResponse
+
+    private val _showMessage : MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    val showMessage : LiveData<String> get() = _showMessage
+
+    private val cartRepo = CartRepo()
+
+    fun addToCart(productId : Int, quantity : Int = 1) = viewModelScope.launch {
+        val request = AddToCartRequest(
+            listOf(
+                FormValue(
+                    Key = "addtocart_12020.EnteredQuantity",
+                    Value = "$quantity"
+                ),FormValue(
+                    Key = "addtocart_12020.EnteredGender",
+                    Value = "male"
+                ))
+        )
+
+        val response = cartRepo.AddToCart(productId,request)
+
+        if(response.isSuccessful){
+            _cartResponse.value = response.body()
+        }
+        else{
+            _showMessage.value = "Something went wrong!!"
         }
     }
 }

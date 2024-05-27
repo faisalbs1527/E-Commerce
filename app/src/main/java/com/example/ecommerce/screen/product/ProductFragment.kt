@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -50,6 +51,9 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
                 binding.actualPrice.text = it.Data.ProductPrice.OldPrice.toString()
             }
         }
+        productViewModel.cartResponse.observe(this){
+            Toast.makeText(requireContext(),it.Message,Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,6 +66,18 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()
 //            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,HomeFragment()).commit()
+        }
+        binding.addBtn.setOnClickListener {
+            binding.quantityTb.text = (binding.quantityTb.text.toString().toInt() + 1).toString()
+        }
+        binding.removeBtn.setOnClickListener {
+            if(binding.quantityTb.text.toString().toInt()>1){
+                binding.quantityTb.text = (binding.quantityTb.text.toString().toInt() - 1).toString()
+            }
+        }
+
+        binding.btnAddToCart.setOnClickListener {
+            productViewModel.addToCart(args.productID,binding.quantityTb.text.toString().toInt())
         }
     }
 
