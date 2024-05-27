@@ -35,7 +35,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
 
         homeViewModel.categoryProducts.observe(this, Observer {
             binding.rvCategoryFr.adapter = categoryAdapter(it.Data){
-                val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment()
+                val action = CategoryFragmentDirections.actionCategoryFragmentToCategoryListFragment(it.Products.toTypedArray(),it.Name)
                 findNavController().navigate(action)
             }
         })

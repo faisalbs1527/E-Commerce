@@ -51,8 +51,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         homeViewModel.categoryProducts.observe(this, Observer {
             binding.rvCategory.adapter = categoryAdapter(it.Data){
-                val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment()
+                val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment(it.Products.toTypedArray(),it.Name)
                 findNavController().navigate(action)
+//                parentFragmentManager.beginTransaction().replace(R.id.fragment_part,CategoryListFragment(it.Name,it.Products)).commit()
             }
         })
 

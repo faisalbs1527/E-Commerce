@@ -5,18 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentCategoryListBinding
 import com.example.ecommerce.adapter.productAdapter
+import com.example.ecommerce.adapter.productListAdapter
+import com.example.ecommerce.model.category.Product
 import com.example.ecommerce.screen.home.HomeFragment
 import com.example.ecommerce.model.categoryDao
 import com.example.ecommerce.model.productDao
+import com.example.ecommerce.screen.home.HomeFragmentDirections
 import com.example.ecommerce.screen.product.ProductFragment
 
-class CategoryListFragment(var currCategory : categoryDao) : Fragment() {
+class CategoryListFragment() : Fragment() {
 
     private lateinit var binding : FragmentCategoryListBinding
+    private val args : CategoryListFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +44,10 @@ class CategoryListFragment(var currCategory : categoryDao) : Fragment() {
         binding = FragmentCategoryListBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
 
-//        populateCategoryList()
-        binding.title.text = currCategory.name
-        binding.categoryName.text = currCategory.name
+        populateCategoryList()
+
+        binding.title.text = args.CategoryName
+        binding.categoryName.text = args.CategoryName
 
         binding.tollBar.setNavigationOnClickListener {
 //            findNavController().popBackStack()
@@ -49,13 +56,13 @@ class CategoryListFragment(var currCategory : categoryDao) : Fragment() {
 
     }
 
-//    private fun populateCategoryList(){
-//        var list = arrayListOf<productDao>()
-//        list = currCategory.productList!!
-//        binding.rvCategoryListFr.layoutManager = GridLayoutManager(requireContext(),2)
-//        binding.rvCategoryListFr.adapter = productAdapter(list){
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part, ProductFragment(it)).commit()
-//        }
-//    }
+    private fun populateCategoryList(){
+
+        binding.rvCategoryListFr.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.rvCategoryListFr.adapter = productListAdapter(args.productList.toList()){
+            val action = CategoryListFragmentDirections.actionCategoryListFragmentToProductFragment(it.Id)
+            findNavController().navigate(action)
+        }
+    }
 
 }

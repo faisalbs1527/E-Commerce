@@ -1,8 +1,14 @@
 package com.example.ecommerce.model.category
 
+
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
+import kotlinx.parcelize.RawValue
+
+@Parcelize
 data class ProductPrice(
     val AvailableForPreOrder: Boolean,
-    val BasePricePAngV: Any,
+    val BasePricePAngV: @RawValue Any,
     val BasePricePAngVValue: Double,
     val CustomProperties: CustomProperties,
     val DisableAddToCompareListButton: Boolean,
@@ -12,8 +18,8 @@ data class ProductPrice(
     val ForceRedirectionAfterAddingToCart: Boolean,
     val IsRental: Boolean,
     val OldPrice: String,
-    val OldPriceValue: Any,
-    val PreOrderAvailabilityStartDateTimeUtc: Any,
+    val OldPriceValue:@RawValue Any,
+    val PreOrderAvailabilityStartDateTimeUtc:@RawValue Any,
     val Price: String,
     val PriceValue: Double
-)
+) : Parcelable

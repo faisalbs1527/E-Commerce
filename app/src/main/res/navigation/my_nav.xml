@@ -40,6 +40,12 @@
         <action
             android:id="@+id/action_categoryListFragment_to_productFragment"
             app:destination="@id/productFragment" />
+        <argument
+            android:name="productList"
+            app:argType="com.example.ecommerce.model.category.Product[]" />
+        <argument
+            android:name="CategoryName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/productFragment"

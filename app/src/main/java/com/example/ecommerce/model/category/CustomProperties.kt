@@ -1,3 +1,8 @@
 package com.example.ecommerce.model.category
 
-class CustomProperties
+
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
+
+@Parcelize
+class CustomProperties : Parcelable
