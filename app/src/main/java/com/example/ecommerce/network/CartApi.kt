@@ -5,6 +5,7 @@ import com.example.ecommerce.model.cart.AddToCartResponse
 import com.example.ecommerce.model.cart.cartProducts.CartProducts
 import com.example.ecommerce.model.cart.removeCart.RemoveCartRequest
 import com.example.ecommerce.model.cart.removeCart.RemoveCartResponse
+import com.example.ecommerce.model.cart.updateCart.UpdateCartRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -21,4 +22,7 @@ interface CartApi {
 
     @POST("shoppingcart/updatecart")
     suspend fun removeCartProduct(@Body request: RemoveCartRequest) : Response<CartProducts>
+
+    @POST("shoppingcart/updatecart")
+    suspend fun updateCartProduct(@Body request: UpdateCartRequest) : Response<CartProducts>
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.ecommerce.model.cart.cartProducts.CartProducts
 import com.example.ecommerce.model.cart.removeCart.FormValue
 import com.example.ecommerce.model.cart.removeCart.RemoveCartRequest
-import com.example.ecommerce.model.cart.removeCart.RemoveCartResponse
+import com.example.ecommerce.model.cart.updateCart.UpdateCartRequest
 import com.example.ecommerce.repository.CartRepo
 import kotlinx.coroutines.launch
 
@@ -21,6 +21,11 @@ class ShoppingCartViewModel : ViewModel() {
         MutableLiveData<CartProducts>()
     }
     val rmvResponse : LiveData<CartProducts> get() = _rmvResponse
+
+    private val _updateResponse : MutableLiveData<CartProducts> by lazy{
+        MutableLiveData<CartProducts>()
+    }
+    val updateResponse : LiveData<CartProducts> get() = _updateResponse
 
     private val _showMessage : MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -50,6 +55,22 @@ class ShoppingCartViewModel : ViewModel() {
 
         if(response.isSuccessful){
             _rmvResponse.value = response.body()
+        }
+    }
+
+    fun updateCartProduct(productID : Int, Quantity : Int) = viewModelScope.launch {
+        val request = UpdateCartRequest(
+            listOf(
+                FormValue(
+                    Key = "itemquantity$productID",
+                    Value = Quantity.toString()
+                )
+            )
+        )
+        val response = repository.updateCartProduct(request)
+
+        if(response.isSuccessful){
+            _updateResponse.value = response.body()
         }
     }
 }

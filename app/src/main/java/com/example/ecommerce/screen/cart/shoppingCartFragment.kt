@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,9 +28,12 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         super.onCreate(savedInstanceState)
 
 
-        adapter = cartAdapter{ item ->
+        adapter = cartAdapter({ item ->
             onRemoveItemClick(item)
-        }
+        }, { item, value ->
+            onUpdateItemClick(item,value)
+        })
+
     }
 
     private fun updateCartPage(it : CartProducts){
@@ -53,13 +57,22 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         cartViewModel.rmvResponse.observe(viewLifecycleOwner){
             adapter.submitList(it.Data.Cart.Items)
 
+            Toast.makeText(requireContext(),"Item Removed!!",Toast.LENGTH_SHORT).show()
             updateCartPage(it)
+        }
+
+        cartViewModel.updateResponse.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(),"Item Quantity Updated!!",Toast.LENGTH_SHORT).show()
         }
 
     }
 
     private fun onRemoveItemClick(item : Item){
         cartViewModel.removeCartProduct(item.Id)
+    }
+
+    private fun onUpdateItemClick(item: Item, value : Int){
+        cartViewModel.updateCartProduct(item.Id,value)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
