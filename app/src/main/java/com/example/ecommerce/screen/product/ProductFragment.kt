@@ -16,6 +16,7 @@ import com.example.ecommerce.databinding.FragmentProductBinding
 import com.example.ecommerce.screen.home.HomeFragment
 import com.example.ecommerce.model.productDao
 import com.example.ecommerce.screen.home.HomeFragmentDirections
+import com.example.ecommerce.utils.Constants
 
 class ProductFragment() : Fragment(R.layout.fragment_product) {
 
@@ -54,7 +55,12 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
         }
         productViewModel.cartResponse.observe(this){
             Toast.makeText(requireContext(),it.Message,Toast.LENGTH_SHORT).show()
+            loadCartItemCount()
         }
+    }
+
+    private fun loadCartItemCount(){
+        binding.cartItem.text = Constants.currCartItem.toString()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,6 +69,8 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
         super.onViewCreated(view, savedInstanceState)
 
         loadData()
+
+        loadCartItemCount()
 
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()

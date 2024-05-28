@@ -11,6 +11,7 @@ import com.example.ecommerce.model.productDetails.ProductDetails
 import com.example.ecommerce.model.slider.SliderItem
 import com.example.ecommerce.repository.CartRepo
 import com.example.ecommerce.repository.ProductRepo
+import com.example.ecommerce.utils.Constants
 import kotlinx.coroutines.launch
 
 class ProductViewModel : ViewModel(){
@@ -60,6 +61,7 @@ class ProductViewModel : ViewModel(){
         val response = cartRepo.AddToCart(productId,request)
 
         if(response.isSuccessful){
+            Constants.currCartItem++
             _cartResponse.value = response.body()
         }
         else{

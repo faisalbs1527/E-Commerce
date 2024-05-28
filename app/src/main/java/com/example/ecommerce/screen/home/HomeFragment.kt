@@ -21,6 +21,7 @@ import com.example.ecommerce.model.productDao
 import com.example.ecommerce.screen.cart.shoppingCartFragment
 import com.example.ecommerce.screen.product.ProductFragment
 import com.example.ecommerce.screen.product.ProductViewModel
+import com.example.ecommerce.utils.Constants
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -29,9 +30,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var products : ArrayList<productDao>
     private lateinit var salmon : ArrayList<productDao>
     private lateinit var furniture : ArrayList<productDao>
-
-
-    private lateinit var foods : ArrayList<productDao>
 
     private val homeViewModel : HomeViewModel by viewModels()
     private val productViewModel : ProductViewModel by viewModels()
@@ -75,7 +73,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         productViewModel.cartResponse.observe(this, Observer {
             Toast.makeText(requireContext(),it.Message,Toast.LENGTH_SHORT).show()
+            loadCartItemCount()
         })
+    }
+
+    private fun loadCartItemCount(){
+        binding.cartItem.text = Constants.currCartItem.toString()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,6 +87,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding = FragmentHomeBinding.bind(view)
 
+        loadCartItemCount()
+
         binding.carousel.registerLifecycle(viewLifecycleOwner)
 
         binding.rvCategory.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
@@ -91,8 +96,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.rvFeatureProduct.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
 
         loadData()
-
-        addFooditems()
 
 //        populateBestSelling()
 //
@@ -114,52 +117,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         homeViewModel.fetchSliderImages()
         homeViewModel.fetchCategoryWiseProducts()
         homeViewModel.fetchFeaturedProducts()
-    }
-
-
-    private fun addFooditems(){
-        foods = arrayListOf<productDao>()
-
-        foods.add(
-            productDao(
-                R.drawable.orange,
-                getString(R.string.item_name),
-                3,
-                getString(R.string.item_price)
-            )
-        )
-        foods.add(
-            productDao(
-                R.drawable.fish,
-                "Slice Fish 8 pcs",
-                3,
-                "$30.00"
-            )
-        )
-        foods.add(
-            productDao(
-                R.drawable.salmon1,
-                "Salmon fish",
-                4,
-                "$35.00"
-            )
-        )
-        foods.add(
-            productDao(
-                R.drawable.food,
-                "Fruits 1 kg",
-                3,
-                "$20.00"
-            )
-        )
-        foods.add(
-            productDao(
-                R.drawable.feature2,
-                "Meat 1 kg",
-                4,
-                "$28.00"
-            )
-        )
     }
 
 

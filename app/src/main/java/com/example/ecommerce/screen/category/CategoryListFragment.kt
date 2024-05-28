@@ -22,6 +22,7 @@ import com.example.ecommerce.screen.home.HomeFragmentDirections
 import com.example.ecommerce.screen.product.ProductFragment
 import com.example.ecommerce.screen.product.ProductFragmentDirections
 import com.example.ecommerce.screen.product.ProductViewModel
+import com.example.ecommerce.utils.Constants
 
 class CategoryListFragment() : Fragment() {
 
@@ -44,12 +45,18 @@ class CategoryListFragment() : Fragment() {
         return inflater.inflate(R.layout.fragment_category_list, container, false)
     }
 
+    private fun loadCartItemCount(){
+        binding.cartItem.text = Constants.currCartItem.toString()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding = FragmentCategoryListBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
 
         populateCategoryList()
+
+        loadCartItemCount()
 
         binding.title.text = args.CategoryName
         binding.categoryName.text = args.CategoryName
@@ -66,6 +73,7 @@ class CategoryListFragment() : Fragment() {
 
         productViewModel.cartResponse.observe(viewLifecycleOwner){
             Toast.makeText(requireContext(),it.Message, Toast.LENGTH_SHORT).show()
+            loadCartItemCount()
         }
 
     }

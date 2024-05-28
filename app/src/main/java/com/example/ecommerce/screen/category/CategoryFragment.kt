@@ -17,6 +17,7 @@ import com.example.ecommerce.model.categoryDao
 import com.example.ecommerce.screen.home.HomeFragmentDirections
 import com.example.ecommerce.screen.home.HomeViewModel
 import com.example.ecommerce.screen.product.ProductFragmentDirections
+import com.example.ecommerce.utils.Constants
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class CategoryFragment : Fragment(R.layout.fragment_category) {
@@ -47,6 +48,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         binding = FragmentCategoryBinding.bind(view)
 
         super.onViewCreated(view, savedInstanceState)
+
+        binding.cartItem.text = Constants.currCartItem.toString()
 
         loadData()
         binding.rvCategoryFr.layoutManager = GridLayoutManager(requireContext(),3)
