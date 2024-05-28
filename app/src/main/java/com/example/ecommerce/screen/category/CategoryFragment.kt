@@ -16,6 +16,7 @@ import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.model.categoryDao
 import com.example.ecommerce.screen.home.HomeFragmentDirections
 import com.example.ecommerce.screen.home.HomeViewModel
+import com.example.ecommerce.screen.product.ProductFragmentDirections
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class CategoryFragment : Fragment(R.layout.fragment_category) {
@@ -50,6 +51,10 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         loadData()
         binding.rvCategoryFr.layoutManager = GridLayoutManager(requireContext(),3)
 
+        binding.iconCart.setOnClickListener{
+            val action = CategoryFragmentDirections.actionCategoryFragmentToShoppingCartFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun loadData(){

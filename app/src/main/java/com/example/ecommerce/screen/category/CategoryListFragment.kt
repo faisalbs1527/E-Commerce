@@ -18,6 +18,7 @@ import com.example.ecommerce.model.categoryDao
 import com.example.ecommerce.model.productDao
 import com.example.ecommerce.screen.home.HomeFragmentDirections
 import com.example.ecommerce.screen.product.ProductFragment
+import com.example.ecommerce.screen.product.ProductFragmentDirections
 
 class CategoryListFragment() : Fragment() {
 
@@ -52,6 +53,11 @@ class CategoryListFragment() : Fragment() {
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()
 //            parentFragmentManager.beginTransaction().replace(R.id.fragment_part, HomeFragment()).commit()
+        }
+
+        binding.iconCart.setOnClickListener{
+            val action = CategoryListFragmentDirections.actionCategoryListFragmentToShoppingCartFragment()
+            findNavController().navigate(action)
         }
 
     }

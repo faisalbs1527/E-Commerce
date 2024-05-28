@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_categoryFragment_to_categoryListFragment"
             app:destination="@id/categoryListFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -46,6 +49,9 @@
         <argument
             android:name="CategoryName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_categoryListFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment" />
     </fragment>
     <fragment
         android:id="@+id/productFragment"
@@ -54,6 +60,9 @@
         <argument
             android:name="productID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_productFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingCartFragment"

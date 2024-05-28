@@ -15,6 +15,7 @@ import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentProductBinding
 import com.example.ecommerce.screen.home.HomeFragment
 import com.example.ecommerce.model.productDao
+import com.example.ecommerce.screen.home.HomeFragmentDirections
 
 class ProductFragment() : Fragment(R.layout.fragment_product) {
 
@@ -78,6 +79,11 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
 
         binding.btnAddToCart.setOnClickListener {
             productViewModel.addToCart(args.productID,binding.quantityTb.text.toString().toInt())
+        }
+
+        binding.iconCart.setOnClickListener{
+            val action = ProductFragmentDirections.actionProductFragmentToShoppingCartFragment()
+            findNavController().navigate(action)
         }
     }
 
