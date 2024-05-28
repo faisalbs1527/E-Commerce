@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.adapter.cartAdapter
 import com.example.ecommerce.databinding.FragmentShoppingCartBinding
+import com.example.ecommerce.model.cart.cartProducts.Item
 import com.example.ecommerce.model.cartProduct
 import com.example.ecommerce.screen.home.HomeFragment
 
@@ -27,7 +28,11 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
     private fun initObserver(){
         cartViewModel.items.observe(this){
-            binding.rvCartPage.adapter = cartAdapter(it.Data.Cart.Items)
+            val adapter = cartAdapter(){ item ->
+                onRemoveItemClick(item)
+            }
+            binding.rvCartPage.adapter = adapter
+            adapter.submitList(it.Data.Cart.Items)
 
             binding.subtotalPrice.text = it.Data.OrderTotals.SubTotal
             binding.shippingPrice.text = it.Data.OrderTotals.Shipping
@@ -37,6 +42,10 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         }
 
 
+    }
+
+    private fun onRemoveItemClick(item : Item){
+        cartViewModel.removeCartProduct(item.Id)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
