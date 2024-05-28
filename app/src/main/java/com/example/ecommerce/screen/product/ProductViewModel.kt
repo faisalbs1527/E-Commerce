@@ -49,10 +49,10 @@ class ProductViewModel : ViewModel(){
         val request = AddToCartRequest(
             listOf(
                 FormValue(
-                    Key = "addtocart_12020.EnteredQuantity",
+                    Key = "addtocart_$productId.EnteredQuantity",
                     Value = "$quantity"
                 ),FormValue(
-                    Key = "addtocart_12020.EnteredGender",
+                    Key = "addtocart_$productId.EnteredGender",
                     Value = "male"
                 ))
         )

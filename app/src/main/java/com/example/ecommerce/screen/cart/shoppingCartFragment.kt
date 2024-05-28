@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce.R
@@ -18,20 +19,17 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
     private lateinit var binding : FragmentShoppingCartBinding
     private lateinit var dummyData : ArrayList<cartProduct>
+    private val cartViewModel : ShoppingCartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
+        initObserver()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shopping_cart, container, false)
+    private fun initObserver(){
+        cartViewModel.items.observe(this){
+            binding.rvCartPage.adapter = cartAdapter(it.Data.Cart.Items)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,12 +38,18 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
         super.onViewCreated(view, savedInstanceState)
 
+        loadData()
+
         addDummyData()
 
         binding.tollBar.setNavigationOnClickListener {
 //            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,HomeFragment()).commit()
             findNavController().popBackStack()
         }
+    }
+
+    private fun loadData(){
+        cartViewModel.fetchCartProducts()
     }
 
     private fun addDummyData(){
@@ -92,6 +96,6 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
                 5
             )
         )
-        binding.rvCartPage.adapter = cartAdapter(dummyData)
+//        binding.rvCartPage.adapter = cartAdapter(dummyData)
     }
 }
