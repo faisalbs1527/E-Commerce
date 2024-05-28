@@ -26,14 +26,9 @@ class cartAdapter(
 
     override fun onBindViewHolder(holder: viewHolderClass, position: Int) {
         val item = getItem(position)
-        Glide.with(holder.image.context)
-            .load(item.Picture.ImageUrl)
-            .into(holder.image)
 
-        holder.name.text = item.ProductName
-        holder.discount.text = item.UnitPrice
-        holder.actual.visibility =  View.GONE
-        holder.itemcount.text = item.Quantity.toString()
+        holder.bind(item)
+
         holder.removeBtn.setOnClickListener{
             onRemoveItem(item)
         }
@@ -46,6 +41,16 @@ class cartAdapter(
         val actual : TextView = itemView.findViewById(R.id.item_price_actual)
         val itemcount : TextView = itemView.findViewById(R.id.quantity_tb)
         val removeBtn : ImageView = itemView.findViewById(R.id.btn_cancel)
+
+        fun bind(item : Item){
+            Glide.with(image.context)
+                .load(item.Picture.ImageUrl)
+                .into(image)
+            name.text = item.ProductName
+            discount.text = item.UnitPrice
+            actual.visibility =  View.GONE
+            itemcount.text = item.Quantity.toString()
+        }
     }
 
     companion object {

@@ -17,10 +17,10 @@ class ShoppingCartViewModel : ViewModel() {
     }
     val items : LiveData<CartProducts> get() = _items
 
-    private val _rmvResponse : MutableLiveData<RemoveCartResponse> by lazy{
-        MutableLiveData<RemoveCartResponse>()
+    private val _rmvResponse : MutableLiveData<CartProducts> by lazy{
+        MutableLiveData<CartProducts>()
     }
-    val rmvResponse : LiveData<RemoveCartResponse> get() = _rmvResponse
+    val rmvResponse : LiveData<CartProducts> get() = _rmvResponse
 
     private val _showMessage : MutableLiveData<String> by lazy {
         MutableLiveData<String>()

@@ -50,8 +50,8 @@ class CategoryListFragment() : Fragment() {
         binding.categoryName.text = args.CategoryName
 
         binding.tollBar.setNavigationOnClickListener {
-//            findNavController().popBackStack()
-            parentFragmentManager.beginTransaction().replace(R.id.fragment_part, HomeFragment()).commit()
+            findNavController().popBackStack()
+//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part, HomeFragment()).commit()
         }
 
     }

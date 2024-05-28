@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.adapter.cartAdapter
 import com.example.ecommerce.databinding.FragmentShoppingCartBinding
+import com.example.ecommerce.model.cart.cartProducts.CartProducts
 import com.example.ecommerce.model.cart.cartProducts.Item
 import com.example.ecommerce.model.cartProduct
 import com.example.ecommerce.screen.home.HomeFragment
@@ -20,27 +21,40 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
     private lateinit var binding : FragmentShoppingCartBinding
     private val cartViewModel : ShoppingCartViewModel by viewModels()
+    private lateinit var adapter : cartAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initObserver()
+
+
+        adapter = cartAdapter{ item ->
+            onRemoveItemClick(item)
+        }
+    }
+
+    private fun updateCartPage(it : CartProducts){
+        binding.subtotalPrice.text = it.Data.OrderTotals.SubTotal
+        binding.shippingPrice.text = it.Data.OrderTotals.Shipping
+        binding.totalPrice.text = it.Data.OrderTotals.OrderTotal
+        binding.itemCount.text = it.Data.Cart.Items.size.toString() + " ITEM(S)"
+        binding.cartItem.text = it.Data.Cart.Items.size.toString()
     }
 
     private fun initObserver(){
-        cartViewModel.items.observe(this){
-            val adapter = cartAdapter(){ item ->
-                onRemoveItemClick(item)
-            }
-            binding.rvCartPage.adapter = adapter
+        binding.rvCartPage.adapter = adapter
+
+        cartViewModel.items.observe(viewLifecycleOwner){
+
             adapter.submitList(it.Data.Cart.Items)
 
-            binding.subtotalPrice.text = it.Data.OrderTotals.SubTotal
-            binding.shippingPrice.text = it.Data.OrderTotals.Shipping
-            binding.totalPrice.text = it.Data.OrderTotals.OrderTotal
-            binding.itemCount.text = it.Data.Cart.Items.size.toString() + " ITEM(S)"
-            binding.cartItem.text = it.Data.Cart.Items.size.toString()
+            updateCartPage(it)
         }
 
+        cartViewModel.rmvResponse.observe(viewLifecycleOwner){
+            adapter.submitList(it.Data.Cart.Items)
+
+            updateCartPage(it)
+        }
 
     }
 
@@ -54,6 +68,7 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
         super.onViewCreated(view, savedInstanceState)
 
+        initObserver()
         loadData()
 
         binding.rvCartPage.layoutManager = LinearLayoutManager(requireContext())

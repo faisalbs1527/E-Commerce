@@ -23,7 +23,7 @@ class CartRepo {
         return@withContext apiService.getCartProducts()
     }
 
-    suspend fun removeCartProduct(request: RemoveCartRequest) : Response<RemoveCartResponse> = withContext(Dispatchers.IO){
+    suspend fun removeCartProduct(request: RemoveCartRequest) : Response<CartProducts> = withContext(Dispatchers.IO){
         return@withContext apiService.removeCartProduct(request)
     }
 }

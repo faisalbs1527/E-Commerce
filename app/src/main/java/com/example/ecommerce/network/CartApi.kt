@@ -20,5 +20,5 @@ interface CartApi {
     suspend fun getCartProducts() : Response<CartProducts>
 
     @POST("shoppingcart/updatecart")
-    suspend fun removeCartProduct(@Body request: RemoveCartRequest) : Response<RemoveCartResponse>
+    suspend fun removeCartProduct(@Body request: RemoveCartRequest) : Response<CartProducts>
 }
