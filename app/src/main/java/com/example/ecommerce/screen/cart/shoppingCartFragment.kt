@@ -37,10 +37,15 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
     }
 
     private fun updateCartPage(it : CartProducts){
+        var currItems = it.Data.Cart.Items.size
+        var itemCountText : String
+        if(currItems == 1) itemCountText= currItems.toString() + " ITEM"
+        else itemCountText = currItems.toString() + " ITEM(S)"
+
         binding.subtotalPrice.text = it.Data.OrderTotals.SubTotal
         binding.shippingPrice.text = it.Data.OrderTotals.Shipping
         binding.totalPrice.text = it.Data.OrderTotals.OrderTotal
-        binding.itemCount.text = it.Data.Cart.Items.size.toString() + " ITEM(S)"
+        binding.itemCount.text = itemCountText
         binding.cartItem.text = it.Data.Cart.Items.size.toString()
     }
 

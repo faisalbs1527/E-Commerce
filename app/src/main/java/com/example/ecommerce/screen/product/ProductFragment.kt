@@ -36,10 +36,10 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
                 .load(it.Data.PictureModels[0].ImageUrl)
                 .into(binding.productImage)
             binding.productSubTitle.text=
-                Html.fromHtml(it.Data.ShortDescription,Html.FROM_HTML_MODE_COMPACT).toString()
+                Html.fromHtml(it.Data.ShortDescription?:"",Html.FROM_HTML_MODE_COMPACT).toString()
 
             binding.descriptionTv.text=
-                Html.fromHtml(it.Data.FullDescription,Html.FROM_HTML_MODE_COMPACT).toString()
+                Html.fromHtml(it.Data.FullDescription?:"",Html.FROM_HTML_MODE_COMPACT).toString()
 
             binding.discountPrice.text=it.Data.ProductPrice.Price
             binding.stockTv.text= it.Data.StockAvailability
