@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,11 +21,13 @@ import com.example.ecommerce.model.productDao
 import com.example.ecommerce.screen.home.HomeFragmentDirections
 import com.example.ecommerce.screen.product.ProductFragment
 import com.example.ecommerce.screen.product.ProductFragmentDirections
+import com.example.ecommerce.screen.product.ProductViewModel
 
 class CategoryListFragment() : Fragment() {
 
     private lateinit var binding : FragmentCategoryListBinding
     private val args : CategoryListFragmentArgs by navArgs()
+    private val productViewModel : ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,15 +64,21 @@ class CategoryListFragment() : Fragment() {
             findNavController().navigate(action)
         }
 
+        productViewModel.cartResponse.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(),it.Message, Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun populateCategoryList(){
 
         binding.rvCategoryListFr.layoutManager = GridLayoutManager(requireContext(),2)
-        binding.rvCategoryListFr.adapter = productListAdapter(args.productList.toList()){
+        binding.rvCategoryListFr.adapter = productListAdapter(args.productList.toList(),{
             val action = CategoryListFragmentDirections.actionCategoryListFragmentToProductFragment(it.Id)
             findNavController().navigate(action)
-        }
+        },{
+            productViewModel.addToCart(it.Id)
+        })
     }
 
 }

@@ -3,19 +3,24 @@ package com.example.ecommerce.screen.home
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentHomeBinding
 import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.adapter.categoryAdapter
+import com.example.ecommerce.model.category.Product
 import com.example.ecommerce.screen.category.CategoryListFragment
 import com.example.ecommerce.model.categoryDao
+import com.example.ecommerce.model.featureProducts.Data
 import com.example.ecommerce.model.productDao
 import com.example.ecommerce.screen.cart.shoppingCartFragment
 import com.example.ecommerce.screen.product.ProductFragment
+import com.example.ecommerce.screen.product.ProductViewModel
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -29,6 +34,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var foods : ArrayList<productDao>
 
     private val homeViewModel : HomeViewModel by viewModels()
+    private val productViewModel : ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,18 +63,26 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         })
 
-        homeViewModel.products.observe(this, Observer {
-            binding.rvFeatureProduct.adapter = productAdapter(it.Data){
+        homeViewModel.products.observe(this, Observer { productClass ->
+            binding.rvFeatureProduct.adapter = productAdapter(productClass.Data,{
                 val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(it.Id)
                 findNavController().navigate(action)
-            }
+            },
+            {
+                productViewModel.addToCart(it.Id)
+            })
+        })
+
+        productViewModel.cartResponse.observe(this, Observer {
+            Toast.makeText(requireContext(),it.Message,Toast.LENGTH_SHORT).show()
         })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding = FragmentHomeBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentHomeBinding.bind(view)
 
         binding.carousel.registerLifecycle(viewLifecycleOwner)
 

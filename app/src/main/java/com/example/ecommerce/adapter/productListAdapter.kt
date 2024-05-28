@@ -3,6 +3,7 @@ package com.example.ecommerce.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -14,7 +15,8 @@ import com.example.ecommerce.model.featureProducts.Data
 
 class productListAdapter(
     private val productList : List<Product>,
-    private val onClick : (Product) -> Unit
+    private val onClick : (Product) -> Unit,
+    private val onClickAdd : (Product) -> Unit
 ) : RecyclerView.Adapter<productListAdapter.viewHolderClass>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolderClass {
@@ -44,6 +46,9 @@ class productListAdapter(
         holder.itemView.setOnClickListener {
             onClick(items)
         }
+        holder.addbtn.setOnClickListener {
+            onClickAdd(items)
+        }
     }
 
     class viewHolderClass(itemView : View) : RecyclerView.ViewHolder(itemView){
@@ -51,5 +56,6 @@ class productListAdapter(
         val name : TextView = itemView.findViewById(R.id.item_name)
         val rating : RatingBar = itemView.findViewById(R.id.ratingBar)
         val price : TextView = itemView.findViewById(R.id.item_price)
+        val addbtn : ImageButton = itemView.findViewById((R.id.item_img_btn))
     }
 }
