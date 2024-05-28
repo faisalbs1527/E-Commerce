@@ -18,7 +18,6 @@ import com.example.ecommerce.screen.home.HomeFragment
 class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
     private lateinit var binding : FragmentShoppingCartBinding
-    private lateinit var dummyData : ArrayList<cartProduct>
     private val cartViewModel : ShoppingCartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +28,15 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
     private fun initObserver(){
         cartViewModel.items.observe(this){
             binding.rvCartPage.adapter = cartAdapter(it.Data.Cart.Items)
+
+            binding.subtotalPrice.text = it.Data.OrderTotals.SubTotal
+            binding.shippingPrice.text = it.Data.OrderTotals.Shipping
+            binding.totalPrice.text = it.Data.OrderTotals.OrderTotal
+            binding.itemCount.text = it.Data.Cart.Items.size.toString() + " ITEM(S)"
+            binding.cartItem.text = it.Data.Cart.Items.size.toString()
         }
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,7 +47,7 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
         loadData()
 
-        addDummyData()
+        binding.rvCartPage.layoutManager = LinearLayoutManager(requireContext())
 
         binding.tollBar.setNavigationOnClickListener {
 //            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,HomeFragment()).commit()
@@ -50,52 +57,5 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
     private fun loadData(){
         cartViewModel.fetchCartProducts()
-    }
-
-    private fun addDummyData(){
-        binding.rvCartPage.layoutManager = LinearLayoutManager(requireContext())
-        dummyData = arrayListOf<cartProduct>()
-
-        dummyData.add(
-            cartProduct(
-                R.drawable.feature1,
-                "California Orange 8 Pcs",
-                "$349.0","$699.0",
-                5
-            )
-        )
-        dummyData.add(
-            cartProduct(
-                R.drawable.feature2,
-                "California Orange 8 Pcs",
-                "$349.0","$699.0",
-                5
-            )
-        )
-        dummyData.add(
-            cartProduct(
-                R.drawable.furniture,
-                "California Orange 8 Pcs",
-                "$349.0","$699.0",
-                5
-            )
-        )
-        dummyData.add(
-            cartProduct(
-                R.drawable.orange,
-                "California Orange 8 Pcs",
-                "$349.0","$699.0",
-                5
-            )
-        )
-        dummyData.add(
-            cartProduct(
-                R.drawable.fish,
-                "California Orange 8 Pcs",
-                "$349.0","$699.0",
-                5
-            )
-        )
-//        binding.rvCartPage.adapter = cartAdapter(dummyData)
     }
 }
