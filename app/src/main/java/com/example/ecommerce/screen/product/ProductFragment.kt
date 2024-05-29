@@ -52,6 +52,10 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
             else{
                 binding.actualPrice.text = it.Data.ProductPrice.OldPrice.toString()
             }
+
+            binding.shimmerLayout.stopShimmer()
+            binding.scrollView.visibility = View.VISIBLE
+            binding.shimmerLayout.visibility = View.GONE
         }
         productViewModel.cartResponse.observe(this){
             Toast.makeText(requireContext(),it.Message,Toast.LENGTH_SHORT).show()
@@ -65,8 +69,11 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding = FragmentProductBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentProductBinding.bind(view)
+
+        binding.scrollView.visibility = View.INVISIBLE
+        binding.shimmerLayout.startShimmer()
 
         loadData()
 
@@ -74,7 +81,6 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
 
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,HomeFragment()).commit()
         }
         binding.addBtn.setOnClickListener {
             binding.quantityTb.text = (binding.quantityTb.text.toString().toInt() + 1).toString()

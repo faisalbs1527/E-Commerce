@@ -2,9 +2,7 @@ package com.example.ecommerce.screen.cart
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,8 +12,6 @@ import com.example.ecommerce.adapter.cartAdapter
 import com.example.ecommerce.databinding.FragmentShoppingCartBinding
 import com.example.ecommerce.model.cart.cartProducts.CartProducts
 import com.example.ecommerce.model.cart.cartProducts.Item
-import com.example.ecommerce.model.cartProduct
-import com.example.ecommerce.screen.home.HomeFragment
 import com.example.ecommerce.utils.Constants
 
 
@@ -37,7 +33,7 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
     }
 
-    private fun updateCartPage(it : CartProducts){
+    private fun initView(it : CartProducts){
         Constants.currCartItem = it.Data.Cart.Items.size
         var currItems = Constants.currCartItem
         var itemCountText : String
@@ -58,14 +54,17 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
             adapter.submitList(it.Data.Cart.Items)
 
-            updateCartPage(it)
+            initView(it)
+            binding.scrollView.visibility = View.VISIBLE
+            binding.shimmerLayout.stopShimmer()
+            binding.shimmerLayout.visibility = View.GONE
         }
 
         cartViewModel.rmvResponse.observe(viewLifecycleOwner){
             adapter.submitList(it.Data.Cart.Items)
 
             Toast.makeText(requireContext(),"Item Removed!!",Toast.LENGTH_SHORT).show()
-            updateCartPage(it)
+            initView(it)
         }
 
         cartViewModel.updateResponse.observe(viewLifecycleOwner){
@@ -84,9 +83,11 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentShoppingCartBinding.bind(view)
 
-        super.onViewCreated(view, savedInstanceState)
+        binding.scrollView.visibility = View.INVISIBLE
+        binding.shimmerLayout.startShimmer()
 
         initObserver()
         loadData()
@@ -94,7 +95,6 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         binding.rvCartPage.layoutManager = LinearLayoutManager(requireContext())
 
         binding.tollBar.setNavigationOnClickListener {
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,HomeFragment()).commit()
             findNavController().popBackStack()
         }
     }
