@@ -61,7 +61,7 @@ class ProductViewModel : ViewModel(){
         val response = cartRepo.AddToCart(productId,request)
 
         if(response.isSuccessful){
-            Constants.currCartItem++
+            Constants.currCartItem = response.body()?.Data?.TotalShoppingCartProducts!!
             _cartResponse.value = response.body()
         }
         else{
