@@ -25,7 +25,7 @@
         android:text="Product Name"
         android:background="@color/shimmerColor"
         android:fontFamily="@font/lato"
-        android:textColor="@color/text_color"
+        android:textColor="@color/shimmerColor"
         android:textStyle="bold"
         android:textSize="20sp"/>
     <TextView
@@ -76,7 +76,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/quantity"
         android:background="@color/shimmerColor"
-        android:textColor="@color/text_color"
+        android:textColor="@color/shimmerColor"
         android:fontFamily="@font/lato"
         android:textSize="16sp"
         />
@@ -163,7 +163,7 @@
         android:layout_height="wrap_content"
         android:text="Availability"
         android:fontFamily="@font/lato"
-        android:textColor="@color/text_color"
+        android:textColor="@color/shimmerColor"
         android:textSize="16sp"
         android:background="@color/shimmerColor"
         android:layout_marginTop="16dp"
@@ -202,7 +202,7 @@
         android:textStyle="bold"
         android:background="@color/shimmerColor"
         android:text="@string/description_title"
-        android:textColor="@color/text_color"
+        android:textColor="@color/shimmerColor"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@id/divider_2"
         app:layout_constraintTop_toBottomOf="@id/divider_2" />
