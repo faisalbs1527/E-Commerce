@@ -3,17 +3,20 @@ package com.example.ecommerce.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ecommerce.R
+import com.example.ecommerce.model.category.Product
 import com.example.ecommerce.model.featureProducts.Data
 
 class productAdapter(
     private val productList : List<Data>,
-    private val onClick : (Data) -> Unit
+    private val onClick : (Data) -> Unit,
+    private val onClickAdd : (Data) -> Unit
 ) :
     RecyclerView.Adapter<productAdapter.viewHolderClass>(){
 
@@ -45,6 +48,9 @@ class productAdapter(
         holder.itemView.setOnClickListener {
             onClick(items)
         }
+        holder.addbtn.setOnClickListener {
+            onClickAdd(items)
+        }
     }
 
     class viewHolderClass(itemView : View) : RecyclerView.ViewHolder(itemView){
@@ -52,5 +58,6 @@ class productAdapter(
         val name : TextView = itemView.findViewById(R.id.item_name)
         val rating : RatingBar = itemView.findViewById(R.id.ratingBar)
         val price : TextView = itemView.findViewById(R.id.item_price)
+        val addbtn : ImageButton = itemView.findViewById((R.id.item_img_btn))
     }
 }

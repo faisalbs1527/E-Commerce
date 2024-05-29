@@ -49,6 +49,7 @@
                     app:layout_constraintHorizontal_bias=".9"
                     app:layout_constraintBottom_toBottomOf="@id/productTitle"/>
                 <TextView
+                    android:id="@+id/cartItem"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:background="@drawable/badge"
@@ -172,7 +173,7 @@
                 app:layout_constraintEnd_toStartOf="@id/remove_btn"
                 android:layout_marginHorizontal="8dp"
                 android:padding="8dp"
-                android:text="5"
+                android:text="1"
                 android:gravity="center"
                 android:fontFamily="@font/lato"
                 android:textColor="#83868C"
