@@ -1,5 +1,7 @@
 package com.example.ecommerce.model.featureProducts
 
+import com.example.ecommerce.database.dbmodel.ProductEntity
+
 data class Data(
     val CustomProperties: CustomProperties,
     val FullDescription: String,
@@ -14,4 +16,20 @@ data class Data(
     val SeName: String,
     val ShortDescription: String,
     val Sku: String
+)
+
+fun Data.asEntity() = ProductEntity(
+    CustomProperties = this.CustomProperties,
+    FullDescription = this.FullDescription,
+    Id = this.Id,
+    MarkAsNew = this.MarkAsNew,
+    Name = this.Name,
+    PictureModels = this.PictureModels,
+    ProductPrice = this.ProductPrice,
+    ProductSpecificationModel = this.ProductSpecificationModel,
+    ProductType = this.ProductType,
+    ReviewOverviewModel = this.ReviewOverviewModel,
+    SeName = this.SeName,
+    ShortDescription = this.ShortDescription,
+    Sku = this.Sku
 )

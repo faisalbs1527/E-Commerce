@@ -12,15 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentCategoryListBinding
-import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.adapter.productListAdapter
-import com.example.ecommerce.model.category.Product
-import com.example.ecommerce.screen.home.HomeFragment
-import com.example.ecommerce.model.categoryDao
-import com.example.ecommerce.model.productDao
-import com.example.ecommerce.screen.home.HomeFragmentDirections
-import com.example.ecommerce.screen.product.ProductFragment
-import com.example.ecommerce.screen.product.ProductFragmentDirections
 import com.example.ecommerce.screen.product.ProductViewModel
 import com.example.ecommerce.utils.Constants
 
