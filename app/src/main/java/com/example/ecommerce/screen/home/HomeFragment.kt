@@ -13,6 +13,7 @@ import com.example.ecommerce.databinding.FragmentHomeBinding
 import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.adapter.categoryAdapter
 import com.example.ecommerce.screen.product.ProductViewModel
+import com.example.ecommerce.utils.ConnectivityUtil
 import com.example.ecommerce.utils.Constants
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
@@ -42,26 +43,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     )
                 )
             }
-            Toast.makeText(requireContext(),"Slider Loaded",Toast.LENGTH_SHORT).show()
         })
 
         homeViewModel.categoryProducts.observe(this, Observer {
             binding.rvCategory.adapter = categoryAdapter(it.Data){
-                Toast.makeText(requireContext(),"Category Loaded",Toast.LENGTH_SHORT).show()
                 val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment(it.Products.toTypedArray(),it.Name)
                 findNavController().navigate(action)
-//                parentFragmentManager.beginTransaction().replace(R.id.fragment_part,CategoryListFragment(it.Name,it.Products)).commit()
             }
         })
 
         homeViewModel.products.observe(this, Observer { productClass ->
             binding.rvFeatureProduct.adapter = productAdapter(productClass.Data,{
-                Toast.makeText(requireContext(),"Product Loaded",Toast.LENGTH_SHORT).show()
                 val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(it.Id)
                 findNavController().navigate(action)
             },
             {
-                productViewModel.addToCart(it.Id)
+                if(ConnectivityUtil.isNetworkAvailable(requireContext())){
+                    productViewModel.addToCart(it.Id)
+                }
             })
         })
 
@@ -100,9 +99,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        populateFurniture()
 
         binding.iconCart.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeFragmentToShoppingCartFragment()
-            findNavController().navigate(action)
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,shoppingCartFragment()).commit()
+            if(ConnectivityUtil.isNetworkAvailable(requireContext())){
+                val action = HomeFragmentDirections.actionHomeFragmentToShoppingCartFragment()
+                findNavController().navigate(action)
+            }
         }
 
     }
