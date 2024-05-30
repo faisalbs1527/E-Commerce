@@ -3,10 +3,12 @@ package com.example.ecommerce.database.dbmodel
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.ecommerce.model.featureProducts.CustomProperties
+import com.example.ecommerce.model.featureProducts.Data
 import com.example.ecommerce.model.featureProducts.PictureModel
 import com.example.ecommerce.model.featureProducts.ProductPrice
 import com.example.ecommerce.model.featureProducts.ProductSpecificationModel
 import com.example.ecommerce.model.featureProducts.ReviewOverviewModel
+import com.example.ecommerce.model.featureProducts.asEntity
 
 @Entity(tableName = "Products")
 data class ProductEntity(
@@ -25,3 +27,20 @@ data class ProductEntity(
     val ShortDescription: String,
     val Sku: String
 )
+
+fun ProductEntity.toProductData() = Data(
+    CustomProperties = this.CustomProperties,
+    FullDescription = this.FullDescription,
+    Id = this.Id,
+    MarkAsNew = this.MarkAsNew,
+    Name = this.Name,
+    PictureModels = this.PictureModels,
+    ProductPrice = this.ProductPrice,
+    ProductSpecificationModel = this.ProductSpecificationModel,
+    ProductType = this.ProductType,
+    ReviewOverviewModel = this.ReviewOverviewModel,
+    SeName = this.SeName,
+    ShortDescription = this.ShortDescription,
+    Sku = this.Sku
+)
+
