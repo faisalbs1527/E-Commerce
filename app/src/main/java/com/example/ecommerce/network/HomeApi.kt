@@ -10,10 +10,10 @@ import retrofit2.http.GET
 interface HomeApi {
 
     @GET(value = "slider/homepageslider")
-    fun getSliderImage() : Call <SliderItem>
+    suspend fun getSliderImage() : Response <SliderItem>
 
     @GET(value = "home/homepagecategorieswithproducts")
-    fun getCategoryWiseProducts() : Call <CategoryWiseProducts>
+    suspend fun getCategoryWiseProducts() : Response <CategoryWiseProducts>
 
     @GET(value = "home/featureproducts")
     suspend fun getProducts() : Response<ProductClass>

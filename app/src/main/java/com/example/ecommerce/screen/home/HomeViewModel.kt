@@ -26,25 +26,19 @@ class HomeViewModel(context: Context) : ViewModel() {
 
     private val repository = HomeRepo(context)
 
-    fun fetchSliderImages(){
-        repository.getImageSlider { sliderItem, throwable ->
-            if(sliderItem != null){
-                _sliderImages.postValue(sliderItem!!)
-            }
-            else{
-                _error.postValue(throwable?.message)
-            }
+    fun fetchSliderImages() = viewModelScope.launch{
+        val response = repository.getImageSlider()
+
+        if(response.isSuccessful){
+            _sliderImages.value = response.body()
         }
     }
 
-    fun fetchCategoryWiseProducts(){
-        repository.getCategoryWiseProducts { categoryWiseProducts, throwable ->
-            if(categoryWiseProducts != null){
-                _categoryProducts.postValue(categoryWiseProducts!!)
-            }
-            else{
-                _error.postValue(throwable?.message)
-            }
+    fun fetchCategoryWiseProducts() = viewModelScope.launch{
+        val response = repository.getCategoryWiseProducts()
+
+        if(response.isSuccessful){
+            _categoryProducts.value = response.body()
         }
     }
 

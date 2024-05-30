@@ -4,9 +4,11 @@ import android.content.Context
 import android.util.Log
 import com.example.ecommerce.database.AppDatabase
 import com.example.ecommerce.model.category.CategoryWiseProducts
+import com.example.ecommerce.model.category.asEntity
 import com.example.ecommerce.model.featureProducts.ProductClass
 import com.example.ecommerce.model.featureProducts.asEntity
 import com.example.ecommerce.model.slider.SliderItem
+import com.example.ecommerce.model.slider.asEntity
 import com.example.ecommerce.network.ApiClient
 import com.example.ecommerce.network.HomeApi
 import kotlinx.coroutines.Dispatchers
@@ -20,36 +22,28 @@ class HomeRepo(private val context: Context) {
     val apiService = ApiClient.getRetrofit().create(HomeApi::class.java)
     val dbService = AppDatabase.invoke(context)
 
-    fun getImageSlider(callback: (SliderItem?,Throwable?)->Unit){
-        apiService.getSliderImage().enqueue(object : Callback<SliderItem?> {
-            override fun onResponse(p0: Call<SliderItem?>, p1: Response<SliderItem?>) {
-                val responseBody = p1.body()!!
-                callback(responseBody,null)
+    suspend fun getImageSlider():Response<SliderItem> = withContext(Dispatchers.IO){
+        val sliders = apiService.getSliderImage()
+        sliders.let {
+            sliders.body()?.Data?.Sliders?.let { sliderList ->
+                dbService.sliderdao().saveImageSliders(sliderList.map { it.asEntity() })
             }
-
-            override fun onFailure(p0: Call<SliderItem?>, p1: Throwable) {
-                callback(null,p1)
-                Log.d("MainActivity","OnFailure: "+p1.message)
-            }
-        })
+        }
+        return@withContext sliders
     }
 
-    fun getCategoryWiseProducts(callback: (CategoryWiseProducts?, Throwable?) -> Unit){
-        apiService.getCategoryWiseProducts().enqueue(object : Callback<CategoryWiseProducts?> {
-            override fun onResponse(
-                p0: Call<CategoryWiseProducts?>,
-                p1: Response<CategoryWiseProducts?>
-            ) {
-                val responseBody = p1.body()!!
-                callback(responseBody,null)
+    suspend fun getCategoryWiseProducts():Response<CategoryWiseProducts> = withContext(Dispatchers.IO){
+        val categories = apiService.getCategoryWiseProducts()
+        categories.let {
+            categories.body()?.Data?.let { categoryList ->
+                categoryList.map { it.asEntity() }.let { entity->
+                    dbService.categorydao().saveCategory(entity)
+                }
             }
-
-            override fun onFailure(p0: Call<CategoryWiseProducts?>, p1: Throwable) {
-                callback(null,p1)
-                Log.d("MainActivity","OnFailure: "+p1.message)
-            }
-        })
+        }
+        return@withContext categories
     }
+
     suspend fun getFeatureProducts():Response<ProductClass> = withContext(Dispatchers.IO){
         val products = apiService.getProducts()
         products.let {

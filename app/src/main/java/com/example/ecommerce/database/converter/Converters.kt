@@ -1,6 +1,8 @@
 package com.example.ecommerce.database.converter
 
 import androidx.room.TypeConverter
+import com.example.ecommerce.model.category.Product
+import com.example.ecommerce.model.category.SubCategory
 import com.example.ecommerce.model.featureProducts.CustomProperties
 import com.example.ecommerce.model.featureProducts.PictureModel
 import com.example.ecommerce.model.featureProducts.ProductPrice
@@ -65,6 +67,29 @@ class Converters {
     @TypeConverter
     fun toCustomProperties(value: String): CustomProperties {
         val type = object : TypeToken<CustomProperties>() {}.type
+        return Gson().fromJson(value, type)
+    }
+
+    ///for Category Entity
+
+    @TypeConverter
+    fun fromProductList(value: List<Product>): String {
+        val type = object : TypeToken<List<Product>>() {}.type
+        return Gson().toJson(value, type)
+    }
+    @TypeConverter
+    fun toProductList(value: String): List<Product> {
+        val type = object : TypeToken<List<Product>>() {}.type
+        return Gson().fromJson(value, type)
+    }
+    @TypeConverter
+    fun fromSubCategoryList(value: List<SubCategory>): String {
+        val type = object : TypeToken<List<SubCategory>>() {}.type
+        return Gson().toJson(value, type)
+    }
+    @TypeConverter
+    fun toSubCategoryList(value: String): List<SubCategory> {
+        val type = object : TypeToken<List<SubCategory>>() {}.type
         return Gson().fromJson(value, type)
     }
 }
