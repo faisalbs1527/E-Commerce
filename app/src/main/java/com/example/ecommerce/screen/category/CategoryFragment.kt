@@ -59,7 +59,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     }
 
     private fun loadData(){
-        homeViewModel.fetchCategoryWiseProducts()
+        homeViewModel.fetchCategoryWiseProducts(requireContext())
     }
 
 }

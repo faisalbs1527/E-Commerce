@@ -42,10 +42,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     )
                 )
             }
+            Toast.makeText(requireContext(),"Slider Loaded",Toast.LENGTH_SHORT).show()
         })
 
         homeViewModel.categoryProducts.observe(this, Observer {
             binding.rvCategory.adapter = categoryAdapter(it.Data){
+                Toast.makeText(requireContext(),"Category Loaded",Toast.LENGTH_SHORT).show()
                 val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment(it.Products.toTypedArray(),it.Name)
                 findNavController().navigate(action)
 //                parentFragmentManager.beginTransaction().replace(R.id.fragment_part,CategoryListFragment(it.Name,it.Products)).commit()
@@ -54,6 +56,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         homeViewModel.products.observe(this, Observer { productClass ->
             binding.rvFeatureProduct.adapter = productAdapter(productClass.Data,{
+                Toast.makeText(requireContext(),"Product Loaded",Toast.LENGTH_SHORT).show()
                 val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(it.Id)
                 findNavController().navigate(action)
             },
@@ -105,9 +108,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun loadData(){
-        homeViewModel.fetchSliderImages()
-        homeViewModel.fetchCategoryWiseProducts()
-        homeViewModel.fetchFeaturedProducts()
+        homeViewModel.fetchSliderImages(requireContext())
+        homeViewModel.fetchCategoryWiseProducts(requireContext())
+        homeViewModel.fetchFeaturedProducts(requireContext())
     }
 
 

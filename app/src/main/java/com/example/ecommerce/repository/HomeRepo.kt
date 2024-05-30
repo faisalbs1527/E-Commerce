@@ -56,11 +56,12 @@ class HomeRepo(private val context: Context) {
 
     //Local Database
 
-    suspend fun getCategoryWiseProductsDb()= withContext(Dispatchers.IO){
-        return@withContext dbService.sliderdao().getImageSliders()
+    suspend fun getImageSliderDb()= withContext(Dispatchers.IO){
+        val sliders = dbService.sliderdao().getImageSliders()
+        return@withContext sliders
     }
 
-    suspend fun getImageSliderDb()= withContext(Dispatchers.IO){
+    suspend fun getCategoryWiseProductsDb()= withContext(Dispatchers.IO){
         return@withContext dbService.categorydao().getCategories()
     }
 

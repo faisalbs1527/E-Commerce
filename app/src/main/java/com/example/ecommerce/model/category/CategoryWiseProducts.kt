@@ -7,7 +7,7 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class CategoryWiseProducts(
-    val Data: List<Data>,
+    var Data: List<Data>,
     val ErrorList: @RawValue List<Any>,
     val Message:@RawValue Any
 ) : Parcelable
