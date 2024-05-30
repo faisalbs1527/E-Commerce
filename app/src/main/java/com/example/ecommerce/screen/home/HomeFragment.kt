@@ -12,7 +12,6 @@ import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentHomeBinding
 import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.adapter.categoryAdapter
-import com.example.ecommerce.database.dao.productDao
 import com.example.ecommerce.screen.product.ProductViewModel
 import com.example.ecommerce.utils.Constants
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
@@ -20,11 +19,10 @@ import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var products : ArrayList<productDao>
-    private lateinit var salmon : ArrayList<productDao>
-    private lateinit var furniture : ArrayList<productDao>
 
-    private val homeViewModel : HomeViewModel by viewModels()
+    private val homeViewModel : HomeViewModel by viewModels() {
+            HomeViewModelFactory(requireContext().applicationContext)
+    }
     private val productViewModel : ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

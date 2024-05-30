@@ -1,14 +1,17 @@
 package com.example.ecommerce.screen.home
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.ecommerce.model.category.CategoryWiseProducts
 import com.example.ecommerce.model.featureProducts.ProductClass
 import com.example.ecommerce.model.slider.SliderItem
 import com.example.ecommerce.repository.HomeRepo
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(context: Context) : ViewModel() {
     private val _sliderImages = MutableLiveData<SliderItem>()
     val sliderImages : LiveData<SliderItem> get() = _sliderImages
 
@@ -21,7 +24,7 @@ class HomeViewModel : ViewModel() {
     private val _error = MutableLiveData<String>()
     val error : LiveData<String> get() = _error
 
-    private val repository = HomeRepo()
+    private val repository = HomeRepo(context)
 
     fun fetchSliderImages(){
         repository.getImageSlider { sliderItem, throwable ->
@@ -45,14 +48,12 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun fetchFeaturedProducts(){
-        repository.getFeatureProducts{productList, throwable ->
-            if(productList != null){
-                _products.postValue(productList!!)
-            }
-            else{
-                _error.postValue(throwable?.message)
-            }
+    fun fetchFeaturedProducts() = viewModelScope.launch{
+        val response = repository.getFeatureProducts()
+
+        if(response.isSuccessful){
+            _products.value = response.body()
         }
     }
+
 }

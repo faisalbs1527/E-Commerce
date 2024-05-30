@@ -1,18 +1,24 @@
 package com.example.ecommerce.repository
 
+import android.content.Context
 import android.util.Log
+import com.example.ecommerce.database.AppDatabase
 import com.example.ecommerce.model.category.CategoryWiseProducts
 import com.example.ecommerce.model.featureProducts.ProductClass
+import com.example.ecommerce.model.featureProducts.asEntity
 import com.example.ecommerce.model.slider.SliderItem
 import com.example.ecommerce.network.ApiClient
 import com.example.ecommerce.network.HomeApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.create
 
-class HomeRepo {
+class HomeRepo(private val context: Context) {
     val apiService = ApiClient.getRetrofit().create(HomeApi::class.java)
+    val dbService = AppDatabase.invoke(context)
 
     fun getImageSlider(callback: (SliderItem?,Throwable?)->Unit){
         apiService.getSliderImage().enqueue(object : Callback<SliderItem?> {
@@ -44,20 +50,13 @@ class HomeRepo {
             }
         })
     }
-
-    fun getFeatureProducts(callback: (ProductClass?,Throwable?) -> Unit){
-
-        apiService.getProducts().enqueue(object : retrofit2.Callback<ProductClass?> {
-            override fun onResponse(p0: Call<ProductClass?>, p1: Response<ProductClass?>) {
-                val responseBody = p1.body()!!
-                callback(responseBody,null)
-
+    suspend fun getFeatureProducts():Response<ProductClass> = withContext(Dispatchers.IO){
+        val products = apiService.getProducts()
+        products.let {
+            products.body()?.Data?.let { datalist ->
+                dbService.productdao().saveProducts(datalist.map { it.asEntity() })
             }
-
-            override fun onFailure(p0: Call<ProductClass?>, p1: Throwable) {
-                callback(null,p1)
-                Log.d("MainActivity","OnFailure: "+p1.message)
-            }
-        })
+        }
+        return@withContext products
     }
 }
