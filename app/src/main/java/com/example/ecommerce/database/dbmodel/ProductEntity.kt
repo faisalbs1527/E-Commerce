@@ -1,10 +1,20 @@
-package com.example.ecommerce.model.featureProducts
+package com.example.ecommerce.database.dbmodel
 
-import com.example.ecommerce.database.dbmodel.ProductEntity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.ecommerce.model.featureProducts.CustomProperties
+import com.example.ecommerce.model.featureProducts.Data
+import com.example.ecommerce.model.featureProducts.PictureModel
+import com.example.ecommerce.model.featureProducts.ProductPrice
+import com.example.ecommerce.model.featureProducts.ProductSpecificationModel
+import com.example.ecommerce.model.featureProducts.ReviewOverviewModel
+import com.example.ecommerce.model.featureProducts.asEntity
 
-data class Data(
-    val CustomProperties: CustomProperties,
+@Entity(tableName = "Products")
+data class ProductEntity(
+    val CustomProperties: CustomProperties = CustomProperties(),
     val FullDescription: String,
+    @PrimaryKey
     val Id: Int,
     val MarkAsNew: Boolean,
     val Name: String,
@@ -18,7 +28,7 @@ data class Data(
     val Sku: String
 )
 
-fun Data.asEntity() = ProductEntity(
+fun ProductEntity.toProductData() = Data(
     CustomProperties = this.CustomProperties,
     FullDescription = this.FullDescription,
     Id = this.Id,
@@ -33,3 +43,4 @@ fun Data.asEntity() = ProductEntity(
     ShortDescription = this.ShortDescription,
     Sku = this.Sku
 )
+

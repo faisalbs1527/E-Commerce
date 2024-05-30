@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ecommerce.R
 import com.example.ecommerce.model.category.Data
-import com.example.ecommerce.model.categoryDao
 
 class categoryAdapter(
     private val categoryList : List<Data>,

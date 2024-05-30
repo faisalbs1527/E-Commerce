@@ -10,6 +10,7 @@ import com.example.ecommerce.databinding.ActivityMainBinding
 
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.ecommerce.utils.ConnectivityUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -38,10 +39,15 @@ class MainActivity : AppCompatActivity() {
                     if(sharedPreferences.getBoolean("isLoggedIn",false)){
                         navController.navigate(R.id.accountFragment)
                         binding.bottomNavigationView.visibility = View.VISIBLE
-                        Toast.makeText(this,"You have already logged IN",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"You have already logged IN!!",Toast.LENGTH_SHORT).show()
                     }
                     else{
                         binding.bottomNavigationView.visibility = View.GONE
+                    }
+                }
+                R.id.categoryFragment -> {
+                    if(ConnectivityUtil.isNetworkAvailable(this)){
+                        navController.navigate(R.id.categoryFragment)
                     }
                 }
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE

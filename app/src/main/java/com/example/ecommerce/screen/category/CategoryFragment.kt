@@ -13,9 +13,9 @@ import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentCategoryBinding
 import com.example.ecommerce.adapter.categoryAdapter
 import com.example.ecommerce.adapter.productAdapter
-import com.example.ecommerce.model.categoryDao
 import com.example.ecommerce.screen.home.HomeFragmentDirections
 import com.example.ecommerce.screen.home.HomeViewModel
+import com.example.ecommerce.screen.home.HomeViewModelFactory
 import com.example.ecommerce.screen.product.ProductFragmentDirections
 import com.example.ecommerce.utils.Constants
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
@@ -23,9 +23,10 @@ import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 class CategoryFragment : Fragment(R.layout.fragment_category) {
 
     private lateinit var binding : FragmentCategoryBinding
-    private lateinit var category : ArrayList<categoryDao>
 
-    private val homeViewModel : HomeViewModel by viewModels()
+    private val homeViewModel : HomeViewModel by viewModels(){
+        HomeViewModelFactory(requireContext().applicationContext)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +62,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     }
 
     private fun loadData(){
-        homeViewModel.fetchCategoryWiseProducts()
+        homeViewModel.fetchCategoryWiseProducts(requireContext())
     }
 
 }

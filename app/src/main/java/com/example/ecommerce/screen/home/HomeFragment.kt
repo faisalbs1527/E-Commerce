@@ -6,32 +6,24 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentHomeBinding
 import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.adapter.categoryAdapter
-import com.example.ecommerce.model.category.Product
-import com.example.ecommerce.screen.category.CategoryListFragment
-import com.example.ecommerce.model.categoryDao
-import com.example.ecommerce.model.featureProducts.Data
-import com.example.ecommerce.model.productDao
-import com.example.ecommerce.screen.cart.shoppingCartFragment
-import com.example.ecommerce.screen.product.ProductFragment
 import com.example.ecommerce.screen.product.ProductViewModel
+import com.example.ecommerce.utils.ConnectivityUtil
 import com.example.ecommerce.utils.Constants
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var products : ArrayList<productDao>
-    private lateinit var salmon : ArrayList<productDao>
-    private lateinit var furniture : ArrayList<productDao>
 
-    private val homeViewModel : HomeViewModel by viewModels()
+    private val homeViewModel : HomeViewModel by viewModels() {
+            HomeViewModelFactory(requireContext().applicationContext)
+    }
     private val productViewModel : ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +49,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             binding.rvCategory.adapter = categoryAdapter(it.Data){
                 val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment(it.Products.toTypedArray(),it.Name)
                 findNavController().navigate(action)
-//                parentFragmentManager.beginTransaction().replace(R.id.fragment_part,CategoryListFragment(it.Name,it.Products)).commit()
             }
         })
 
@@ -67,7 +58,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 findNavController().navigate(action)
             },
             {
-                productViewModel.addToCart(it.Id)
+                if(ConnectivityUtil.isNetworkAvailable(requireContext())){
+                    productViewModel.addToCart(it.Id)
+                }
             })
         })
 
@@ -106,17 +99,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        populateFurniture()
 
         binding.iconCart.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeFragmentToShoppingCartFragment()
-            findNavController().navigate(action)
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,shoppingCartFragment()).commit()
+            if(ConnectivityUtil.isNetworkAvailable(requireContext())){
+                val action = HomeFragmentDirections.actionHomeFragmentToShoppingCartFragment()
+                findNavController().navigate(action)
+            }
         }
 
     }
 
     private fun loadData(){
-        homeViewModel.fetchSliderImages()
-        homeViewModel.fetchCategoryWiseProducts()
-        homeViewModel.fetchFeaturedProducts()
+        homeViewModel.fetchSliderImages(requireContext())
+        homeViewModel.fetchCategoryWiseProducts(requireContext())
+        homeViewModel.fetchFeaturedProducts(requireContext())
     }
 
 
