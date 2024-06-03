@@ -73,4 +73,9 @@
         android:id="@+id/accountFragment"
         android:name="com.example.ecommerce.screen.account.AccountFragment"
         android:label="AccountFragment" />
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.ecommerce.screen.CheckoutFragment"
+        android:label="fragment_checkout"
+        tools:layout="@layout/fragment_checkout" />
 </navigation>

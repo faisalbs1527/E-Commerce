@@ -79,7 +79,10 @@ import androidx.compose.ui.unit.sp
 import com.example.ecommerce.R
 import com.example.ecommerce.component.BoxCustom
 import com.example.ecommerce.component.CustomCheckBox
+import com.example.ecommerce.component.FinalAmountBox
+import com.example.ecommerce.component.PaymentMethod
 import com.example.ecommerce.component.TextFieldCustom
+import com.example.ecommerce.component.Title
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import org.w3c.dom.Text
 
@@ -177,12 +180,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                 ) {
 
                     BoxCustom(text = "Billing Address")
-                    Text(
-                        modifier = Modifier.padding(top = 16.dp, start = 16.dp),
-                        text = "Address",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Title(text = "Address")
                     TextFieldCustom(
                         label = "Existing Address :",
                         value = existingAddress,
@@ -192,6 +190,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                     Row(Modifier.padding(start = 16.dp, top = 8.dp)) {
                         CustomCheckBox(
                             isChecked = checked,
+                            radius = 4,
                             onCheckChange = {checked=it}
                         )
                         Text(text = "Ship to the same address",
@@ -199,12 +198,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                             fontSize = 14.sp
                         )
                     }
-                    Text(
-                        modifier = Modifier.padding(top = 16.dp, start = 16.dp),
-                        text = "Select A Billing Address",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Title(text = "Select A Billing Address")
                     TextFieldCustom(
                         label = "New",
                         value = billingAddress,
@@ -273,7 +267,11 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     BoxCustom(text = "Payment Method")
-
+                    PaymentMethod()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Title(text = "Order Totals")
+                    Spacer(modifier = Modifier.height(16.dp))
+                    FinalAmountBox()
                 }
 
             }

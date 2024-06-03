@@ -45,11 +45,6 @@ class MainActivity : AppCompatActivity() {
                         binding.bottomNavigationView.visibility = View.GONE
                     }
                 }
-                R.id.categoryFragment -> {
-                    if(ConnectivityUtil.isNetworkAvailable(this)){
-                        navController.navigate(R.id.categoryFragment)
-                    }
-                }
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
         }

@@ -20,14 +20,17 @@ import com.example.ecommerce.R
 @Composable
 fun CustomCheckBox(
     isChecked : Boolean,
+    radius : Int,
+    height : Int = 20,
+    width : Int = 20,
     onCheckChange : (Boolean) -> Unit = {}) {
     Box(
         Modifier
-            .size(width = 20.dp, height = 20.dp)
+            .size(width = height.dp, height = width.dp)
             .border(
                 width = 1.dp,
                 color = Color(0xFFD5D5DA),
-                shape = RoundedCornerShape(4.dp)
+                shape = RoundedCornerShape(radius.dp)
             )
             .clickable {
                 onCheckChange(!isChecked)
@@ -49,6 +52,7 @@ private fun CustomCheckBoxPreview() {
     Surface {
         CustomCheckBox(
             isChecked = true,
+            radius = 4,
             onCheckChange = {}
         )
     }
