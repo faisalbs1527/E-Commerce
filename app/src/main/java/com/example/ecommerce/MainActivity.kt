@@ -5,14 +5,15 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ecommerce.databinding.ActivityMainBinding
-
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.ecommerce.screen.cart.ShoppingCartViewModel
 import com.example.ecommerce.utils.ConnectivityUtil
+import com.example.ecommerce.utils.Constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,45 +49,5 @@ class MainActivity : AppCompatActivity() {
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
         }
-
-
-//        val fragmentManager = supportFragmentManager
-//        val transaction = fragmentManager.beginTransaction()
-//        transaction.replace(R.id.frame_layout, HomeFragment())
-//        transaction.commit()
-
-//        binding.bottomNavigationView.setOnItemSelectedListener{ item ->
-//            when(item.itemId){
-//                R.id.menu_home -> {
-//
-//                    if(supportFragmentManager.findFragmentById(R.id.homeFragment) == null){
-//                        supportFragmentManager.beginTransaction().
-//                                replace(R.id.frame_layout,HomeFragment()).commit()
-//                    }
-//                    true
-//                }
-//                R.id.menu_category -> {
-//                    if(supportFragmentManager.findFragmentById(R.id.categoryFragment) == null){
-//                        supportFragmentManager.beginTransaction().
-//                        replace(R.id.frame_layout,CategoryFragment()).commit()
-//                    }
-//                    true
-//                }
-//                R.id.menu_search ->{
-//                    true
-//                }
-//                R.id.menu_account ->{
-//                    if(supportFragmentManager.findFragmentById(R.id.loginFragment) == null){
-//                        supportFragmentManager.beginTransaction().
-//                        replace(R.id.frame_layout,LoginFragment()).commit()
-//                    }
-//                    true
-//                }
-//                R.id.menu_more ->{
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
     }
 }

@@ -12,6 +12,7 @@ import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentHomeBinding
 import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.adapter.categoryAdapter
+import com.example.ecommerce.screen.cart.ShoppingCartViewModel
 import com.example.ecommerce.screen.product.ProductViewModel
 import com.example.ecommerce.utils.ConnectivityUtil
 import com.example.ecommerce.utils.Constants
@@ -21,10 +22,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private val homeViewModel : HomeViewModel by viewModels() {
-            HomeViewModelFactory(requireContext().applicationContext)
+    private val homeViewModel: HomeViewModel by viewModels() {
+        HomeViewModelFactory(requireContext().applicationContext)
     }
-    private val productViewModel : ProductViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels()
+    private val cartViewModel: ShoppingCartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +34,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun initObserver(){
+    private fun initObserver() {
 
-        homeViewModel.sliderImages.observe(this, Observer{
+        homeViewModel.sliderImages.observe(this, Observer {
             val sliderData = it?.Data
-            for( image in sliderData?.Sliders!!){
+            for (image in sliderData?.Sliders!!) {
                 binding.carousel.addData(
                     CarouselItem(
                         imageUrl = image.ImageUrl
@@ -46,32 +48,39 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         })
 
         homeViewModel.categoryProducts.observe(this, Observer {
-            binding.rvCategory.adapter = categoryAdapter(it.Data){
-                val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment(it.Products.toTypedArray(),it.Name)
+            binding.rvCategory.adapter = categoryAdapter(it.Data) {
+                val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment(
+                    it.Products.toTypedArray(),
+                    it.Name
+                )
                 findNavController().navigate(action)
             }
         })
 
         homeViewModel.products.observe(this, Observer { productClass ->
-            binding.rvFeatureProduct.adapter = productAdapter(productClass.Data,{
+            binding.rvFeatureProduct.adapter = productAdapter(productClass.Data, {
                 val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(it.Id)
                 findNavController().navigate(action)
             },
-            {
-                if(ConnectivityUtil.isNetworkAvailable(requireContext())){
-                    productViewModel.addToCart(it.Id)
-                }
-            })
+                {
+                    if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
+                        productViewModel.addToCart(it.Id)
+                    }
+                })
         })
 
         productViewModel.cartResponse.observe(this, Observer {
-            Toast.makeText(requireContext(),it.Message,Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), it.Message, Toast.LENGTH_SHORT).show()
             loadCartItemCount()
         })
     }
 
-    private fun loadCartItemCount(){
-        binding.cartItem.text = Constants.currCartItem.toString()
+    private fun loadCartItemCount() {
+        cartViewModel.fetchCartProducts()
+        cartViewModel.items.observe(viewLifecycleOwner) { products ->
+            Constants.currCartItem = products.Data.Cart.Items.size
+            binding.cartItem.text = Constants.currCartItem.toString()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,26 +89,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding = FragmentHomeBinding.bind(view)
 
-        loadCartItemCount()
 
+        loadCartItemCount()
         binding.carousel.registerLifecycle(viewLifecycleOwner)
 
-        binding.rvCategory.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        binding.rvCategory.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        binding.rvFeatureProduct.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        binding.rvFeatureProduct.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         loadData()
 
-//        populateBestSelling()
-//
-//        populateFeatured()
-//
-//        populateSalmon()
-//
-//        populateFurniture()
 
-        binding.iconCart.setOnClickListener{
-            if(ConnectivityUtil.isNetworkAvailable(requireContext())){
+        binding.iconCart.setOnClickListener {
+            if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
                 val action = HomeFragmentDirections.actionHomeFragmentToShoppingCartFragment()
                 findNavController().navigate(action)
             }
@@ -107,134 +111,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun loadData(){
+    private fun loadData() {
         homeViewModel.fetchSliderImages(requireContext())
         homeViewModel.fetchCategoryWiseProducts(requireContext())
         homeViewModel.fetchFeaturedProducts(requireContext())
     }
-
-
-
-//    private fun populateBestSelling(){
-//
-//        binding.rvBestselling.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-//        products = arrayListOf<productDao>()
-//
-//        products.add(
-//            productDao(
-//                R.drawable.orange,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//        products.add(
-//            productDao(
-//                R.drawable.watch,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//        products.add(
-//            productDao(
-//                R.drawable.fish,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//        binding.rvBestselling.adapter= productAdapter(products){
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,ProductFragment(it)).commit()
-////            val action = HomeFragmentDirections.actionHomeFragmentToProductFragment()
-////            findNavController().navigate(action)
-//        }
-//    }
-//
-//    private fun populateFeatured(){
-//        binding.rvFeatureProduct.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-//        featured = arrayListOf<productDao>()
-//
-//        featured.add(
-//            productDao(
-//                R.drawable.feature1,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//        featured.add(
-//            productDao(
-//                R.drawable.feature2,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//        featured.add(
-//            productDao(
-//                R.drawable.fish,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//        binding.rvFeatureProduct.adapter= productAdapter(featured){
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,ProductFragment(it)).commit()
-//        }
-//    }
-//
-//    private fun populateSalmon(){
-//        binding.rvSalmonFish.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-//        salmon = ArrayList<productDao>()
-//
-//        salmon.add(
-//            productDao(
-//                R.drawable.salmon1,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//
-//        salmon.add(
-//            productDao(
-//                R.drawable.fish,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//
-//        binding.rvSalmonFish.adapter= productAdapter(salmon){
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,ProductFragment(it)).commit()
-//        }
-//    }
-//
-//    private fun populateFurniture(){
-//        binding.rvfurniture.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-//        furniture = ArrayList<productDao>()
-//
-//        furniture.add(
-//            productDao(
-//                R.drawable.fur1,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//
-//        furniture.add(
-//            productDao(
-//                R.drawable.fur2,
-//                getString(R.string.item_name),
-//                3,
-//                getString(R.string.item_price)
-//            )
-//        )
-//
-//        binding.rvfurniture.adapter= productAdapter(furniture){
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part,ProductFragment(it)).commit()
-//        }
-//    }
 }
