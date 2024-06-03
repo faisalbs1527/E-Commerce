@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -76,6 +77,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecommerce.R
+import com.example.ecommerce.component.BoxCustom
+import com.example.ecommerce.component.CustomCheckBox
 import com.example.ecommerce.component.TextFieldCustom
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import org.w3c.dom.Text
@@ -106,7 +109,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         var text by remember { mutableStateOf("") }
         var existingAddress by remember { mutableStateOf("") }
         var billingAddress by remember { mutableStateOf("") }
-        var checked by remember { mutableStateOf("") }
+        var checked by remember { mutableStateOf(false) }
         var firstName by remember { mutableStateOf("") }
         var lastName by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
@@ -173,59 +176,24 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                     colors = CardDefaults.cardColors(containerColor = Color.White)
                 ) {
 
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .background(brush = gradientColor())
-                    )
-                    {
-                        Text(
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                            text = "Billing Address",
-                            color = Color.White
-                        )
-                    }
+                    BoxCustom(text = "Billing Address")
                     Text(
                         modifier = Modifier.padding(top = 16.dp, start = 16.dp),
                         text = "Address",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {Text(
-                            "Existing Address:",
-                            fontSize = 12.sp,
-                            color = Color(0xFF7D828B)
-                        )},
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        ),
-                        trailingIcon = {
-                            Icon(imageVector = ImageVector.vectorResource(id = R.drawable.ic_dropdown), contentDescription = null)
-                        }
+                    TextFieldCustom(
+                        label = "Existing Address :",
+                        value = existingAddress,
+                        isTralingIcon = true,
+                        onValueChange = {existingAddress = it}
                     )
                     Row(Modifier.padding(start = 16.dp, top = 8.dp)) {
-                        Box(
-                            Modifier
-                                .size(width = 20.dp, height = 20.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = Color.Black,
-                                    shape = RoundedCornerShape(4.dp)
-                                )
-                            ) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_ok),
-                                contentDescription = "Box Icon" ,
-                                Modifier.align(Alignment.Center) )
-                        }
+                        CustomCheckBox(
+                            isChecked = checked,
+                            onCheckChange = {checked=it}
+                        )
                         Text(text = "Ship to the same address",
                             Modifier.padding(start = 16.dp, top = 2.dp),
                             fontSize = 14.sp
@@ -237,78 +205,74 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
-
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {Text(
-                            "New",
-                            fontSize = 12.sp,
-                            color = Color(0xFF7D828B)
-                        )},
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        ),
-                        trailingIcon = {
-                            Icon(imageVector = ImageVector.vectorResource(id = R.drawable.ic_dropdown), contentDescription = null)
-                        }
+                    TextFieldCustom(
+                        label = "New",
+                        value = billingAddress,
+                        isTralingIcon = true,
+                        onValueChange = {billingAddress = it}
                     )
                     TextFieldCustom(
                         label = "First Name :",
                         value = firstName,
+                        isTralingIcon = false,
                         onValueChange = {firstName = it}
                     )
                     TextFieldCustom(
                         label = "Last Name :",
                         value = lastName,
+                        isTralingIcon = false,
                         onValueChange = {lastName = it}
                     )
                     TextFieldCustom(
                         label = "Email :",
                         value = email,
+                        isTralingIcon = false,
                         onValueChange = {email = it}
                     )
                     TextFieldCustom(
                         label = "Company :",
                         value = company,
+                        isTralingIcon = false,
                         onValueChange = {company = it}
                     )
                     TextFieldCustom(
                         label = "Country :",
                         value = country,
+                        isTralingIcon = false,
                         onValueChange = {country = it}
                     )
                     TextFieldCustom(
                         label = "State / Province :",
                         value = state,
+                        isTralingIcon = false,
                         onValueChange = {state = it}
                     )
                     TextFieldCustom(
                         label = "Zip / Postal Code :",
                         value = zip,
+                        isTralingIcon = false,
                         onValueChange = {zip = it}
                     )
                     TextFieldCustom(
                         label = "City :",
                         value = city,
+                        isTralingIcon = false,
                         onValueChange = {city = it}
                     )
                     TextFieldCustom(
                         label = "Phone Number :",
                         value = phoneNumber,
+                        isTralingIcon = false,
                         onValueChange = {phoneNumber = it}
                     )
                     TextFieldCustom(
                         label = "Fax Number :",
                         value = faxNumber,
+                        isTralingIcon = false,
                         onValueChange = {faxNumber = it}
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    BoxCustom(text = "Payment Method")
 
                 }
 
