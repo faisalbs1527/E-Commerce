@@ -76,6 +76,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecommerce.R
+import com.example.ecommerce.component.TextFieldCustom
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import org.w3c.dom.Text
 
@@ -93,16 +94,29 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                Message()            }
+                CheckOutScreen()            }
         }
     }
 
     @SuppressLint("ResourceType")
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun Message() {
+    fun CheckOutScreen() {
 
         var text by remember { mutableStateOf("") }
+        var existingAddress by remember { mutableStateOf("") }
+        var billingAddress by remember { mutableStateOf("") }
+        var checked by remember { mutableStateOf("") }
+        var firstName by remember { mutableStateOf("") }
+        var lastName by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        var company by remember { mutableStateOf("") }
+        var country by remember { mutableStateOf("") }
+        var state by remember { mutableStateOf("") }
+        var zip by remember { mutableStateOf("") }
+        var city by remember { mutableStateOf("") }
+        var phoneNumber by remember { mutableStateOf("") }
+        var faxNumber by remember { mutableStateOf("") }
 
         Scaffold(
             topBar = {
@@ -245,195 +259,55 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                             Icon(imageVector = ImageVector.vectorResource(id = R.drawable.ic_dropdown), contentDescription = null)
                         }
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="First Name:",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "First Name :",
+                        value = firstName,
+                        onValueChange = {firstName = it}
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="Last Name:",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "Last Name :",
+                        value = lastName,
+                        onValueChange = {lastName = it}
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="Email :",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "Email :",
+                        value = email,
+                        onValueChange = {email = it}
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="Company :",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "Company :",
+                        value = company,
+                        onValueChange = {company = it}
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="Country :",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "Country :",
+                        value = country,
+                        onValueChange = {country = it}
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="State / Province :",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "State / Province :",
+                        value = state,
+                        onValueChange = {state = it}
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="Zip / Postal Code :",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "Zip / Postal Code :",
+                        value = zip,
+                        onValueChange = {zip = it}
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="City :",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "City :",
+                        value = city,
+                        onValueChange = {city = it}
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="Phone Number :",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "Phone Number :",
+                        value = phoneNumber,
+                        onValueChange = {phoneNumber = it}
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 4.dp),
-                        value = text,
-                        onValueChange = {text = it},
-                        label = {
-                            Text(
-                                text="Fax Number :",
-                                fontSize = 12.sp,
-                                color = Color(0xFF7D828B)
-                            ) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color(0xFFCDD1D4),
-                            unfocusedIndicatorColor  = Color(0xFFCDD1D4)
-                        )
+                    TextFieldCustom(
+                        label = "Fax Number :",
+                        value = faxNumber,
+                        onValueChange = {faxNumber = it}
                     )
 
                 }
@@ -456,7 +330,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     @Preview
     @Composable
     private fun MessagePreview() {
-        Message()
+        CheckOutScreen()
     }
 
 }
