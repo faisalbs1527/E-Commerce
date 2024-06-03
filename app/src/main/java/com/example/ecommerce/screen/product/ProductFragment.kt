@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentProductBinding
+import com.example.ecommerce.screen.cart.ShoppingCartViewModel
 import com.example.ecommerce.utils.Constants
 
 class ProductFragment() : Fragment(R.layout.fragment_product) {
@@ -18,6 +19,7 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
     private lateinit var binding : FragmentProductBinding
 
     private val productViewModel : ProductViewModel by viewModels()
+    private val cartViewModel : ShoppingCartViewModel by viewModels()
 
     private val args:ProductFragmentArgs by navArgs()
 
@@ -59,7 +61,11 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
     }
 
     private fun loadCartItemCount(){
-        binding.cartItem.text = Constants.currCartItem.toString()
+        cartViewModel.fetchCartProducts()
+        cartViewModel.items.observe(viewLifecycleOwner){ products ->
+            Constants.currCartItem = products.Data.Cart.Items.size
+            binding.cartItem.text = Constants.currCartItem.toString()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +78,7 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
 
         loadData()
 
-        loadCartItemCount()
+        binding.cartItem.text = Constants.currCartItem.toString()
 
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -88,6 +94,7 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
 
         binding.btnAddToCart.setOnClickListener {
             productViewModel.addToCart(args.productID,binding.quantityTb.text.toString().toInt())
+            loadCartItemCount()
         }
 
         binding.iconCart.setOnClickListener{

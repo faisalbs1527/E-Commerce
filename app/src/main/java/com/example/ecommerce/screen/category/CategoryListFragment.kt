@@ -2,9 +2,7 @@ package com.example.ecommerce.screen.category
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,32 +11,27 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentCategoryListBinding
 import com.example.ecommerce.adapter.productListAdapter
+import com.example.ecommerce.screen.cart.ShoppingCartViewModel
 import com.example.ecommerce.screen.product.ProductViewModel
 import com.example.ecommerce.utils.Constants
 
-class CategoryListFragment() : Fragment() {
+class CategoryListFragment() : Fragment(R.layout.fragment_category_list) {
 
     private lateinit var binding : FragmentCategoryListBinding
     private val args : CategoryListFragmentArgs by navArgs()
     private val productViewModel : ProductViewModel by viewModels()
+    private val cartViewModel : ShoppingCartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
 
-        }
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_category_list, container, false)
-    }
-
     private fun loadCartItemCount(){
-        binding.cartItem.text = Constants.currCartItem.toString()
+        cartViewModel.fetchCartProducts()
+        cartViewModel.items.observe(viewLifecycleOwner){ products ->
+            Constants.currCartItem = products.Data.Cart.Items.size
+            binding.cartItem.text = Constants.currCartItem.toString()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,14 +41,13 @@ class CategoryListFragment() : Fragment() {
 
         populateCategoryList()
 
-        loadCartItemCount()
+        binding.cartItem.text = Constants.currCartItem.toString()
 
         binding.title.text = args.CategoryName
         binding.categoryName.text = args.CategoryName
 
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()
-//            parentFragmentManager.beginTransaction().replace(R.id.fragment_part, HomeFragment()).commit()
         }
 
         binding.iconCart.setOnClickListener{
