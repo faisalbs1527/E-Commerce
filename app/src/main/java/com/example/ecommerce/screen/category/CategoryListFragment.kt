@@ -13,8 +13,11 @@ import com.example.ecommerce.databinding.FragmentCategoryListBinding
 import com.example.ecommerce.adapter.productListAdapter
 import com.example.ecommerce.screen.cart.ShoppingCartViewModel
 import com.example.ecommerce.screen.product.ProductViewModel
+import com.example.ecommerce.utils.ConnectivityUtil
 import com.example.ecommerce.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoryListFragment() : Fragment(R.layout.fragment_category_list) {
 
     private lateinit var binding : FragmentCategoryListBinding
@@ -51,13 +54,18 @@ class CategoryListFragment() : Fragment(R.layout.fragment_category_list) {
         }
 
         binding.iconCart.setOnClickListener{
-            val action = CategoryListFragmentDirections.actionCategoryListFragmentToShoppingCartFragment()
-            findNavController().navigate(action)
+            if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
+                val action =
+                    CategoryListFragmentDirections.actionCategoryListFragmentToShoppingCartFragment()
+                findNavController().navigate(action)
+            }
         }
 
         productViewModel.cartResponse.observe(viewLifecycleOwner){
             Toast.makeText(requireContext(),it.Message, Toast.LENGTH_SHORT).show()
-            loadCartItemCount()
+            if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
+                loadCartItemCount()
+            }
         }
 
     }
@@ -69,7 +77,9 @@ class CategoryListFragment() : Fragment(R.layout.fragment_category_list) {
             val action = CategoryListFragmentDirections.actionCategoryListFragmentToProductFragment(it.Id)
             findNavController().navigate(action)
         },{
-            productViewModel.addToCart(it.Id)
+            if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
+                productViewModel.addToCart(it.Id)
+            }
         })
     }
 

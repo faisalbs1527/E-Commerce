@@ -11,18 +11,15 @@ import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentCategoryBinding
 import com.example.ecommerce.adapter.categoryAdapter
 import com.example.ecommerce.screen.home.HomeViewModel
-import com.example.ecommerce.screen.home.HomeViewModelFactory
 import com.example.ecommerce.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CategoryFragment : Fragment(R.layout.fragment_category) {
 
     private lateinit var binding : FragmentCategoryBinding
 
-    private val homeViewModel : HomeViewModel by viewModels(){
-        HomeViewModelFactory(requireContext().applicationContext)
-    }
-
+    private val homeViewModel : HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

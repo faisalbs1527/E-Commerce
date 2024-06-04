@@ -14,8 +14,9 @@ import com.example.ecommerce.screen.cart.ShoppingCartViewModel
 import com.example.ecommerce.utils.ConnectivityUtil
 import com.example.ecommerce.utils.Constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding

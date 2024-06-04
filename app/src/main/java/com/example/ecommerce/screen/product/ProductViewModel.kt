@@ -12,16 +12,19 @@ import com.example.ecommerce.model.slider.SliderItem
 import com.example.ecommerce.repository.CartRepo
 import com.example.ecommerce.repository.ProductRepo
 import com.example.ecommerce.utils.Constants
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductViewModel : ViewModel(){
+@HiltViewModel
+class ProductViewModel @Inject constructor(
+    private val repository: ProductRepo
+) : ViewModel(){
     private val _productdetails = MutableLiveData<ProductDetails>()
     val productDetails : LiveData<ProductDetails> get() = _productdetails
 
     private val _error = MutableLiveData<String>()
     val error : LiveData<String> get() = _error
-
-    private val repository = ProductRepo()
 
     fun fetchProductDeatils(productID : Int){
         repository.getProductDetails(productID){ productdetails , throwable->

@@ -11,16 +11,18 @@ import com.example.ecommerce.model.slider.SliderItem
 import com.example.ecommerce.model.slider.asEntity
 import com.example.ecommerce.network.ApiClient
 import com.example.ecommerce.network.HomeApi
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.create
+import javax.inject.Inject
 
-class HomeRepo(private val context: Context) {
-    val apiService = ApiClient.getRetrofit().create(HomeApi::class.java)
-    val dbService = AppDatabase.invoke(context)
+class HomeRepo @Inject constructor(
+    private val apiService: HomeApi,
+    private val dbService: AppDatabase) {
 
     suspend fun getImageSlider():Response<SliderItem> = withContext(Dispatchers.IO){
         val sliders = apiService.getSliderImage()

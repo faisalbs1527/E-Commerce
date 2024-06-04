@@ -14,9 +14,15 @@ import com.example.ecommerce.model.slider.Data
 import com.example.ecommerce.model.slider.SliderItem
 import com.example.ecommerce.repository.HomeRepo
 import com.example.ecommerce.utils.ConnectivityUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(context: Context) : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor (
+    @ApplicationContext private val context: Context,
+    private val repository : HomeRepo) : ViewModel() {
     private var _sliderImages = MutableLiveData<SliderItem>()
     val sliderImages : LiveData<SliderItem> get() = _sliderImages
 
@@ -28,8 +34,6 @@ class HomeViewModel(context: Context) : ViewModel() {
 
     private val _error = MutableLiveData<String>()
     val error : LiveData<String> get() = _error
-
-    private val repository = HomeRepo(context)
 
     fun fetchSliderImages(context: Context) = viewModelScope.launch{
         if(ConnectivityUtil.isNetworkAvailable(context.applicationContext)){
@@ -51,9 +55,6 @@ class HomeViewModel(context: Context) : ViewModel() {
                 ErrorList = emptyList(),
                 Message = " "
             )
-//            _sliderImages.value?.Data?.Sliders = response.map {
-//                it.toSlider()
-//            }
         }
     }
 
@@ -74,9 +75,6 @@ class HomeViewModel(context: Context) : ViewModel() {
                 ErrorList = emptyList(),
                 Message = " "
             )
-//            _categoryProducts.value?.Data = response.map {
-//                it.toData()
-//            }
         }
     }
 
@@ -98,9 +96,6 @@ class HomeViewModel(context: Context) : ViewModel() {
                 ErrorList = emptyList(),
                 Message = " "
             )
-//            _products.value?.Data = response.map {
-//                it.toProductData()
-//            }
         }
     }
 

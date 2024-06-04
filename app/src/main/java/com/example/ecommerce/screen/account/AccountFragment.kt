@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentAccountBinding
 import com.example.ecommerce.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AccountFragment : Fragment(R.layout.fragment_account) {
 
     private lateinit var binding : FragmentAccountBinding
