@@ -7,10 +7,11 @@ import com.example.ecommerce.network.ProductApi
 import okhttp3.Callback
 import retrofit2.Call
 import retrofit2.Response
+import javax.inject.Inject
 
-class ProductRepo {
-    val apiService = ApiClient.getRetrofit().create(ProductApi::class.java)
-
+class ProductRepo @Inject constructor(
+    private val apiService: ProductApi
+) {
     fun getProductDetails(productID: Int,callback: (ProductDetails?,Throwable?)->Unit){
         apiService.getProductById(productID).enqueue(object : retrofit2.Callback<ProductDetails?> {
             override fun onResponse(p0: Call<ProductDetails?>, p1: Response<ProductDetails?>) {

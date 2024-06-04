@@ -12,8 +12,11 @@ import com.bumptech.glide.Glide
 import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentProductBinding
 import com.example.ecommerce.screen.cart.ShoppingCartViewModel
+import com.example.ecommerce.utils.ConnectivityUtil
 import com.example.ecommerce.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductFragment() : Fragment(R.layout.fragment_product) {
 
     private lateinit var binding : FragmentProductBinding
@@ -93,13 +96,20 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
         }
 
         binding.btnAddToCart.setOnClickListener {
-            productViewModel.addToCart(args.productID,binding.quantityTb.text.toString().toInt())
-            loadCartItemCount()
+            if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
+                productViewModel.addToCart(
+                    args.productID,
+                    binding.quantityTb.text.toString().toInt()
+                )
+                loadCartItemCount()
+            }
         }
 
         binding.iconCart.setOnClickListener{
-            val action = ProductFragmentDirections.actionProductFragmentToShoppingCartFragment()
-            findNavController().navigate(action)
+            if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
+                val action = ProductFragmentDirections.actionProductFragmentToShoppingCartFragment()
+                findNavController().navigate(action)
+            }
         }
     }
 

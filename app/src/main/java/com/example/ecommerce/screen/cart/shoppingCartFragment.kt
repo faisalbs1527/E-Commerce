@@ -13,8 +13,9 @@ import com.example.ecommerce.databinding.FragmentShoppingCartBinding
 import com.example.ecommerce.model.cart.cartProducts.CartProducts
 import com.example.ecommerce.model.cart.cartProducts.Item
 import com.example.ecommerce.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
     private lateinit var binding : FragmentShoppingCartBinding

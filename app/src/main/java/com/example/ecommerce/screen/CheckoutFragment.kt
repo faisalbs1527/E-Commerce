@@ -83,9 +83,11 @@ import com.example.ecommerce.component.FinalAmountBox
 import com.example.ecommerce.component.PaymentMethod
 import com.example.ecommerce.component.TextFieldCustom
 import com.example.ecommerce.component.Title
+import dagger.hilt.android.AndroidEntryPoint
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import org.w3c.dom.Text
 
+@AndroidEntryPoint
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

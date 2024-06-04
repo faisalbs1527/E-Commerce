@@ -16,15 +16,14 @@ import com.example.ecommerce.screen.cart.ShoppingCartViewModel
 import com.example.ecommerce.screen.product.ProductViewModel
 import com.example.ecommerce.utils.ConnectivityUtil
 import com.example.ecommerce.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
-
+@AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private val homeViewModel: HomeViewModel by viewModels() {
-        HomeViewModelFactory(requireContext().applicationContext)
-    }
+    private val homeViewModel: HomeViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels()
     private val cartViewModel: ShoppingCartViewModel by viewModels()
 
@@ -89,8 +88,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding = FragmentHomeBinding.bind(view)
 
-
-        loadCartItemCount()
+        if(ConnectivityUtil.isNetworkAvailable(requireContext())){
+            loadCartItemCount()
+        }
         binding.carousel.registerLifecycle(viewLifecycleOwner)
 
         binding.rvCategory.layoutManager =
