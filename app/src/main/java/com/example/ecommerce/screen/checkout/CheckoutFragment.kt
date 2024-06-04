@@ -1,81 +1,51 @@
-package com.example.ecommerce.screen
+package com.example.ecommerce.screen.checkout
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.provider.FontsContract.FontFamilyResult
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.fragment.findNavController
 import com.example.ecommerce.R
 import com.example.ecommerce.component.BoxCustom
 import com.example.ecommerce.component.CustomCheckBox
@@ -83,9 +53,8 @@ import com.example.ecommerce.component.FinalAmountBox
 import com.example.ecommerce.component.PaymentMethod
 import com.example.ecommerce.component.TextFieldCustom
 import com.example.ecommerce.component.Title
+import com.example.ecommerce.databinding.FragmentCheckoutBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
-import org.w3c.dom.Text
 
 @AndroidEntryPoint
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
@@ -111,7 +80,6 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     @Composable
     fun CheckOutScreen() {
 
-        var text by remember { mutableStateOf("") }
         var existingAddress by remember { mutableStateOf("") }
         var billingAddress by remember { mutableStateOf("") }
         var checked by remember { mutableStateOf(false) }
@@ -141,7 +109,9 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
                     },
                     navigationIcon = {
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = {
+                            findNavController().popBackStack()
+                        }) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_back),
                                 contentDescription = "nav Icon",
