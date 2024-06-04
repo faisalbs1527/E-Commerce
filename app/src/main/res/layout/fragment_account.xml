@@ -63,5 +63,18 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="300dp"
+        android:layout_height="38dp"
+        android:fontFamily="@font/lato"
+        android:textSize="15sp"
+        android:background="@drawable/button_gradient"
+        android:text="LOG OUT"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

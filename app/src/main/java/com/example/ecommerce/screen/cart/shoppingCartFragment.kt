@@ -114,7 +114,7 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
     }
 
     private fun Checkout(){
-        if(sharedPreferences.getBoolean("isLoggedIn",true)){
+        if(sharedPreferences.getBoolean("isLoggedIn",false)){
             if(Constants.currCartItem>0){
                 val action = shoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment()
                 findNavController().navigate(action)

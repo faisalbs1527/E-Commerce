@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener{ _,destination,_ ->
             when(destination.id){
                 R.id.loginFragment -> {
-                    if(sharedPreferences.getBoolean("isLoggedIn",true)){
+                    if(sharedPreferences.getBoolean("isLoggedIn",false)){
                         navController.navigate(R.id.accountFragment)
                         binding.bottomNavigationView.visibility = View.VISIBLE
                         Toast.makeText(this,"You have already logged IN!!",Toast.LENGTH_SHORT).show()
