@@ -68,14 +68,22 @@
         android:id="@+id/shoppingCartFragment"
         android:name="com.example.ecommerce.screen.cart.shoppingCartFragment"
         android:label="fragment_shopping_cart"
-        tools:layout="@layout/fragment_shopping_cart" />
+        tools:layout="@layout/fragment_shopping_cart" >
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.ecommerce.screen.account.AccountFragment"
         android:label="AccountFragment" />
     <fragment
         android:id="@+id/checkoutFragment"
-        android:name="com.example.ecommerce.screen.CheckoutFragment"
+        android:name="com.example.ecommerce.screen.checkout.CheckoutFragment"
         android:label="fragment_checkout"
-        tools:layout="@layout/fragment_checkout" />
+        tools:layout="@layout/fragment_checkout" >
+        <action
+            android:id="@+id/action_checkoutFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment" />
+    </fragment>
 </navigation>

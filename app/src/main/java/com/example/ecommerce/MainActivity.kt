@@ -5,14 +5,10 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ecommerce.databinding.ActivityMainBinding
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.ecommerce.screen.cart.ShoppingCartViewModel
-import com.example.ecommerce.utils.ConnectivityUtil
-import com.example.ecommerce.utils.Constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener{ _,destination,_ ->
             when(destination.id){
                 R.id.loginFragment -> {
-                    if(sharedPreferences.getBoolean("isLoggedIn",false)){
+                    if(sharedPreferences.getBoolean("isLoggedIn",true)){
                         navController.navigate(R.id.accountFragment)
                         binding.bottomNavigationView.visibility = View.VISIBLE
                         Toast.makeText(this,"You have already logged IN!!",Toast.LENGTH_SHORT).show()

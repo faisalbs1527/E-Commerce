@@ -1,5 +1,8 @@
 package com.example.ecommerce.screen.cart
 
+
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -21,10 +24,10 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
     private lateinit var binding : FragmentShoppingCartBinding
     private val cartViewModel : ShoppingCartViewModel by viewModels()
     private lateinit var adapter : cartAdapter
+    private lateinit var sharedPreferences : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         adapter = cartAdapter({ item ->
             onRemoveItemClick(item)
@@ -87,6 +90,8 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentShoppingCartBinding.bind(view)
 
+        sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+
         binding.scrollView.visibility = View.INVISIBLE
         binding.shimmerLayout.startShimmer()
 
@@ -95,6 +100,10 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
         binding.rvCartPage.layoutManager = LinearLayoutManager(requireContext())
 
+        binding.checkoutBtn.setOnClickListener{
+            Checkout()
+        }
+
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
@@ -102,5 +111,20 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
     private fun loadData(){
         cartViewModel.fetchCartProducts()
+    }
+
+    private fun Checkout(){
+        if(sharedPreferences.getBoolean("isLoggedIn",true)){
+            if(Constants.currCartItem>0){
+                val action = shoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment()
+                findNavController().navigate(action)
+            }
+            else{
+                Toast.makeText(requireContext(),"Must have at least one item on cart!!",Toast.LENGTH_SHORT).show()
+            }
+        }
+        else{
+            Toast.makeText(requireContext(),"You have to login to checkOut!!",Toast.LENGTH_SHORT).show()
+        }
     }
 }
