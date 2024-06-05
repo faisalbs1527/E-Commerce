@@ -7,10 +7,11 @@ import androidx.room.Query
 import com.example.ecommerce.database.dbmodel.ProductEntity
 
 @Dao
-interface ProductDao{
+interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveProducts(products : List<ProductEntity>)
+    suspend fun saveProducts(products: List<ProductEntity>)
+
     @Query("SELECT * FROM Products")
-    suspend fun getProducts() : List<ProductEntity>
+    suspend fun getProducts(): List<ProductEntity>
 }

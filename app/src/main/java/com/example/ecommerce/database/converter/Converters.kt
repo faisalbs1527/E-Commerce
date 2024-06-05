@@ -58,6 +58,7 @@ class Converters {
         val type = object : TypeToken<ReviewOverviewModel>() {}.type
         return Gson().fromJson(value, type)
     }
+
     @TypeConverter
     fun fromCustomProperties(value: CustomProperties): String {
         val type = object : TypeToken<CustomProperties>() {}.type
@@ -77,16 +78,19 @@ class Converters {
         val type = object : TypeToken<List<Product>>() {}.type
         return Gson().toJson(value, type)
     }
+
     @TypeConverter
     fun toProductList(value: String): List<Product> {
         val type = object : TypeToken<List<Product>>() {}.type
         return Gson().fromJson(value, type)
     }
+
     @TypeConverter
     fun fromSubCategoryList(value: List<SubCategory>): String {
         val type = object : TypeToken<List<SubCategory>>() {}.type
         return Gson().toJson(value, type)
     }
+
     @TypeConverter
     fun toSubCategoryList(value: String): List<SubCategory> {
         val type = object : TypeToken<List<SubCategory>>() {}.type

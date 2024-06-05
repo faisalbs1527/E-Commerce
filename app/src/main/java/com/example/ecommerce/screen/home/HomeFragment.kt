@@ -1,23 +1,26 @@
 package com.example.ecommerce.screen.home
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerce.R
-import com.example.ecommerce.databinding.FragmentHomeBinding
-import com.example.ecommerce.adapter.productAdapter
 import com.example.ecommerce.adapter.categoryAdapter
+import com.example.ecommerce.adapter.productAdapter
+import com.example.ecommerce.databinding.FragmentHomeBinding
 import com.example.ecommerce.screen.cart.ShoppingCartViewModel
 import com.example.ecommerce.screen.product.ProductViewModel
 import com.example.ecommerce.utils.ConnectivityUtil
 import com.example.ecommerce.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
+
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -26,9 +29,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels()
     private val cartViewModel: ShoppingCartViewModel by viewModels()
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferences =
+            requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+        Constants.TOKEN = sharedPreferences.getString("auth_token", null)
         initObserver()
 
     }
@@ -88,7 +95,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding = FragmentHomeBinding.bind(view)
 
-        if(ConnectivityUtil.isNetworkAvailable(requireContext())){
+        if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
             loadCartItemCount()
         }
         binding.carousel.registerLifecycle(viewLifecycleOwner)
