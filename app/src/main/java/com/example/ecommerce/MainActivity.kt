@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.ecommerce.databinding.ActivityMainBinding
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.ecommerce.utils.Constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 

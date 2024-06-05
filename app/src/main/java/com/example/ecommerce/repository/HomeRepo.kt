@@ -1,7 +1,5 @@
 package com.example.ecommerce.repository
 
-import android.content.Context
-import android.util.Log
 import com.example.ecommerce.database.AppDatabase
 import com.example.ecommerce.model.category.CategoryWiseProducts
 import com.example.ecommerce.model.category.asEntity
@@ -9,22 +7,18 @@ import com.example.ecommerce.model.featureProducts.ProductClass
 import com.example.ecommerce.model.featureProducts.asEntity
 import com.example.ecommerce.model.slider.SliderItem
 import com.example.ecommerce.model.slider.asEntity
-import com.example.ecommerce.network.ApiClient
 import com.example.ecommerce.network.HomeApi
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 import javax.inject.Inject
 
 class HomeRepo @Inject constructor(
     private val apiService: HomeApi,
-    private val dbService: AppDatabase) {
+    private val dbService: AppDatabase
+) {
 
-    suspend fun getImageSlider():Response<SliderItem> = withContext(Dispatchers.IO){
+    suspend fun getImageSlider(): Response<SliderItem> = withContext(Dispatchers.IO) {
         val sliders = apiService.getSliderImage()
         sliders.let {
             sliders.body()?.Data?.Sliders?.let { sliderList ->
@@ -34,19 +28,20 @@ class HomeRepo @Inject constructor(
         return@withContext sliders
     }
 
-    suspend fun getCategoryWiseProducts():Response<CategoryWiseProducts> = withContext(Dispatchers.IO){
-        val categories = apiService.getCategoryWiseProducts()
-        categories.let {
-            categories.body()?.Data?.let { categoryList ->
-                categoryList.map { it.asEntity() }.let { entity->
-                    dbService.categorydao().saveCategory(entity)
+    suspend fun getCategoryWiseProducts(): Response<CategoryWiseProducts> =
+        withContext(Dispatchers.IO) {
+            val categories = apiService.getCategoryWiseProducts()
+            categories.let {
+                categories.body()?.Data?.let { categoryList ->
+                    categoryList.map { it.asEntity() }.let { entity ->
+                        dbService.categorydao().saveCategory(entity)
+                    }
                 }
             }
+            return@withContext categories
         }
-        return@withContext categories
-    }
 
-    suspend fun getFeatureProducts():Response<ProductClass> = withContext(Dispatchers.IO){
+    suspend fun getFeatureProducts(): Response<ProductClass> = withContext(Dispatchers.IO) {
         val products = apiService.getProducts()
         products.let {
             products.body()?.Data?.let { datalist ->
@@ -58,16 +53,16 @@ class HomeRepo @Inject constructor(
 
     //Local Database
 
-    suspend fun getImageSliderDb()= withContext(Dispatchers.IO){
+    suspend fun getImageSliderDb() = withContext(Dispatchers.IO) {
         val sliders = dbService.sliderdao().getImageSliders()
         return@withContext sliders
     }
 
-    suspend fun getCategoryWiseProductsDb()= withContext(Dispatchers.IO){
+    suspend fun getCategoryWiseProductsDb() = withContext(Dispatchers.IO) {
         return@withContext dbService.categorydao().getCategories()
     }
 
-    suspend fun getFeatureProductsDb()= withContext(Dispatchers.IO){
+    suspend fun getFeatureProductsDb() = withContext(Dispatchers.IO) {
         return@withContext dbService.productdao().getProducts()
     }
 }

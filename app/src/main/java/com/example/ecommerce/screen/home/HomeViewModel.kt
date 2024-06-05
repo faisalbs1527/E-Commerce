@@ -85,7 +85,7 @@ class HomeViewModel @Inject constructor (
             if(response.isSuccessful){
                 _products.value = response.body()
             }
-            println(repository.getFeatureProductsDb())
+//            println(repository.getFeatureProductsDb())
         }
         else{
             val response = repository.getFeatureProductsDb()

@@ -8,7 +8,6 @@ import com.example.ecommerce.model.featureProducts.PictureModel
 import com.example.ecommerce.model.featureProducts.ProductPrice
 import com.example.ecommerce.model.featureProducts.ProductSpecificationModel
 import com.example.ecommerce.model.featureProducts.ReviewOverviewModel
-import com.example.ecommerce.model.featureProducts.asEntity
 
 @Entity(tableName = "Products")
 data class ProductEntity(
