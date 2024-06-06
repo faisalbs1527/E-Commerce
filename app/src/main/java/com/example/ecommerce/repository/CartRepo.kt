@@ -6,6 +6,7 @@ import com.example.ecommerce.model.cart.cartProducts.CartProducts
 import com.example.ecommerce.model.cart.removeCart.RemoveCartRequest
 import com.example.ecommerce.model.cart.removeCart.RemoveCartResponse
 import com.example.ecommerce.model.cart.updateCart.UpdateCartRequest
+import com.example.ecommerce.model.checkout.checkoutResponse
 import com.example.ecommerce.network.ApiClient
 import com.example.ecommerce.network.CartApi
 import kotlinx.coroutines.Dispatchers
@@ -31,4 +32,5 @@ class CartRepo {
     suspend fun updateCartProduct(request: UpdateCartRequest) : Response<CartProducts> = withContext(Dispatchers.IO){
         return@withContext apiService.updateCartProduct(request)
     }
+
 }

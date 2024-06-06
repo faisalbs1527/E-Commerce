@@ -14,7 +14,6 @@ class ApiClient {
                 this.level = HttpLoggingInterceptor.Level.BODY
             }).addInterceptor { chain ->
                 val builder = chain.request().newBuilder()
-                println(Constants.TOKEN)
                 if (Constants.TOKEN != null) {
                     builder.addHeader("Token", Constants.TOKEN!!)
                 }
@@ -28,10 +27,19 @@ class ApiClient {
             }.build()
         }
 
+        private fun getBaseUrl(): String{
+            if(Constants.URL_TYPE == 1){
+                return Constants.BASE_URL
+            }
+            else{
+                return Constants.CHECKOUT_URL
+            }
+        }
+
         fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(getBaseUrl())
                 .client(buildClient())
                 .build()
         }
