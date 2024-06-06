@@ -3,6 +3,7 @@ package com.example.ecommerce.di
 import android.content.Context
 import com.example.ecommerce.database.AppDatabase
 import com.example.ecommerce.network.ApiClient
+import com.example.ecommerce.network.CartApi
 import com.example.ecommerce.network.HomeApi
 import com.example.ecommerce.network.ProductApi
 import dagger.Module
@@ -34,6 +35,12 @@ class AppModule {
     @Singleton
     fun provideHomeApi(retrofit: Retrofit): HomeApi{
         return retrofit.create(HomeApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartApi(retrofit: Retrofit): CartApi{
+        return retrofit.create(CartApi::class.java)
     }
 
     @Provides

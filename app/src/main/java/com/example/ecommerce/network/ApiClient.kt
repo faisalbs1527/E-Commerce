@@ -27,19 +27,10 @@ class ApiClient {
             }.build()
         }
 
-        private fun getBaseUrl(): String{
-            if(Constants.URL_TYPE == 1){
-                return Constants.BASE_URL
-            }
-            else{
-                return Constants.CHECKOUT_URL
-            }
-        }
-
         fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(getBaseUrl())
+                .baseUrl(Constants.BASE_URL)
                 .client(buildClient())
                 .build()
         }

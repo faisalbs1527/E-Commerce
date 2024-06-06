@@ -10,5 +10,4 @@ object Constants {
     const val USER_AGENT = "com.bs.ecommerce/1.0"
     var TOKEN: String? = null
     var currCartItem: Int = 0
-    var URL_TYPE = 1
 }

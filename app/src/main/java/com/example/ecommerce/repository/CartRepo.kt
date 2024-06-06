@@ -12,8 +12,10 @@ import com.example.ecommerce.network.CartApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import javax.inject.Inject
 
-class CartRepo {
+
+class CartRepo @Inject constructor() {
 
     val apiService = ApiClient.getRetrofit().create(CartApi::class.java)
 
