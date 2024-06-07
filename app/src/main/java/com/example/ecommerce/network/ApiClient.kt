@@ -14,7 +14,6 @@ class ApiClient {
                 this.level = HttpLoggingInterceptor.Level.BODY
             }).addInterceptor { chain ->
                 val builder = chain.request().newBuilder()
-                println(Constants.TOKEN)
                 if (Constants.TOKEN != null) {
                     builder.addHeader("Token", Constants.TOKEN!!)
                 }

@@ -1,6 +1,7 @@
 package com.example.ecommerce.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,9 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecommerce.R
+import com.example.ecommerce.model.cart.cartProducts.OrderTotals
 
 @Composable
-fun FinalAmountBox() {
+fun FinalAmountBox(
+    orders : OrderTotals,
+    onCheckOutClick : () -> Unit
+) {
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -38,18 +43,19 @@ fun FinalAmountBox() {
         shape = RoundedCornerShape(4.dp),
     ) {
         Spacer(modifier = Modifier.height(10.dp))
-        TextField(title = "Sub-Total:", amount = "$5,355.00")
-        TextField(title = "Shipping:", amount = "$0.00")
-        TextField(title = "Tax:", amount = "$0.00")
-        TextField(title = "Total:", amount = "$5,355.00", mode = "bold")
-        TextField(title = "You Will Earn :", amount = "50 Points", mode = "small&faded")
+        TextField(title = "Sub-Total:", amount = orders.SubTotal)
+        TextField(title = "Shipping:", amount = orders.Shipping)
+        TextField(title = "Tax:", amount = orders.Tax)
+        TextField(title = "Total:", amount = orders.OrderTotal, mode = "bold")
+        TextField(title = "You Will Earn :", amount = "${orders.WillEarnRewardPoints} Points", mode = "small&faded")
         Box(modifier = Modifier
             .width(320.dp)
             .height(40.dp)
             .align(Alignment.CenterHorizontally)
-            .background(gradientColor(), shape = RoundedCornerShape(4.dp))){
+            .background(gradientColor(), shape = RoundedCornerShape(4.dp))
+            .clickable { onCheckOutClick()  }){
             TextButton(
-                onClick = { /*TODO*/ },
+                onClick = { onCheckOutClick() },
                 modifier = Modifier.align(Alignment.Center)
             ) {
                 Text(text = "Confirm", color = colorResource(id = R.color.white))
@@ -113,6 +119,6 @@ fun TextField(title: String, amount: String, mode: String = "default") {
 @Composable
 private fun EktuDekhi() {
     Surface {
-        FinalAmountBox()
+//        FinalAmountBox(OrderTotals(),{})
     }
 }

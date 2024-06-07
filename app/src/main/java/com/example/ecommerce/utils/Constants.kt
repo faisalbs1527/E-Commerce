@@ -1,6 +1,7 @@
 package com.example.ecommerce.utils
 
 object Constants {
+    const val CHECKOUT_URL = "https://7c0d8715-6f9a-40a1-a263-78b4d5ceb499.mock.pstmn.io/"
     const val BASE_URL = "https://demo460.nop-station.com/api/"
     const val CONTENT_TYPE = "application/json"
     const val DEVICE_ID = "44b4d8cd-7a2d-4a5f-a0e2-798021f1e294"
