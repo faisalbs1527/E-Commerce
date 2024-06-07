@@ -1,6 +1,7 @@
 package com.example.ecommerce.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -51,7 +52,8 @@ fun FinalAmountBox(
             .width(320.dp)
             .height(40.dp)
             .align(Alignment.CenterHorizontally)
-            .background(gradientColor(), shape = RoundedCornerShape(4.dp))){
+            .background(gradientColor(), shape = RoundedCornerShape(4.dp))
+            .clickable { onCheckOutClick()  }){
             TextButton(
                 onClick = { onCheckOutClick() },
                 modifier = Modifier.align(Alignment.Center)

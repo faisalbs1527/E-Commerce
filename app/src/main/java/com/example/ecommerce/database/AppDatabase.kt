@@ -7,10 +7,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.ecommerce.database.converter.Converters
 import com.example.ecommerce.database.converter.CustomConverters
+import com.example.ecommerce.database.converter.OrderConverter
 import com.example.ecommerce.database.dao.CategoryDao
 import com.example.ecommerce.database.dao.ProductDao
 import com.example.ecommerce.database.dao.SliderDao
+import com.example.ecommerce.database.dao.ordersDao
 import com.example.ecommerce.database.dbmodel.CategoryEntity
+import com.example.ecommerce.database.dbmodel.OrderEntity
 import com.example.ecommerce.database.dbmodel.ProductEntity
 import com.example.ecommerce.database.dbmodel.SliderEntity
 
@@ -18,16 +21,18 @@ import com.example.ecommerce.database.dbmodel.SliderEntity
     entities = [
         ProductEntity::class,
         CategoryEntity::class,
-        SliderEntity::class],
+        SliderEntity::class,
+        OrderEntity::class],
     version = 1
 )
-@TypeConverters(Converters::class,CustomConverters::class)
+@TypeConverters(Converters::class, CustomConverters::class, OrderConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productdao(): ProductDao
     abstract fun categorydao(): CategoryDao
     abstract fun sliderdao(): SliderDao
+    abstract fun orderdao(): ordersDao
 
-    companion object{
+    companion object {
         operator fun invoke(context: Context) = buildDatabase(context)
 
         private fun buildDatabase(context: Context): AppDatabase {

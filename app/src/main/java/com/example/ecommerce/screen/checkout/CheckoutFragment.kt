@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +36,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -77,9 +79,11 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    status.message + "\nwith Order ID: " + status.orderId,
+                    status.message + "\nOrder ID: " + status.orderId,
                     Toast.LENGTH_SHORT
                 ).show()
+                val action = CheckoutFragmentDirections.actionCheckoutFragmentToHomeFragment()
+                findNavController().navigate(action)
             }
         }
     }
@@ -118,7 +122,18 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         val orders by checkoutViewModel.cartResponse.observeAsState()
 
         if (orders == null) {
-            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(64.dp),
+                    color = Color(0xFF088DF9),
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    strokeWidth = 4.dp
+                )
+            }
         } else {
 
             Scaffold(
@@ -275,7 +290,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                         FinalAmountBox(orders!!) {
                             checkoutViewModel.OrderPlace(
                                 firstName, lastName, email, company, country, state,
-                                zip, city, phoneNumber, faxNumber
+                                zip, city, phoneNumber, faxNumber, orders!!.OrderTotal
                             )
                         }
                     }

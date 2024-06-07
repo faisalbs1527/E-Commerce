@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ecommerce.database.AppDatabase
+import com.example.ecommerce.database.dbmodel.OrderEntity
 import com.example.ecommerce.model.cart.cartProducts.Item
 import com.example.ecommerce.model.cart.cartProducts.OrderTotals
 import com.example.ecommerce.model.cart.removeCart.FormValue
@@ -21,38 +23,48 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CheckoutViewModel @Inject constructor(
-    private val repository: CartRepo
+    private val repository: CartRepo,
+    private val dbService: AppDatabase
 ) : ViewModel() {
 
     private val _orderStatus = MutableLiveData<checkoutResponse>()
     val orderStatus: LiveData<checkoutResponse> get() = _orderStatus
 
-    private val _cartResponse : MutableLiveData<OrderTotals> by lazy{
+    private val _cartResponse: MutableLiveData<OrderTotals> by lazy {
         MutableLiveData<OrderTotals>()
     }
     val cartResponse: LiveData<OrderTotals> get() = _cartResponse
 
+    private var OrderId: String? = null
+    private var totalAmount: String? = null
+
     fun getOrderTotals() = viewModelScope.launch {
         val response = repository.getCartProducts()
-        if(response.isSuccessful){
+        if (response.isSuccessful) {
             _cartResponse.value = response.body()?.Data?.OrderTotals
         }
     }
 
-    fun checkOut() = viewModelScope.launch {
+    fun checkOut(totalAmount: String) = viewModelScope.launch {
         val response = getResponse()
         if (response.isSuccessful) {
             _orderStatus.value = response.body()
+            OrderId = response.body()?.orderId
             val cartListResponse = repository.getCartProducts()
             if (cartListResponse.isSuccessful) {
                 val cartList = cartListResponse.body()?.Data?.Cart?.Items
                 if (cartList != null) {
                     RemoveCartItems(cartList)
+                    saveToDatabase(OrderEntity(
+                        userToken = Constants.TOKEN!!,
+                        totalAmount = totalAmount,
+                        orderId = OrderId!!,
+                        products = cartList
+                    ))
                 }
-                Constants.currCartItem=0
+                Constants.currCartItem = 0
             }
-        }
-        else{
+        } else {
             _orderStatus.value = checkoutResponse(
                 message = "Something Went Wrong!!",
                 orderId = ""
@@ -96,17 +108,22 @@ class CheckoutViewModel @Inject constructor(
         zip: String,
         city: String,
         phoneNumber: String,
-        faxNumber: String
-    ){
-        if(!firstname.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !company.isEmpty() && !country.isEmpty() &&
-            !state.isEmpty() && !zip.isEmpty() && !city.isEmpty() && !phoneNumber.isEmpty() && !faxNumber.isEmpty()){
-            checkOut()
-        }
-        else{
+        faxNumber: String,
+        totalAmount: String
+    ) {
+        if (!firstname.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !company.isEmpty() && !country.isEmpty() &&
+            !state.isEmpty() && !zip.isEmpty() && !city.isEmpty() && !phoneNumber.isEmpty() && !faxNumber.isEmpty()
+        ) {
+            checkOut(totalAmount)
+        } else {
             _orderStatus.value = checkoutResponse(
                 message = "Please Fill out all the Fields!!",
                 orderId = ""
             )
         }
+    }
+
+    suspend fun saveToDatabase(orderInfo: OrderEntity) {
+        dbService.orderdao().saveOrderInfo(orderInfo)
     }
 }
