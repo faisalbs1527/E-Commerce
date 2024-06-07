@@ -49,6 +49,7 @@ class CheckoutViewModel @Inject constructor(
                 if (cartList != null) {
                     RemoveCartItems(cartList)
                 }
+                Constants.currCartItem=0
             }
         }
         else{

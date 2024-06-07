@@ -25,8 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecommerce.R
 import com.example.ecommerce.model.cart.cartProducts.OrderTotals
-import com.example.ecommerce.model.category.Product
-import com.example.ecommerce.screen.checkout.CheckoutViewModel
 
 @Composable
 fun FinalAmountBox(
@@ -119,6 +117,6 @@ fun TextField(title: String, amount: String, mode: String = "default") {
 @Composable
 private fun EktuDekhi() {
     Surface {
-        //FinalAmountBox({})
+//        FinalAmountBox(OrderTotals(),{})
     }
 }

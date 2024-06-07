@@ -55,6 +55,7 @@ import com.example.ecommerce.component.FinalAmountBox
 import com.example.ecommerce.component.PaymentMethod
 import com.example.ecommerce.component.TextFieldCustom
 import com.example.ecommerce.component.Title
+import com.example.ecommerce.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,7 +77,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    status.message + "with Order ID: " + status.orderId,
+                    status.message + "\nwith Order ID: " + status.orderId,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -87,8 +88,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
@@ -151,7 +151,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                         actions = {
                             BadgedBox(modifier = Modifier.padding(horizontal = 16.dp), badge = {
                                 Badge(containerColor = Color.White) {
-                                    Text("2")
+                                    Text(Constants.currCartItem.toString())
                                 }
                             }) {
                                 Icon(
