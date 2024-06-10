@@ -6,6 +6,7 @@ import com.example.ecommerce.model.cart.cartProducts.Item
 
 @Entity(tableName = "orderInfo")
 data class OrderEntity(
+    val email: String,
     val userToken: String,
     val totalAmount: String,
     @PrimaryKey
