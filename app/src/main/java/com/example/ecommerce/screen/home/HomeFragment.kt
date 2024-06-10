@@ -110,10 +110,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
         binding.iconCart.setOnClickListener {
-            if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
+//            if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
                 val action = HomeFragmentDirections.actionHomeFragmentToShoppingCartFragment()
                 findNavController().navigate(action)
-            }
+//            }
         }
 
     }
