@@ -4,9 +4,9 @@ package com.example.ecommerce.screen.cart
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,10 +21,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
-    private lateinit var binding : FragmentShoppingCartBinding
-    private val cartViewModel : ShoppingCartViewModel by viewModels()
-    private lateinit var adapter : cartAdapter
-    private lateinit var sharedPreferences : SharedPreferences
+    private lateinit var binding: FragmentShoppingCartBinding
+    private val cartViewModel: ShoppingCartViewModel by viewModels()
+    private lateinit var adapter: cartAdapter
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +32,16 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         adapter = cartAdapter({ item ->
             onRemoveItemClick(item)
         }, { item, value ->
-            onUpdateItemClick(item,value)
+            onUpdateItemClick(item, value)
         })
 
     }
 
-    private fun initView(it : CartProducts){
+    private fun initView(it: CartProducts) {
         Constants.currCartItem = it.Data.Cart.Items.size
         var currItems = Constants.currCartItem
-        var itemCountText : String
-        if(currItems == 1) itemCountText= currItems.toString() + " ITEM"
+        var itemCountText: String
+        if (currItems == 1) itemCountText = currItems.toString() + " ITEM"
         else itemCountText = currItems.toString() + " ITEM(S)"
 
         binding.subtotalPrice.text = it.Data.OrderTotals.SubTotal
@@ -51,10 +51,10 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         binding.cartItem.text = currItems.toString()
     }
 
-    private fun initObserver(){
+    private fun initObserver() {
         binding.rvCartPage.adapter = adapter
 
-        cartViewModel.items.observe(viewLifecycleOwner){
+        cartViewModel.items.observe(viewLifecycleOwner) {
 
             adapter.submitList(it.Data.Cart.Items)
 
@@ -64,25 +64,32 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
             binding.shimmerLayout.visibility = View.GONE
         }
 
-        cartViewModel.rmvResponse.observe(viewLifecycleOwner){
-            adapter.submitList(it.Data.Cart.Items)
+        cartViewModel.rmvResponse.observe(viewLifecycleOwner) { products ->
+            adapter.submitList(products.Data.Cart.Items)
 
-            Toast.makeText(requireContext(),"Item Removed!!",Toast.LENGTH_SHORT).show()
-            initView(it)
+            Toast.makeText(requireContext(), "Item Removed!!", Toast.LENGTH_SHORT).show()
+            initView(products)
         }
 
-        cartViewModel.updateResponse.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(),"Item Quantity Updated!!",Toast.LENGTH_SHORT).show()
+        cartViewModel.updateResponse.observe(viewLifecycleOwner) { products ->
+            Toast.makeText(requireContext(), "Item Quantity Updated!!", Toast.LENGTH_SHORT).show()
+            initView(products)
+        }
+
+        cartViewModel.showMessage.observe(viewLifecycleOwner) { message ->
+            if (message.equals("Success") == false) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
 
-    private fun onRemoveItemClick(item : Item){
+    private fun onRemoveItemClick(item: Item) {
         cartViewModel.removeCartProduct(item.Id)
     }
 
-    private fun onUpdateItemClick(item: Item, value : Int){
-        cartViewModel.updateCartProduct(item.Id,value)
+    private fun onUpdateItemClick(item: Item, value: Int) {
+        cartViewModel.updateCartProduct(item.Id, value)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,7 +97,8 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentShoppingCartBinding.bind(view)
 
-        sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+        sharedPreferences =
+            requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
         binding.scrollView.visibility = View.INVISIBLE
         binding.shimmerLayout.startShimmer()
@@ -100,7 +108,7 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
         binding.rvCartPage.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.checkoutBtn.setOnClickListener{
+        binding.checkoutBtn.setOnClickListener {
             Checkout()
         }
 
@@ -109,22 +117,26 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         }
     }
 
-    private fun loadData(){
+    private fun loadData() {
         cartViewModel.fetchCartProducts()
     }
 
-    private fun Checkout(){
-        if(sharedPreferences.getBoolean("isLoggedIn",false)){
-            if(Constants.currCartItem>0){
-                val action = shoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment()
+    private fun Checkout() {
+        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
+            if (Constants.currCartItem > 0) {
+                val action =
+                    shoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment()
                 findNavController().navigate(action)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Must have at least one item on cart!!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-            else{
-                Toast.makeText(requireContext(),"Must have at least one item on cart!!",Toast.LENGTH_SHORT).show()
-            }
-        }
-        else{
-            Toast.makeText(requireContext(),"You have to login to checkOut!!",Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "You have to login to checkOut!!", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 }
