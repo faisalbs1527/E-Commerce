@@ -32,9 +32,6 @@ class HomeViewModel @Inject constructor (
     private var _products = MutableLiveData<ProductClass>()
     val products : LiveData<ProductClass> get() = _products
 
-    private val _error = MutableLiveData<String>()
-    val error : LiveData<String> get() = _error
-
     fun fetchSliderImages(context: Context) = viewModelScope.launch{
         if(ConnectivityUtil.isNetworkAvailable(context.applicationContext)){
             val response = repository.getImageSlider()
@@ -85,7 +82,6 @@ class HomeViewModel @Inject constructor (
             if(response.isSuccessful){
                 _products.value = response.body()
             }
-//            println(repository.getFeatureProductsDb())
         }
         else{
             val response = repository.getFeatureProductsDb()

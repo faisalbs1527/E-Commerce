@@ -42,8 +42,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initObserver() {
 
-        homeViewModel.sliderImages.observe(this, Observer {
-            val sliderData = it?.Data
+        homeViewModel.sliderImages.observe(this, Observer { sliders ->
+            val sliderData = sliders?.Data
             for (image in sliderData?.Sliders!!) {
                 binding.carousel.addData(
                     CarouselItem(
@@ -53,30 +53,30 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         })
 
-        homeViewModel.categoryProducts.observe(this, Observer {
-            binding.rvCategory.adapter = categoryAdapter(it.Data) {
+        homeViewModel.categoryProducts.observe(this, Observer { categoryProducts ->
+            binding.rvCategory.adapter = categoryAdapter(categoryProducts.Data) { productData ->
                 val action = HomeFragmentDirections.actionHomeFragmentToCategoryListFragment(
-                    it.Products.toTypedArray(),
-                    it.Name
+                    productData.Products.toTypedArray(),
+                    productData.Name
                 )
                 findNavController().navigate(action)
             }
         })
 
         homeViewModel.products.observe(this, Observer { productClass ->
-            binding.rvFeatureProduct.adapter = productAdapter(productClass.Data, {
-                val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(it.Id)
+            binding.rvFeatureProduct.adapter = productAdapter(productClass.Data, { product ->
+                val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(product.Id)
                 findNavController().navigate(action)
             },
-                {
+                { product ->
                     if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
-                        productViewModel.addToCart(it.Id)
+                        productViewModel.addToCart(product.Id)
                     }
                 })
         })
 
-        productViewModel.cartResponse.observe(this, Observer {
-            Toast.makeText(requireContext(), it.Message, Toast.LENGTH_SHORT).show()
+        productViewModel.cartResponse.observe(this, Observer { response ->
+            Toast.makeText(requireContext(), response.Message, Toast.LENGTH_SHORT).show()
             loadCartItemCount()
         })
     }
