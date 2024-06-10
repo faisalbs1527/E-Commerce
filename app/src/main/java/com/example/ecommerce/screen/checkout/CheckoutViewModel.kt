@@ -37,6 +37,11 @@ class CheckoutViewModel @Inject constructor(
     }
     val cartResponse: LiveData<OrderTotals> get() = _cartResponse
 
+    private val _loader: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>(false)
+    }
+    val loader: LiveData<Boolean> get() = _loader
+
     private var OrderId: String? = null
     private var totalAmount: String? = null
     private var email: String? = sharedPreferences.getString("email",null)
@@ -66,6 +71,7 @@ class CheckoutViewModel @Inject constructor(
                         products = cartList
                     ))
                 }
+                _loader.value = false
                 Constants.currCartItem = 0
             }
         } else {
@@ -118,6 +124,7 @@ class CheckoutViewModel @Inject constructor(
         if (!firstname.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !company.isEmpty() && !country.isEmpty() &&
             !state.isEmpty() && !zip.isEmpty() && !city.isEmpty() && !phoneNumber.isEmpty() && !faxNumber.isEmpty()
         ) {
+            _loader.value = true
             checkOut(totalAmount)
         } else {
             _orderStatus.value = checkoutResponse(

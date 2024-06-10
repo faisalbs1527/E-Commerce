@@ -23,8 +23,10 @@ class OrderListViewModel @Inject constructor(
     val orders: LiveData<List<OrderEntity>>
         get() = _orders
 
-    private val email: String? = sharedPreferences.getString("email","")
     fun getOrders() = viewModelScope.launch {
+        val email: String? = sharedPreferences.getString("email","")
+        println("Email here : $email")
+        println(dbService.orderdao().getOrderInfo(email!!))
         _orders.value = dbService.orderdao().getOrderInfo(email!!)
     }
 
