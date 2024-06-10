@@ -1,5 +1,6 @@
 package com.example.ecommerce.screen.checkout
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CheckoutViewModel @Inject constructor(
     private val repository: CartRepo,
-    private val dbService: AppDatabase
+    private val dbService: AppDatabase,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private val _orderStatus = MutableLiveData<checkoutResponse>()
@@ -37,6 +39,7 @@ class CheckoutViewModel @Inject constructor(
 
     private var OrderId: String? = null
     private var totalAmount: String? = null
+    private var email: String? = sharedPreferences.getString("email",null)
 
     fun getOrderTotals() = viewModelScope.launch {
         val response = repository.getCartProducts()
@@ -56,6 +59,7 @@ class CheckoutViewModel @Inject constructor(
                 if (cartList != null) {
                     RemoveCartItems(cartList)
                     saveToDatabase(OrderEntity(
+                        email = email!!,
                         userToken = Constants.TOKEN!!,
                         totalAmount = totalAmount,
                         orderId = OrderId!!,

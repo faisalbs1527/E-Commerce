@@ -1,5 +1,6 @@
 package com.example.ecommerce.screen.orderList
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrderListViewModel @Inject constructor(
-    private val dbService: AppDatabase
+    private val dbService: AppDatabase,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
     private val _orders: MutableLiveData<List<OrderEntity>> by lazy {
         MutableLiveData<List<OrderEntity>>()
@@ -21,12 +23,9 @@ class OrderListViewModel @Inject constructor(
     val orders: LiveData<List<OrderEntity>>
         get() = _orders
 
+    private val email: String? = sharedPreferences.getString("email","")
     fun getOrders() = viewModelScope.launch {
-        var token = Constants.TOKEN
-        if (token == null) {
-            token = ""
-        }
-        _orders.value = dbService.orderdao().getOrderInfo(token)
+        _orders.value = dbService.orderdao().getOrderInfo(email!!)
     }
 
 }

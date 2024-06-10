@@ -1,6 +1,7 @@
 package com.example.ecommerce.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.example.ecommerce.database.AppDatabase
 import com.example.ecommerce.network.ApiClient
 import com.example.ecommerce.network.CartApi
@@ -47,5 +48,10 @@ class AppModule {
     @Singleton
     fun provideAppDB(@ApplicationContext context: Context): AppDatabase{
         return  AppDatabase(context)
+    }
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context):SharedPreferences{
+        return context.getSharedPreferences("LoginPrefs",Context.MODE_PRIVATE)
     }
 }

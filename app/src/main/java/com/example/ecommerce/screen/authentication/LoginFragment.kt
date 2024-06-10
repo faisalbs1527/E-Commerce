@@ -36,6 +36,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewModel.response.observe(this) { data ->
             editor.putString("auth_token", data.Data.Token)
             editor.putBoolean("isLoggedIn", true)
+            editor.putString("email",binding.usernameEt.text.toString().trim())
             Constants.TOKEN = data.Data.Token
             editor.apply()
             Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show()
