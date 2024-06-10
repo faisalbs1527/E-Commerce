@@ -72,7 +72,7 @@
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/lato"
                     android:textColor="@color/text_color"
-                    android:inputType="text"/>
+                    android:inputType="textPassword"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

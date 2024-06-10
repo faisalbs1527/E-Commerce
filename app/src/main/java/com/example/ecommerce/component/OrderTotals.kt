@@ -5,12 +5,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -18,6 +22,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,36 +34,56 @@ import com.example.ecommerce.model.cart.cartProducts.OrderTotals
 
 @Composable
 fun FinalAmountBox(
-    orders : OrderTotals,
-    onCheckOutClick : () -> Unit
+    orders: OrderTotals,
+    loading: Boolean,
+    onCheckOutClick: () -> Unit
 ) {
-    OutlinedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .height(200.dp),
-        colors = CardDefaults.outlinedCardColors(
-            containerColor = colorResource(id = R.color.white)
-        ),
-        shape = RoundedCornerShape(4.dp),
-    ) {
-        Spacer(modifier = Modifier.height(10.dp))
-        TextField(title = "Sub-Total:", amount = orders.SubTotal)
-        TextField(title = "Shipping:", amount = orders.Shipping)
-        TextField(title = "Tax:", amount = orders.Tax)
-        TextField(title = "Total:", amount = orders.OrderTotal, mode = "bold")
-        TextField(title = "You Will Earn :", amount = "${orders.WillEarnRewardPoints} Points", mode = "small&faded")
-        Box(modifier = Modifier
-            .width(320.dp)
-            .height(40.dp)
-            .align(Alignment.CenterHorizontally)
-            .background(gradientColor(), shape = RoundedCornerShape(4.dp))
-            .clickable { onCheckOutClick()  }){
-            TextButton(
-                onClick = { onCheckOutClick() },
-                modifier = Modifier.align(Alignment.Center)
-            ) {
-                Text(text = "Confirm", color = colorResource(id = R.color.white))
+    if (loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(64.dp),
+                color = Color(0xFF088DF9),
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                strokeWidth = 4.dp
+            )
+        }
+    } else {
+        OutlinedCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .height(200.dp),
+            colors = CardDefaults.outlinedCardColors(
+                containerColor = colorResource(id = R.color.white)
+            ),
+            shape = RoundedCornerShape(4.dp),
+        ) {
+            Spacer(modifier = Modifier.height(10.dp))
+            TextField(title = "Sub-Total:", amount = orders.SubTotal)
+            TextField(title = "Shipping:", amount = orders.Shipping)
+            TextField(title = "Tax:", amount = orders.Tax)
+            TextField(title = "Total:", amount = orders.OrderTotal, mode = "bold")
+            TextField(
+                title = "You Will Earn :",
+                amount = "${orders.WillEarnRewardPoints} Points",
+                mode = "small&faded"
+            )
+            Box(modifier = Modifier
+                .width(320.dp)
+                .height(40.dp)
+                .align(Alignment.CenterHorizontally)
+                .background(gradientColor(), shape = RoundedCornerShape(4.dp))
+                .clickable { onCheckOutClick() }) {
+                TextButton(
+                    onClick = { onCheckOutClick() },
+                    modifier = Modifier.align(Alignment.Center)
+                ) {
+                    Text(text = "Confirm", color = colorResource(id = R.color.white))
+                }
             }
         }
     }

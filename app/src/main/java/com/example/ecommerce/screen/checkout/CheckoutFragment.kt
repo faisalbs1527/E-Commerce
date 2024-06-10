@@ -120,6 +120,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         var phoneNumber by remember { mutableStateOf("") }
         var faxNumber by remember { mutableStateOf("") }
         val orders by checkoutViewModel.cartResponse.observeAsState()
+        val loading by checkoutViewModel.loader.observeAsState()
 
         if (orders == null) {
             Box(
@@ -287,7 +288,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Title(text = "Order Totals")
                         Spacer(modifier = Modifier.height(16.dp))
-                        FinalAmountBox(orders!!) {
+                        FinalAmountBox(orders!!,loading!!) {
                             checkoutViewModel.OrderPlace(
                                 firstName, lastName, email, company, country, state,
                                 zip, city, phoneNumber, faxNumber, orders!!.OrderTotal

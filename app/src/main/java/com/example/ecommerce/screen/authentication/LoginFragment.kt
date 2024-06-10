@@ -12,6 +12,7 @@ import com.example.ecommerce.R
 import com.example.ecommerce.databinding.FragmentLoginBinding
 import com.example.ecommerce.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
