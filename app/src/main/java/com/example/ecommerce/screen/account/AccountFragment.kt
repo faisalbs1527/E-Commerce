@@ -30,15 +30,11 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         binding = FragmentAccountBinding.bind(view)
         sharedPreferences =
             requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
-        binding.cartItem.text = Constants.currCartItem.toString()
-        binding.button.setOnClickListener {
+
+        binding.logout.setOnClickListener {
             sharedPreferences.edit().clear().apply()
             Constants.TOKEN = null
             findNavController().popBackStack(R.id.homeFragment,false)
-        }
-        binding.iconCart.setOnClickListener {
-            val action = AccountFragmentDirections.actionAccountFragmentToShoppingCartFragment()
-            findNavController().navigate(action)
         }
     }
 }

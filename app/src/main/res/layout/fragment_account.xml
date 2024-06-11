@@ -36,26 +36,15 @@
                     android:textColor="@color/white"/>
 
                 <ImageView
-                    android:id="@+id/icon_cart"
-                    android:layout_width="26dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/cart"
+                    android:id="@+id/logout"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_logout"
                     app:layout_constraintStart_toEndOf="@id/title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/title"
                     app:layout_constraintHorizontal_bias=".9"
                     app:layout_constraintBottom_toBottomOf="@id/title"/>
-                <TextView
-                    android:id="@id/cartItem"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/badge"
-                    android:text="0"
-                    android:gravity="center"
-                    android:textSize="12sp"
-                    app:layout_constraintTop_toTopOf="@id/icon_cart"
-                    app:layout_constraintStart_toEndOf="@id/icon_cart"
-                    app:layout_constraintEnd_toEndOf="@id/icon_cart"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -63,15 +52,16 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
-        android:layout_width="300dp"
-        android:layout_height="38dp"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Coming soon..."
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#595B67"
         android:fontFamily="@font/lato"
-        android:textSize="15sp"
-        android:background="@drawable/button_gradient"
-        android:text="LOG OUT"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
