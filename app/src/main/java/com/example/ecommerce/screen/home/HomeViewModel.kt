@@ -20,30 +20,35 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor (
+class HomeViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val repository : HomeRepo) : ViewModel() {
-    private var _sliderImages = MutableLiveData<SliderItem>()
-    val sliderImages : LiveData<SliderItem> get() = _sliderImages
+    private val repository: HomeRepo
+) : ViewModel() {
 
-    private var _categoryProducts = MutableLiveData<CategoryWiseProducts>()
-    val categoryProducts : LiveData<CategoryWiseProducts> get() = _categoryProducts
+    private val _sliderImages: MutableLiveData<SliderItem> by lazy {
+        MutableLiveData<SliderItem>()
+    }
+    val sliderImages: LiveData<SliderItem> get() = _sliderImages
 
-    private var _products = MutableLiveData<ProductClass>()
-    val products : LiveData<ProductClass> get() = _products
+    private val _categoryProducts: MutableLiveData<CategoryWiseProducts> by lazy {
+        MutableLiveData<CategoryWiseProducts>()
+    }
+    val categoryProducts: LiveData<CategoryWiseProducts> get() = _categoryProducts
 
-    private val _error = MutableLiveData<String>()
-    val error : LiveData<String> get() = _error
 
-    fun fetchSliderImages(context: Context) = viewModelScope.launch{
-        if(ConnectivityUtil.isNetworkAvailable(context.applicationContext)){
+    private val _products: MutableLiveData<ProductClass> by lazy {
+        MutableLiveData<ProductClass>()
+    }
+    val products: LiveData<ProductClass> get() = _products
+
+    fun fetchSliderImages(context: Context) = viewModelScope.launch {
+        if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
             val response = repository.getImageSlider()
 
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 _sliderImages.value = response.body()
             }
-        }
-        else{
+        } else {
             val response = repository.getImageSliderDb()
             _sliderImages.value = SliderItem(
                 Data = Data(
@@ -58,15 +63,14 @@ class HomeViewModel @Inject constructor (
         }
     }
 
-    fun fetchCategoryWiseProducts(context: Context) = viewModelScope.launch{
-        if(ConnectivityUtil.isNetworkAvailable(context.applicationContext)){
+    fun fetchCategoryWiseProducts(context: Context) = viewModelScope.launch {
+        if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
             val response = repository.getCategoryWiseProducts()
 
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 _categoryProducts.value = response.body()
             }
-        }
-        else{
+        } else {
             val response = repository.getCategoryWiseProductsDb()
             _categoryProducts.value = CategoryWiseProducts(
                 Data = response.map {
@@ -78,16 +82,14 @@ class HomeViewModel @Inject constructor (
         }
     }
 
-    fun fetchFeaturedProducts(context: Context) = viewModelScope.launch{
-        if(ConnectivityUtil.isNetworkAvailable(context.applicationContext)){
+    fun fetchFeaturedProducts(context: Context) = viewModelScope.launch {
+        if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
             val response = repository.getFeatureProducts()
 
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 _products.value = response.body()
             }
-//            println(repository.getFeatureProductsDb())
-        }
-        else{
+        } else {
             val response = repository.getFeatureProductsDb()
             _products.value = ProductClass(
                 Data = response.map {

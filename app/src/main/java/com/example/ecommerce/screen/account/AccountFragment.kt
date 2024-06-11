@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.ecommerce.R
@@ -18,6 +19,10 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(Constants.TOKEN == null){
+            Toast.makeText(requireContext(), "You have to Logged in first!!", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToLoginFragment())
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,7 +34,11 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         binding.button.setOnClickListener {
             sharedPreferences.edit().clear().apply()
             Constants.TOKEN = null
-            findNavController().popBackStack()
+            findNavController().popBackStack(R.id.homeFragment,false)
+        }
+        binding.iconCart.setOnClickListener {
+            val action = AccountFragmentDirections.actionAccountFragmentToShoppingCartFragment()
+            findNavController().navigate(action)
         }
     }
 }

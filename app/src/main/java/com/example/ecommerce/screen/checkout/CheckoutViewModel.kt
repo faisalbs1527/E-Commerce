@@ -1,5 +1,6 @@
 package com.example.ecommerce.screen.checkout
 
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,8 +15,10 @@ import com.example.ecommerce.model.cart.removeCart.RemoveCartRequest
 import com.example.ecommerce.model.checkout.checkoutResponse
 import com.example.ecommerce.network.CartApi
 import com.example.ecommerce.repository.CartRepo
+import com.example.ecommerce.utils.ConnectivityUtil
 import com.example.ecommerce.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -26,7 +29,8 @@ import javax.inject.Inject
 class CheckoutViewModel @Inject constructor(
     private val repository: CartRepo,
     private val dbService: AppDatabase,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private val _orderStatus = MutableLiveData<checkoutResponse>()
@@ -44,41 +48,47 @@ class CheckoutViewModel @Inject constructor(
 
     private var OrderId: String? = null
     private var totalAmount: String? = null
-    private var email: String? = sharedPreferences.getString("email",null)
+    private var email: String? = sharedPreferences.getString("email", null)
 
     fun getOrderTotals() = viewModelScope.launch {
-        val response = repository.getCartProducts()
-        if (response.isSuccessful) {
-            _cartResponse.value = response.body()?.Data?.OrderTotals
+        if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
+            val response = repository.getCartProducts()
+            if (response.isSuccessful) {
+                _cartResponse.value = response.body()?.Data?.OrderTotals
+            }
         }
     }
 
     fun checkOut(totalAmount: String) = viewModelScope.launch {
-        val response = getResponse()
-        if (response.isSuccessful) {
-            _orderStatus.value = response.body()
-            OrderId = response.body()?.orderId
-            val cartListResponse = repository.getCartProducts()
-            if (cartListResponse.isSuccessful) {
-                val cartList = cartListResponse.body()?.Data?.Cart?.Items
-                if (cartList != null) {
-                    RemoveCartItems(cartList)
-                    saveToDatabase(OrderEntity(
-                        email = email!!,
-                        userToken = Constants.TOKEN!!,
-                        totalAmount = totalAmount,
-                        orderId = OrderId!!,
-                        products = cartList
-                    ))
+        if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
+            val response = getResponse()
+            if (response.isSuccessful) {
+                _orderStatus.value = response.body()
+                OrderId = response.body()?.orderId
+                val cartListResponse = repository.getCartProducts()
+                if (cartListResponse.isSuccessful) {
+                    val cartList = cartListResponse.body()?.Data?.Cart?.Items
+                    if (cartList != null) {
+                        RemoveCartItems(cartList)
+                        saveToDatabase(
+                            OrderEntity(
+                                email = email!!,
+                                userToken = Constants.TOKEN!!,
+                                totalAmount = totalAmount,
+                                orderId = OrderId!!,
+                                products = cartList
+                            )
+                        )
+                    }
+                    _loader.value = false
+                    Constants.currCartItem = 0
                 }
-                _loader.value = false
-                Constants.currCartItem = 0
+            } else {
+                _orderStatus.value = checkoutResponse(
+                    message = "Something Went Wrong!!",
+                    orderId = ""
+                )
             }
-        } else {
-            _orderStatus.value = checkoutResponse(
-                message = "Something Went Wrong!!",
-                orderId = ""
-            )
         }
     }
 
