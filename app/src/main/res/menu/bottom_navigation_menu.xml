@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_category"
         android:title="Categories"/>
     <item
-        android:id="@+id/menu_search"
+        android:id="@+id/searchFragment"
         android:enabled="true"
         android:icon="@drawable/ic_search"
         android:title="Search"/>
