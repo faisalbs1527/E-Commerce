@@ -18,6 +18,7 @@ import com.example.ecommerce.databinding.FragmentShoppingCartBinding
 import com.example.ecommerce.model.cart.cartProducts.CartProducts
 import com.example.ecommerce.model.cart.cartProducts.Item
 import com.example.ecommerce.utils.Constants
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -97,7 +98,16 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
     }
 
     private fun onRemoveItemClick(item: Item) {
-        cartViewModel.removeCartProduct(item.Id)
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Remove Alert!!!")
+            .setMessage("Are you sure?")
+            .setNegativeButton("Cancel") { dialog, which ->
+                // Respond to negative button press
+            }
+            .setPositiveButton("Remove") { dialog, which ->
+                cartViewModel.removeCartProduct(item.Id)
+            }
+            .show()
     }
 
     private fun onUpdateItemClick(item: Item, value: Int) {
