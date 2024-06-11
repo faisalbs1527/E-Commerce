@@ -27,7 +27,7 @@ class OrderListViewModel @Inject constructor(
         val email: String? = sharedPreferences.getString("email","")
         println("Email here : $email")
         println(dbService.orderdao().getOrderInfo(email!!))
-        _orders.value = dbService.orderdao().getOrderInfo(email!!)
+        _orders.value = dbService.orderdao().getOrderInfo(email)
     }
 
 }
