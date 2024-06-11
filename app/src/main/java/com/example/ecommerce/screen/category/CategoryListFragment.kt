@@ -1,16 +1,16 @@
 package com.example.ecommerce.screen.category
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ecommerce.R
-import com.example.ecommerce.databinding.FragmentCategoryListBinding
 import com.example.ecommerce.adapter.productListAdapter
+import com.example.ecommerce.databinding.FragmentCategoryListBinding
 import com.example.ecommerce.screen.cart.ShoppingCartViewModel
 import com.example.ecommerce.screen.product.ProductViewModel
 import com.example.ecommerce.utils.ConnectivityUtil
@@ -20,18 +20,19 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CategoryListFragment() : Fragment(R.layout.fragment_category_list) {
 
-    private lateinit var binding : FragmentCategoryListBinding
-    private val args : CategoryListFragmentArgs by navArgs()
-    private val productViewModel : ProductViewModel by viewModels()
-    private val cartViewModel : ShoppingCartViewModel by viewModels()
+    private lateinit var binding: FragmentCategoryListBinding
+    private val args: CategoryListFragmentArgs by navArgs()
+    private val productViewModel: ProductViewModel by viewModels()
+    private val cartViewModel: ShoppingCartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
-    private fun loadCartItemCount(){
+
+    private fun loadCartItemCount() {
         cartViewModel.fetchCartProducts()
-        cartViewModel.items.observe(viewLifecycleOwner){ products ->
+        cartViewModel.items.observe(viewLifecycleOwner) { products ->
             Constants.currCartItem = products.Data.Cart.Items.size
             binding.cartItem.text = Constants.currCartItem.toString()
         }
@@ -53,16 +54,14 @@ class CategoryListFragment() : Fragment(R.layout.fragment_category_list) {
             findNavController().popBackStack()
         }
 
-        binding.iconCart.setOnClickListener{
-            if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
-                val action =
-                    CategoryListFragmentDirections.actionCategoryListFragmentToShoppingCartFragment()
-                findNavController().navigate(action)
-            }
+        binding.iconCart.setOnClickListener {
+            val action =
+                CategoryListFragmentDirections.actionCategoryListFragmentToShoppingCartFragment()
+            findNavController().navigate(action)
         }
 
-        productViewModel.cartResponse.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(),it.Message, Toast.LENGTH_SHORT).show()
+        productViewModel.cartResponse.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it.Message, Toast.LENGTH_SHORT).show()
             if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
                 loadCartItemCount()
             }
@@ -70,13 +69,14 @@ class CategoryListFragment() : Fragment(R.layout.fragment_category_list) {
 
     }
 
-    private fun populateCategoryList(){
+    private fun populateCategoryList() {
 
-        binding.rvCategoryListFr.layoutManager = GridLayoutManager(requireContext(),2)
-        binding.rvCategoryListFr.adapter = productListAdapter(args.productList.toList(),{
-            val action = CategoryListFragmentDirections.actionCategoryListFragmentToProductFragment(it.Id)
+        binding.rvCategoryListFr.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvCategoryListFr.adapter = productListAdapter(args.productList.toList(), {
+            val action =
+                CategoryListFragmentDirections.actionCategoryListFragmentToProductFragment(it.Id)
             findNavController().navigate(action)
-        },{
+        }, {
             if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
                 productViewModel.addToCart(it.Id)
             }

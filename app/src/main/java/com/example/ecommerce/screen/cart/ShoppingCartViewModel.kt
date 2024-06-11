@@ -43,11 +43,13 @@ class ShoppingCartViewModel @Inject constructor(
     private val repository = CartRepo()
 
     fun fetchCartProducts() = viewModelScope.launch {
-        val response = repository.getCartProducts()
+        if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
+            val response = repository.getCartProducts()
 
-        if (response.isSuccessful) {
-            _items.value = response.body()
-            _showMessage.value = "Success"
+            if (response.isSuccessful) {
+                _items.value = response.body()
+                _showMessage.value = "Success"
+            }
         }
     }
 
@@ -88,8 +90,7 @@ class ShoppingCartViewModel @Inject constructor(
                 _updateResponse.value = response.body()
                 _showMessage.value = "Success"
             }
-        }
-        else{
+        } else {
             _showMessage.value = "No Internet Connection!!"
         }
     }

@@ -56,7 +56,9 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
         cartViewModel.items.observe(viewLifecycleOwner) {
 
-            adapter.submitList(it.Data.Cart.Items)
+            it.let {
+                adapter.submitList(it.Data.Cart.Items)
+            }
 
             initView(it)
             binding.scrollView.visibility = View.VISIBLE
@@ -65,7 +67,10 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         }
 
         cartViewModel.rmvResponse.observe(viewLifecycleOwner) { products ->
-            adapter.submitList(products.Data.Cart.Items)
+
+            products.let {
+                adapter.submitList(products.Data.Cart.Items)
+            }
 
             Toast.makeText(requireContext(), "Item Removed!!", Toast.LENGTH_SHORT).show()
             initView(products)

@@ -31,5 +31,9 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             Constants.TOKEN = null
             findNavController().popBackStack()
         }
+        binding.iconCart.setOnClickListener {
+            val action = AccountFragmentDirections.actionAccountFragmentToShoppingCartFragment()
+            findNavController().navigate(action)
+        }
     }
 }
