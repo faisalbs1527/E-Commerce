@@ -198,30 +198,6 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
                         BoxCustom(text = "Billing Address")
                         Title(text = "Address")
-//                    TextFieldCustom(
-//                        label = "Existing Address :",
-//                        value = existingAddress,
-//                        isTralingIcon = true,
-//                          onValueChange = {existingAddress = it}
-//                    )
-//                    Row(Modifier.padding(start = 16.dp, top = 8.dp)) {
-//                        CustomCheckBox(
-//                            isChecked = checked,
-//                            radius = 4,
-//                            onCheckChange = {checked=it}
-//                        )
-//                        Text(text = "Ship to the same address",
-//                            Modifier.padding(start = 16.dp, top = 2.dp),
-//                            fontSize = 14.sp
-//                        )
-//                    }
-//                    Title(text = "Select A Billing Address")
-//                    TextFieldCustom(
-//                        label = "New",
-//                        value = billingAddress,
-//                        isTralingIcon = true,
-//                        onValueChange = {billingAddress = it}
-//                    )
                         TextFieldCustom(
                             label = "First Name :",
                             value = firstName,
