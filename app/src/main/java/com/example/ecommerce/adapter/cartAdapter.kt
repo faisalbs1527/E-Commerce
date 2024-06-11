@@ -42,10 +42,7 @@ class cartAdapter(
             onUpdateItem(item,++currVal)
         }
         holder.minusBtn.setOnClickListener {
-            if(currVal==1){
-                onRemoveItem(item)
-            }
-            else{
+            if(currVal>1){
                 holder.quantity.text = (currVal-1).toString()
                 onUpdateItem(item,--currVal)
             }
