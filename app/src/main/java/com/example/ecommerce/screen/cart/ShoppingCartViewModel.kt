@@ -40,6 +40,12 @@ class ShoppingCartViewModel @Inject constructor(
     }
     val showMessage: LiveData<String> get() = _showMessage
 
+    private val _showLoading: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>(false)
+    }
+
+    val showLoading: LiveData<Boolean> get() = _showLoading
+
     private val repository = CartRepo()
 
     fun fetchCartProducts() = viewModelScope.launch {
@@ -63,11 +69,13 @@ class ShoppingCartViewModel @Inject constructor(
             )
         )
         if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
+            _showLoading.value = true
             val response = repository.removeCartProduct(request)
 
             if (response.isSuccessful) {
                 _rmvResponse.value = response.body()
                 _showMessage.value = "Success"
+                _showLoading.value = false
             }
         } else {
             _showMessage.value = "No Internet Connection!!"
@@ -84,11 +92,13 @@ class ShoppingCartViewModel @Inject constructor(
             )
         )
         if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
+            _showLoading.value = true
             val response = repository.updateCartProduct(request)
 
             if (response.isSuccessful) {
                 _updateResponse.value = response.body()
                 _showMessage.value = "Success"
+                _showLoading.value = false
             }
         } else {
             _showMessage.value = "No Internet Connection!!"

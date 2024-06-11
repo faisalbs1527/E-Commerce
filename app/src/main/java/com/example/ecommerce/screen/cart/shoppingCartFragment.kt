@@ -1,9 +1,11 @@
 package com.example.ecommerce.screen.cart
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -87,6 +89,11 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
             }
         }
 
+        cartViewModel.showLoading.observe(viewLifecycleOwner){load ->
+            binding.ShowProgress.visibility = if(load) View.VISIBLE else View.GONE
+            binding.overlayView.visibility = if(load) View.VISIBLE else View.GONE
+        }
+
     }
 
     private fun onRemoveItemClick(item: Item) {
@@ -97,6 +104,7 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
         cartViewModel.updateCartProduct(item.Id, value)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
@@ -119,6 +127,10 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
 
         binding.tollBar.setNavigationOnClickListener {
             findNavController().popBackStack()
+        }
+
+        binding.overlayView.setOnTouchListener{ _,event ->
+            event.action == MotionEvent.ACTION_DOWN
         }
     }
 
