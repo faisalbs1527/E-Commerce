@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Badge
@@ -28,6 +31,7 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -43,6 +47,8 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,6 +56,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ecommerce.R
+import com.example.ecommerce.component.TextFieldCustom
 import com.example.ecommerce.database.dbmodel.OrderEntity
 import com.example.ecommerce.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
@@ -169,29 +176,73 @@ class OrderListFragment : Fragment(R.layout.fragment_order_list) {
         OutlinedCard(
             onClick = { /*TODO*/ },
             modifier = Modifier
-                .height(180.dp)
+                .height(280.dp)
                 .padding(16.dp)
                 .fillMaxWidth()
 
         ) {
             Text(
-                text = "OrderID: ${order.orderId}",
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp, end = 16.dp),
-                fontSize = 16.sp,
-                color = Color.Black
+                text = "Order Details", modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = colorResource(
+                            id = R.color.order_tag
+                        )
+                    )
+                    .padding(start = 12.dp, end = 16.dp, top = 16.dp, bottom = 16.dp),
+                fontSize = 18.sp
             )
-            Row(modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp, end = 16.dp)) {
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(text = "OrderID: ", fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 16.sp)
+                Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Total Items: ${order.products.size}",
-                    modifier = Modifier.padding(end = 16.dp),
+                    text = order.orderId,
                     fontSize = 16.sp,
-                    color = Color.Black
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
+            }
+            Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = "Order Status: ", fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 16.sp)
+                Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Amount: ${order.totalAmount}",
-                    modifier = Modifier.padding(start = 16.dp),
+                    text = "In Progress",
+                    color = colorResource(id = R.color.green_light),
                     fontSize = 16.sp,
-                    color = colorResource(id = R.color.green_light)
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = "Order Date: ", fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 16.sp)
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = order.date,
+                    fontSize = 16.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = "Order Total: ", fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 16.sp)
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = order.totalAmount,
+                    color = colorResource(id = R.color.green_light),
+                    fontSize = 16.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = "Total Items: ", fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 16.sp)
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = order.products.size.toString(),
+                    color = colorResource(id = R.color.green_light),
+                    fontSize = 16.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
@@ -201,7 +252,7 @@ class OrderListFragment : Fragment(R.layout.fragment_order_list) {
     @Composable
     private fun OrderListPreview() {
         Surface {
-            OrderCard(OrderEntity(email = "", orderId = "hsdgash892u3ywqwhnsjansuqqywe82", userToken = "", products = emptyList(), points = "", totalAmount = "$120.80"))
+            OrderCard(OrderEntity(email = "", orderId = "hsdgash892u3ywqwhnsjansuqqywe82", userToken = "", products = emptyList(), points = "", date = "11-2-2024", totalAmount = "$120.80"))
         }
     }
 }

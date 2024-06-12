@@ -1,11 +1,13 @@
 package com.example.ecommerce.screen.checkout
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -89,6 +91,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -101,6 +104,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ResourceType")
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -298,6 +302,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @Preview
     @Composable
     private fun MessagePreview() {

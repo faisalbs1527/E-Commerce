@@ -7,5 +7,6 @@
     <color name="back_color">#E8E9F2</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="shimmerColor">#C2C2C2</color>
+    <color name="order_tag">#E8E9F2</color>
 
 </resources>

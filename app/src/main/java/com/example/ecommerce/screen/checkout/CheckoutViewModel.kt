@@ -2,6 +2,8 @@ package com.example.ecommerce.screen.checkout
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +25,8 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,7 +63,8 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
-    fun checkOut(totalAmount: String,points: String) = viewModelScope.launch {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun checkOut(totalAmount: String, points: String) = viewModelScope.launch {
         if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
             val response = getResponse()
             if (response.isSuccessful) {
@@ -77,7 +82,8 @@ class CheckoutViewModel @Inject constructor(
                                 totalAmount = totalAmount,
                                 points = points,
                                 orderId = OrderId!!,
-                                products = cartList
+                                products = cartList,
+                                date = getCurrentFormattedDate()
                             )
                         )
                     }
@@ -119,6 +125,7 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun OrderPlace(
         firstname: String,
         lastName: String,
@@ -144,6 +151,13 @@ class CheckoutViewModel @Inject constructor(
                 orderId = ""
             )
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getCurrentFormattedDate(): String {
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        return currentDate.format(formatter)
     }
 
     suspend fun saveToDatabase(orderInfo: OrderEntity) {
