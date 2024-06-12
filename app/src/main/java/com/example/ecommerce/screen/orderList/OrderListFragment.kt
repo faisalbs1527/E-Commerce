@@ -201,7 +201,7 @@ class OrderListFragment : Fragment(R.layout.fragment_order_list) {
     @Composable
     private fun OrderListPreview() {
         Surface {
-            OrderCard(OrderEntity(email = "", orderId = "hsdgash892u3ywqwhnsjansuqqywe82", userToken = "", products = emptyList(), totalAmount = "$120.80"))
+            OrderCard(OrderEntity(email = "", orderId = "hsdgash892u3ywqwhnsjansuqqywe82", userToken = "", products = emptyList(), points = "", totalAmount = "$120.80"))
         }
     }
 }

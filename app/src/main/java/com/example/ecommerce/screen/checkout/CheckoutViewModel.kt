@@ -59,7 +59,7 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
-    fun checkOut(totalAmount: String) = viewModelScope.launch {
+    fun checkOut(totalAmount: String,points: String) = viewModelScope.launch {
         if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
             val response = getResponse()
             if (response.isSuccessful) {
@@ -75,6 +75,7 @@ class CheckoutViewModel @Inject constructor(
                                 email = email!!,
                                 userToken = Constants.TOKEN!!,
                                 totalAmount = totalAmount,
+                                points = points,
                                 orderId = OrderId!!,
                                 products = cartList
                             )
@@ -129,13 +130,14 @@ class CheckoutViewModel @Inject constructor(
         city: String,
         phoneNumber: String,
         faxNumber: String,
-        totalAmount: String
+        totalAmount: String,
+        earnedPoints: String
     ) {
         if (!firstname.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !company.isEmpty() && !country.isEmpty() &&
             !state.isEmpty() && !zip.isEmpty() && !city.isEmpty() && !phoneNumber.isEmpty() && !faxNumber.isEmpty()
         ) {
             _loader.value = true
-            checkOut(totalAmount)
+            checkOut(totalAmount,earnedPoints)
         } else {
             _orderStatus.value = checkoutResponse(
                 message = "Please Fill out all the Fields!!",
