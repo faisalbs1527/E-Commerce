@@ -162,6 +162,8 @@ class shoppingCartFragment : Fragment(R.layout.fragment_shopping_cart) {
                 ).show()
             }
         } else {
+            val action = shoppingCartFragmentDirections.actionShoppingCartFragmentToLoginFragment()
+            findNavController().navigate(action)
             Toast.makeText(requireContext(), "You have to login to checkOut!!", Toast.LENGTH_SHORT)
                 .show()
         }
