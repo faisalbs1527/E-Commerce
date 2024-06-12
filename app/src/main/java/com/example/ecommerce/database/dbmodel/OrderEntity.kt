@@ -9,6 +9,7 @@ data class OrderEntity(
     val email: String,
     val userToken: String,
     val totalAmount: String,
+    val points: String,
     @PrimaryKey
     val orderId: String,
     val products: List<Item>

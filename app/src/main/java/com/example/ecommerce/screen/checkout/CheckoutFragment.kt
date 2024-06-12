@@ -264,10 +264,20 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Title(text = "Order Totals")
                         Spacer(modifier = Modifier.height(16.dp))
-                        FinalAmountBox(orders!!,loading!!) {
+                        FinalAmountBox(orders!!, loading!!) {
                             checkoutViewModel.OrderPlace(
-                                firstName, lastName, email, company, country, state,
-                                zip, city, phoneNumber, faxNumber, orders!!.OrderTotal
+                                firstName,
+                                lastName,
+                                email,
+                                company,
+                                country,
+                                state,
+                                zip,
+                                city,
+                                phoneNumber,
+                                faxNumber,
+                                orders!!.OrderTotal,
+                                orders!!.WillEarnRewardPoints.toString()
                             )
                         }
                     }

@@ -64,8 +64,6 @@ class cartAdapter(
         fun bind(item : Item){
             Glide.with(image.context)
                 .load(item.Picture.ImageUrl)
-                .placeholder(R.drawable.noimage)
-                .error(R.drawable.noimage)
                 .into(image)
             name.text = item.ProductName
             discount.text = item.UnitPrice
