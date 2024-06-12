@@ -61,6 +61,9 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
             Toast.makeText(requireContext(), it.Message, Toast.LENGTH_SHORT).show()
             loadCartItemCount()
         }
+        productViewModel.showMessage.observe(this){ message->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun loadCartItemCount() {
@@ -103,6 +106,9 @@ class ProductFragment() : Fragment(R.layout.fragment_product) {
                     binding.quantityTb.text.toString().toInt()
                 )
                 loadCartItemCount()
+            }
+            else{
+                Toast.makeText(requireContext(), "Check you internet connection!!", Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -64,7 +64,16 @@ class CategoryListFragment() : Fragment(R.layout.fragment_category_list) {
             Toast.makeText(requireContext(), it.Message, Toast.LENGTH_SHORT).show()
             if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
                 loadCartItemCount()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Check you internet connection!!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+        }
+        productViewModel.showMessage.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
 
     }

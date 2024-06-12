@@ -72,6 +72,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     if (ConnectivityUtil.isNetworkAvailable(requireContext())) {
                         productViewModel.addToCart(product.Id)
                     }
+                    else{
+                        Toast.makeText(requireContext(), "Check you internet connection!!", Toast.LENGTH_SHORT).show()
+                    }
                 })
         })
 
@@ -79,6 +82,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Toast.makeText(requireContext(), response.Message, Toast.LENGTH_SHORT).show()
             loadCartItemCount()
         })
+        productViewModel.showMessage.observe(this){ message->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun loadCartItemCount() {

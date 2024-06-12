@@ -13,6 +13,7 @@ import com.example.ecommerce.repository.CartRepo
 import com.example.ecommerce.utils.ConnectivityUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,7 +49,11 @@ class ShoppingCartViewModel @Inject constructor(
 
     private val repository = CartRepo()
 
-    fun fetchCartProducts() = viewModelScope.launch {
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _showMessage.value = "Check your internet connection!!"
+    }
+
+    fun fetchCartProducts() = viewModelScope.launch(coroutineExceptionHandler) {
         if (ConnectivityUtil.isNetworkAvailable(context.applicationContext)) {
             val response = repository.getCartProducts()
 
@@ -59,7 +64,7 @@ class ShoppingCartViewModel @Inject constructor(
         }
     }
 
-    fun removeCartProduct(productID: Int) = viewModelScope.launch {
+    fun removeCartProduct(productID: Int) = viewModelScope.launch(coroutineExceptionHandler) {
         val request = RemoveCartRequest(
             listOf(
                 FormValue(
@@ -82,7 +87,7 @@ class ShoppingCartViewModel @Inject constructor(
         }
     }
 
-    fun updateCartProduct(productID: Int, Quantity: Int) = viewModelScope.launch {
+    fun updateCartProduct(productID: Int, Quantity: Int) = viewModelScope.launch(coroutineExceptionHandler) {
         val request = UpdateCartRequest(
             listOf(
                 FormValue(
