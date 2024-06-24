@@ -32,25 +32,13 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragment_part)
         bottomNavigationView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener{ _,destination,_ ->
-            when(destination.id){
-                R.id.loginFragment ->{
-                    binding.bottomNavigationView.visibility = View.GONE
-                }
-                R.id.productFragment -> {
-                    binding.bottomNavigationView.visibility = View.GONE
-                }
-                R.id.categoryListFragment -> {
-                    binding.bottomNavigationView.visibility = View.GONE
-                }
-                R.id.shoppingCartFragment ->{
-                    binding.bottomNavigationView.visibility = View.GONE
-                }
-                R.id.checkoutFragment -> {
-                    binding.bottomNavigationView.visibility = View.GONE
-                }
-                else -> binding.bottomNavigationView.visibility = View.VISIBLE
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            val popped = navController.popBackStack(it.itemId, false)
+            if (!popped) {
+                navController.navigate(it.itemId)
             }
+
+            true
         }
     }
 }
